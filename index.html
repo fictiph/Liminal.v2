@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
 <title>LIMINAL</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
 <style>
 :root {
   --gold: #c9a84c;
@@ -1912,9 +1912,591 @@ html, body {
     radial-gradient(ellipse 50% 62% at 50% 50%, rgba(255,232,190,.30), rgba(255,232,190,0) 72%),
     linear-gradient(180deg, #2a2438 0%, #150d1c 46%, #2a0c0c 78%, #4a120c 100%);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   REFONTE VISUELLE — Gothique médiéval · Ange & Démon
+   (couche ajoutée par-dessus : aucune règle précédente supprimée)
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --gilt: #d8b45a;
+  --gilt-hi: #f6e3a4;
+  --gilt-lo: #8b6a20;
+  --ink-warm: #ecdcbc;
+  --ink-sepia: #b99466;        /* remplace les bruns #7a5a30 illisibles */
+  --ink-faint: #9a7a4c;
+  --leather-1: #3a2010;
+  --leather-2: #26140a;
+  --leather-3: #1a0d05;
+  --sky: #9fd0ee;
+  --sky-deep: #3f7fb5;
+  --blood: #d0503a;
+  --blood-deep: #6e140c;
+  --orn: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='%23c9a84c' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M7 1.5 12.5 7 7 12.5 1.5 7Z' fill='%23c9a84c' fill-opacity='.35'/%3E%3Cpath d='M12.5 7C19 7 20 2.5 27 4'/%3E%3Cpath d='M12.5 7C18 7 19 11.5 25 10'/%3E%3Cpath d='M7 12.5C7 19 2.5 20 4 27'/%3E%3Cpath d='M7 12.5C7 18 11.5 19 10 25'/%3E%3Ccircle cx='28' cy='4' r='1.2' fill='%23c9a84c'/%3E%3Ccircle cx='4' cy='28' r='1.2' fill='%23c9a84c'/%3E%3C/svg%3E");
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  --tracery: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='14' viewBox='0 0 48 14' fill='none' stroke='%23c9a84c' stroke-width='.8' stroke-opacity='.45'%3E%3Cpath d='M0 13 Q6 1 12 13 Q18 1 24 13 Q30 1 36 13 Q42 1 48 13'/%3E%3Ccircle cx='12' cy='5' r='1.3'/%3E%3Ccircle cx='36' cy='5' r='1.3'/%3E%3C/svg%3E");
+}
+
+/* ── Icônes gravées ── */
+.ico { width: 1em; height: 1em; display: inline-block; vertical-align: -0.14em; flex-shrink: 0; overflow: visible; }
+
+/* ── Fond global : vitrail en rosace, presque invisible ── */
+body::before {
+  content: ''; position: fixed; left: 50%; top: 46%; z-index: 0; pointer-events: none;
+  width: min(760px, 150vw); aspect-ratio: 1; transform: translate(-50%, -50%);
+  opacity: .035;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-100 -100 200 200' fill='none' stroke='%23e8c878' stroke-width='.8'%3E%3Ccircle r='96'/%3E%3Ccircle r='90'/%3E%3Ccircle r='34'/%3E%3Ccircle r='14'/%3E%3Cg id='p'%3E%3Cpath d='M0-34 C12-50 12-72 0-88 C-12-72-12-50 0-34Z'/%3E%3Ccircle cy='-62' r='7'/%3E%3C/g%3E%3Cuse href='%23p' transform='rotate(30)'/%3E%3Cuse href='%23p' transform='rotate(60)'/%3E%3Cuse href='%23p' transform='rotate(90)'/%3E%3Cuse href='%23p' transform='rotate(120)'/%3E%3Cuse href='%23p' transform='rotate(150)'/%3E%3Cuse href='%23p' transform='rotate(180)'/%3E%3Cuse href='%23p' transform='rotate(210)'/%3E%3Cuse href='%23p' transform='rotate(240)'/%3E%3Cuse href='%23p' transform='rotate(270)'/%3E%3Cuse href='%23p' transform='rotate(300)'/%3E%3Cuse href='%23p' transform='rotate(330)'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ═════════ ÉCRAN D'ENTRÉE ═════════ */
+.login-lore, .start-lore { color: var(--ink-sepia); }
+.login-lore { font-size: clamp(0.84rem, 2.4vw, 0.95rem); }
+.login-subtitle { font-size: clamp(0.54rem, 1.4vw, 0.62rem); letter-spacing: .42em; }
+#invite-input { font-size: 0.9rem; }
+.login-lore strong, .start-lore strong { color: var(--gilt-hi); text-shadow: 0 0 10px rgba(216,180,90,.35); }
+.login-subtitle, .cover-subtitle { color: #b08a4a; }
+.login-note { font-size: clamp(0.56rem, 1.6vw, 0.66rem); color: var(--ink-faint); letter-spacing: .06em; font-family: 'Crimson Pro', serif; font-style: italic; }
+#invite-field label { font-size: 0.58rem; color: #b08a4a; }
+.login-title, .cover-title {
+  background: linear-gradient(180deg, #fff3cc 0%, #e6c46c 28%, #a07820 55%, #e0bf6a 78%, #8b6a20 100%);
+  -webkit-background-clip: text; background-clip: text;
+}
+#enter-btn, #start-btn { position: relative; }
+#enter-btn::before, #start-btn::before {
+  content: ''; position: absolute; inset: 3px; pointer-events: none;
+  border: 1px solid rgba(216,180,90,.22); border-radius: 2px;
+}
+.enter-btn-text { color: var(--gilt-hi); }
+
+/* ═════════ ÉCRAN DE CRÉATION (livre) ═════════ */
+#book-inner { overflow-y: auto; scrollbar-width: none; }
+#book-inner > * { flex-shrink: 0; }
+#book-inner > :first-child { margin-top: auto; }
+#book-inner > :last-child  { margin-bottom: auto; }
+#new-game-form { gap: 10px !important; }
+.start-lore { font-size: 0.86rem; line-height: 1.5; margin: 2px 6px 8px; }
+.cover-title-block { margin-bottom: 6px; }
+.cover-subtitle { font-size: 0.56rem; letter-spacing: .45em; margin-top: 2px; }
+.field-lbl { font-size: 0.56rem; color: #b08a4a; }
+#char-name-input { font-size: 0.95rem; padding: 9px 8px; color: var(--gilt-hi); background: linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.38)); }
+#char-name-input::placeholder { color: #7a5a30; font-family: 'Crimson Pro', serif; font-style: italic; }
+
+/* Voies : niches d'ogive, icône en médaillon */
+.class-grid { gap: 7px; }
+.class-card {
+  border-radius: 46% 46% 4px 4px / 22px 22px 4px 4px !important;
+  padding: 12px 4px 8px !important;
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(var(--acc), .10), transparent 65%),
+    linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.45)) !important;
+  border: 1px solid rgba(var(--acc), .28) !important;
+}
+.class-card:not(.selected) { box-shadow: inset 0 1px 0 rgba(255,220,150,.05); }
+.class-icon {
+  width: 36px; height: 36px; margin: 0 auto;
+  display: grid; place-items: center;
+  font-size: 1.15rem; color: rgb(var(--acc));
+  border-radius: 50%;
+  border: 1px solid rgba(var(--acc), .45);
+  background: radial-gradient(circle at 50% 35%, rgba(var(--acc), .18), rgba(0,0,0,.4) 70%);
+  box-shadow: 0 0 0 3px rgba(0,0,0,.25), 0 0 0 4px rgba(var(--acc), .14);
+  filter: none !important; transition: box-shadow .25s, transform .25s;
+}
+.class-card.selected .class-icon { box-shadow: 0 0 0 3px rgba(0,0,0,.25), 0 0 0 4px rgba(var(--acc), .5), 0 0 16px rgba(var(--acc), .5); transform: scale(1.06); }
+.class-name { font-size: 0.56rem; color: #c9a060; margin-top: 6px; }
+.class-sub { font-size: 0.7rem; color: var(--ink-faint); font-family: 'Crimson Pro', serif; font-style: italic; line-height: 1.15; margin-top: 2px; }
+#start-btn { font-size: 0.7rem; padding: 10px 0; max-width: 220px; color: var(--gilt-hi); }
+.restore-info { color: var(--ink-sepia); font-size: 0.85rem; }
+.restore-title { font-size: 0.72rem; }
+.restore-btn { font-size: 0.64rem; padding: 10px; }
+@media (min-width: 900px) {
+  .class-card { padding: clamp(14px, 2.2vh, 24px) 12px clamp(10px, 1.8vh, 18px) !important; border-radius: 46% 46% 4px 4px / 34px 34px 4px 4px !important; }
+  .class-icon { width: clamp(46px, 7vh, 64px); height: clamp(46px, 7vh, 64px); font-size: clamp(1.4rem, 3.2vh, 2rem); }
+  .class-sub { font-size: 0.85rem; }
+  .class-name { font-size: 0.78rem; }
+  .cover-subtitle { font-size: clamp(0.66rem, 1.4vh, 0.8rem); letter-spacing: .6em; }
+  .field-lbl { font-size: 0.72rem; }
+  .start-lore { font-size: clamp(1rem, 2.2vh, 1.2rem); }
+  #start-btn { font-size: 0.95rem; max-width: 300px; }
+}
+
+/* ═════════ BARRE DU HAUT (histoire) ═════════ */
+#story-context-bar { position: relative; padding: 9px 16px 8px; }
+#story-context-bar::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px; pointer-events: none; z-index: 3;
+  background: var(--tracery) repeat-x center / 36px 10px; opacity: .9;
+}
+#story-ctx-name { font-size: 0.86rem; background: linear-gradient(180deg, #fff0c0, #d8b45a 55%, #a07820); -webkit-background-clip: text; background-clip: text; }
+#story-ctx-class, #story-ctx-quest { font-size: 0.54rem; color: #b08a4a; }
+#meter-chapter, #meter-quota { font-size: 0.52rem; color: #b08a4a; }
+#story-ctx-logo { font-size: 1.12rem; }
+#meter-gauge { height: 5px; background: linear-gradient(90deg, #8a1c10 0%, #d0503a 22%, #3a2a3a 50%, #5a9fd0 78%, #bfe4f7 100%); }
+#meter-gauge::before, #meter-gauge::after {
+  position: absolute; top: 50%; transform: translateY(-50%); font-size: .55rem; line-height: 1;
+}
+#meter-mark { width: 10px; height: 10px; background: linear-gradient(135deg, #fff3cc, #c9a84c 55%, #7a5010); box-shadow: 0 0 8px rgba(246,227,164,.8), 0 0 0 2px rgba(20,10,4,.8); }
+
+/* ═════════ NARRATION ═════════ */
+#narrative { padding: 18px 12px 14px; gap: 16px; }
+
+/* Médaillons d'avatar */
+.narr-av {
+  width: 34px; height: 34px; font-size: 1rem;
+  border: 1px solid rgba(216,180,90,.6) !important;
+  background: radial-gradient(circle at 50% 35%, #3a2412, #140a05 75%) !important;
+  box-shadow: 0 0 0 2px #0c0604, 0 0 0 3px rgba(216,180,90,.25), 0 2px 8px rgba(0,0,0,.6);
+  color: var(--gilt);
+  overflow: hidden;
+}
+.narr-av .ico { width: 24px; height: 14px; }
+.narr-msg.user .narr-av {
+  border-color: rgba(159,208,238,.5) !important;
+  background: radial-gradient(circle at 50% 35%, #1a2a3c, #070b12 75%) !important;
+  box-shadow: 0 0 0 2px #04060a, 0 0 0 3px rgba(159,208,238,.2), 0 2px 8px rgba(0,0,0,.6);
+  color: var(--sky);
+}
+.narr-msg.user .narr-av .ico { width: 18px; height: 18px; }
+
+/* Bulle du Narrateur : feuillet enluminé relié de cuir */
+.narr-msg.ai .narr-bubble {
+  position: relative;
+  padding: 14px 16px 14px;
+  border-radius: 3px 14px 14px 14px;
+  font-size: 0.98rem; line-height: 1.72;
+  color: #efe0c0;
+  background:
+    var(--orn) right 6px top 6px / 16px 16px no-repeat,
+    var(--orn) left 6px bottom 6px / 16px 16px no-repeat,
+    var(--grain) repeat,
+    radial-gradient(ellipse at 20% 0%, rgba(255,210,130,.10), transparent 55%),
+    linear-gradient(160deg, #4a2e14 0%, #3a2210 40%, #2a1709 75%, #34200e 100%);
+}
+.narr-msg.ai .narr-bubble::after {
+  content: ''; position: absolute; inset: 4px; pointer-events: none;
+  border: 1px solid rgba(216,180,90,.14); border-radius: 2px 11px 11px 11px;
+}
+.narr-lbl {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.56rem; letter-spacing: .32em; color: var(--gilt);
+  margin-bottom: 8px; text-transform: uppercase;
+}
+.narr-lbl::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(216,180,90,.5), transparent); }
+
+/* Lettrine gothique */
+.lettrine {
+  float: left;
+  font-family: 'UnifrakturMaguntia', 'Cinzel Decorative', serif;
+  font-size: 2.9em; line-height: .82;
+  padding: 6px 7px 2px; margin: 4px 8px 0 0;
+  color: #fff0c4;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(208,80,58,.45), transparent 70%),
+    linear-gradient(160deg, #5a1810, #2a0806);
+  border: 1px solid rgba(216,180,90,.7);
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,.35), inset 0 0 0 3px rgba(216,180,90,.25), 0 2px 6px rgba(0,0,0,.5);
+  text-shadow: 0 0 10px rgba(246,227,164,.45), 0 2px 2px rgba(0,0,0,.6);
+  border-radius: 2px;
+}
+#page-story[data-tone="angel"] .lettrine { background: radial-gradient(circle at 50% 40%, rgba(159,208,238,.45), transparent 70%), linear-gradient(160deg, #1c3550, #0a1422); }
+
+.narr-bubble em { color: #f6dc98; }
+.narr-bubble strong { color: var(--sky); }
+
+/* Voix d'ange / de démon : phylactères */
+.voice {
+  margin: 10px 0 2px; padding: 7px 12px 7px 14px;
+  border-left: 0; border-radius: 2px 10px 10px 2px;
+  font-size: 0.92rem; position: relative;
+}
+.voice::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 2px;
+}
+.voice-angel { background: linear-gradient(90deg, rgba(90,160,215,.16), rgba(90,160,215,.02)); color: #cdeaf9; }
+.voice-angel::before { background: linear-gradient(180deg, #e8f6ff, #5aa0d7); box-shadow: 0 0 8px rgba(159,208,238,.7); }
+.voice-demon { background: linear-gradient(90deg, rgba(208,80,58,.18), rgba(208,80,58,.02)); color: #f4a391; }
+.voice-demon::before { background: linear-gradient(180deg, #ffb08a, #8a1c10); box-shadow: 0 0 8px rgba(231,76,60,.7); }
+
+/* Choix : lignes de parchemin */
+.choice {
+  display: flex; align-items: baseline; gap: 8px;
+  margin-top: 8px; padding: 7px 10px;
+  border: 1px solid rgba(216,180,90,.28); border-radius: 3px;
+  background: linear-gradient(90deg, rgba(0,0,0,.28), rgba(0,0,0,.08));
+}
+.choice:first-of-type { margin-top: 12px; }
+.choice-n {
+  font-family: 'Cinzel', serif; font-size: 0.62rem; letter-spacing: .12em; color: var(--gilt);
+  white-space: nowrap; text-transform: uppercase;
+}
+.choice-n::before { content: '✠ '; color: var(--blood); }
+.choice em { font-style: italic; color: #f6dc98; }
+
+#typing-msg .narr-bubble { background: var(--grain) repeat, linear-gradient(160deg, #4a2e14, #2a1709) !important; padding: 12px 16px; }
+#typing-msg .narr-bubble::after { display: none; }
+
+/* Bulle du joueur : ardoise céleste */
+.narr-msg.user .narr-bubble {
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(159,208,238,.14), transparent 60%),
+    linear-gradient(160deg, #13202e 0%, #0b1320 60%, #0a0f18 100%) !important;
+  border: 1px solid rgba(159,208,238,.28) !important;
+  border-top-color: rgba(159,208,238,.5) !important;
+  color: #d6e6f2 !important;
+  box-shadow: inset 0 1px 0 rgba(220,240,255,.06), 0 2px 10px rgba(0,0,0,.45);
+  font-style: italic;
+}
+
+/* Bannières : phylactère à pointes */
+.event-banner {
+  position: relative; padding: 11px 26px;
+  border: 0; border-radius: 0;
+  color: var(--gilt-hi); font-size: 0.66rem;
+  background:
+    linear-gradient(90deg, transparent 0 10px, rgba(216,180,90,.55) 10px 11px, transparent 11px calc(100% - 11px), rgba(216,180,90,.55) calc(100% - 11px) calc(100% - 10px), transparent calc(100% - 10px)),
+    linear-gradient(180deg, rgba(216,180,90,.6), rgba(216,180,90,.6)) top / 100% 1px no-repeat,
+    linear-gradient(180deg, rgba(216,180,90,.6), rgba(216,180,90,.6)) bottom / 100% 1px no-repeat,
+    linear-gradient(135deg, #3a1a0a, #1e0a18);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 50%, 100% 100%, 0 100%, 10px 50%);
+  text-shadow: 0 0 10px rgba(216,180,90,.4);
+}
+.event-banner.chapter-banner {
+  font-family: 'Cinzel Decorative', serif; font-size: 0.7rem; letter-spacing: .22em;
+  background:
+    linear-gradient(180deg, rgba(216,180,90,.7), rgba(216,180,90,.7)) top / 100% 1px no-repeat,
+    linear-gradient(180deg, rgba(216,180,90,.7), rgba(216,180,90,.7)) bottom / 100% 1px no-repeat,
+    radial-gradient(ellipse at 50% 50%, rgba(208,80,58,.22), transparent 70%),
+    linear-gradient(135deg, #3a1a0a, #1a0a22);
+}
+.typing-dot { width: 5px; height: 5px; border-radius: 0; transform: rotate(45deg); background: var(--gilt); }
+@keyframes tp { 0%,60%,100% { opacity: .2; transform: rotate(45deg) scale(1); } 30% { opacity: 1; transform: rotate(45deg) scale(1.4); } }
+
+.veil-closed { border-radius: 46% 46% 10px 10px / 40px 40px 10px 10px; padding-top: 24px; }
+
+/* ═════════ ZONE DE SAISIE ═════════ */
+#input-zone { position: relative; padding: 12px 12px 10px; }
+#input-zone::before {
+  content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 10px; pointer-events: none;
+  background: var(--tracery) repeat-x center / 36px 10px; transform: scaleY(-1); opacity: .7;
+}
+.qbtn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.62rem; padding: 7px 12px;
+  color: #e0c070;
+  border-radius: 12px 12px 3px 3px;
+  background: linear-gradient(180deg, rgba(216,180,90,.08), rgba(0,0,0,.35));
+}
+.qbtn .ico { font-size: 0.95rem; color: var(--gilt); }
+#player-input { font-size: 1rem; }
+#player-input::placeholder { color: #8a6a3a; font-style: italic; }
+#send-btn { font-size: 1.25rem; color: var(--gilt-hi); border-radius: 50% 50% 4px 4px / 16px 16px 4px 4px; }
+
+/* ═════════ BARRE D'ONGLETS : galerie d'arcades ═════════ */
+#tab-bar {
+  background:
+    var(--grain) repeat,
+    linear-gradient(180deg, #22120a 0%, #140a04 100%);
+  border-top: 1px solid rgba(216,180,90,.4);
+  box-shadow: 0 -4px 18px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,210,120,.08);
+}
+#tab-bar::before {
+  content: ''; position: absolute; left: 0; right: 0; top: -10px; height: 10px; pointer-events: none;
+  background: var(--tracery) repeat-x center / 36px 10px; transform: scaleY(-1); opacity: .8;
+}
+.tab-btn { position: relative; color: #7d5e32; gap: 4px; }
+.tab-icon { font-size: 1.35rem; filter: none !important; color: inherit; transition: transform .25s, color .25s; }
+.tab-label { font-size: 0.56rem; letter-spacing: .16em; }
+.tab-btn::before {
+  content: ''; position: absolute; left: 50%; top: 6px; bottom: 4px; width: 62px; transform: translateX(-50%);
+  border-radius: 50% 50% 4px 4px / 22px 22px 4px 4px;
+  border: 1px solid rgba(216,180,90,0); background: transparent;
+  transition: all .3s;
+}
+.tab-btn.active { color: var(--gilt-hi); }
+.tab-btn.active::before {
+  border-color: rgba(216,180,90,.35);
+  background: radial-gradient(ellipse at 50% 20%, rgba(216,180,90,.18), rgba(216,180,90,.02) 70%);
+  box-shadow: inset 0 0 12px rgba(216,180,90,.12);
+}
+.tab-btn.active .tab-icon { transform: translateY(-1px); filter: drop-shadow(0 0 6px rgba(216,180,90,.7)) !important; }
+.tab-btn::after {
+  content: ''; position: absolute; top: 2px; left: 50%; width: 6px; height: 6px; margin-left: -3px;
+  transform: rotate(45deg) scale(0); background: var(--gilt-hi); box-shadow: 0 0 8px rgba(246,227,164,.9);
+  transition: transform .3s;
+}
+.tab-btn.active::after { transform: rotate(45deg) scale(1); }
+
+/* ═════════ PAGES PERSO / SAC / QUÊTES ═════════ */
+#page-char, #page-inv, #page-quests { gap: 12px; padding: 12px 12px 16px; }
+#page-char .card, #page-inv .card, #page-quests .card,
+#page-inv .gold-card, #page-quests .location-card {
+  padding: 12px 14px !important;
+  background:
+    var(--orn) left 5px top 5px / 18px 18px no-repeat,
+    var(--orn) right 5px bottom 5px / 18px 18px no-repeat,
+    var(--grain) repeat,
+    radial-gradient(ellipse at 10% 0%, rgba(255,200,110,.08), transparent 55%),
+    linear-gradient(160deg, #3a2010 0%, #2a1608 45%, #22110a 75%, #2e1a0a 100%) !important;
+}
+#page-char .card::after, #page-inv .card::after, #page-quests .card::after {
+  content: ''; position: absolute; inset: 4px; pointer-events: none;
+  border: 1px solid rgba(216,180,90,.13); border-radius: 2px;
+}
+#page-inv .card, #page-quests .card { overflow: visible; }
+
+/* Titres de section gravés, centrés entre deux filets */
+#page-char .card > div:first-child[style*="border-bottom"],
+#page-inv .card-title, #page-quests .card-title {
+  display: flex !important; align-items: center; justify-content: center; gap: 8px;
+  font-size: 0.6rem !important; letter-spacing: .3em !important;
+  color: var(--gilt) !important;
+  border-bottom: 0 !important; padding-bottom: 0 !important; margin-bottom: 10px !important;
+  text-transform: uppercase;
+}
+#page-char .card > div:first-child[style*="border-bottom"]::before,
+#page-char .card > div:first-child[style*="border-bottom"]::after,
+#page-inv .card-title::before, #page-inv .card-title::after,
+#page-quests .card-title::before, #page-quests .card-title::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(216,180,90,.6));
+}
+#page-char .card > div:first-child[style*="border-bottom"]::after,
+#page-inv .card-title::after, #page-quests .card-title::after { background: linear-gradient(90deg, rgba(216,180,90,.6), transparent); }
+.card-title .ico, .sec-ico { font-size: 0.95rem; color: var(--gilt); letter-spacing: 0; }
+
+/* Héros */
+.hero-medal {
+  width: 58px; height: 58px; flex-shrink: 0; border-radius: 50%;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 35%, #2a1a30, #0c0610 75%);
+  border: 1px solid rgba(216,180,90,.65);
+  box-shadow: 0 0 0 3px #120806, 0 0 0 4px rgba(216,180,90,.3), 0 0 18px rgba(159,208,238,.10), 0 0 18px rgba(208,80,58,.10);
+}
+.hero-medal .avatar-svg { width: 48px !important; height: 48px !important; }
+#page-char #ch-name { font-size: 0.98rem !important; color: var(--gilt-hi) !important; text-shadow: 0 0 10px rgba(216,180,90,.3); }
+#page-char #ch-class { font-size: 0.58rem !important; color: #b08a4a !important; }
+.lvl-badge {
+  font-family: 'Cinzel', serif; font-size: 0.56rem; color: #1a0d05; font-weight: 600;
+  background: linear-gradient(180deg, #f6e3a4, #c9a84c 60%, #8b6a20);
+  border-radius: 10px 10px 2px 2px; padding: 1px 7px; letter-spacing: .08em;
+  box-shadow: 0 0 8px rgba(216,180,90,.35);
+}
+.vit { display: flex; align-items: center; gap: 7px; }
+.vit-lbl { font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: .08em; width: 20px; }
+.vit-track {
+  flex: 1; height: 7px; position: relative; overflow: hidden;
+  background: rgba(0,0,0,.55); border: 1px solid rgba(216,180,90,.22); border-radius: 1px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.7);
+}
+.vit-track::after { /* graduations de reliquaire */
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), rgba(0,0,0,.55) calc(10% - 1px) 10%);
+}
+.vit-num { font-size: 0.72rem; font-weight: 700; min-width: 50px; text-align: right; font-variant-numeric: tabular-nums; }
+.vit .vital-bar { border-radius: 0; }
+.bar-hp { background: linear-gradient(90deg, #4a0806, #b8321f 60%, #f08070) !important; box-shadow: 0 0 8px rgba(208,80,58,.5); }
+.bar-mp { background: linear-gradient(90deg, #0a1e48, #3f7fb5 60%, #bfe4f7) !important; box-shadow: 0 0 8px rgba(159,208,238,.45); }
+.bar-xp { background: linear-gradient(90deg, #6a4a10, #c9a84c 60%, #fff0c0) !important; box-shadow: 0 0 8px rgba(216,180,90,.45); }
+
+.duo { display: flex; align-items: center; gap: 7px; margin-top: 8px; }
+.duo .ico { font-size: 0.95rem; }
+.duo-track {
+  flex: 1; height: 7px; position: relative; overflow: visible; border-radius: 1px;
+  background: linear-gradient(90deg, #6e140c, #d0503a 30%, #2a1e2a 50%, #3f7fb5 70%, #bfe4f7);
+  border: 1px solid rgba(216,180,90,.3); box-shadow: inset 0 1px 3px rgba(0,0,0,.6);
+}
+.duo-track .dual-fill { background: transparent !important; position: relative; height: 100%; }
+.duo-track .dual-fill::after {
+  right: -5px !important; top: 50% !important; bottom: auto !important;
+  width: 9px !important; height: 9px !important; border-radius: 0 !important;
+  transform: translateY(-50%) rotate(45deg);
+  background: linear-gradient(135deg, #fff3cc, #c9a84c 55%, #7a5010) !important;
+  box-shadow: 0 0 8px rgba(246,227,164,.9), 0 0 0 2px rgba(20,10,4,.85) !important;
+}
+.duo-scores { display: flex; justify-content: space-between; font-family: 'Cinzel', serif; font-size: 0.52rem; letter-spacing: .08em; margin-top: 4px; }
+.duo-scores #demon-score { color: #e0806a !important; }
+.duo-scores #angel-score { color: var(--sky) !important; }
+
+/* Attributs : six sceaux */
+.attr6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.attr6 > div {
+  text-align: center; padding: 8px 0 6px;
+  border: 1px solid rgba(216,180,90,.2); border-radius: 50% 50% 3px 3px / 14px 14px 3px 3px;
+  background: linear-gradient(180deg, rgba(216,180,90,.07), rgba(0,0,0,.35));
+}
+.attr6 .ico { font-size: 1.05rem; color: var(--gilt); }
+.attr6 .a-n { font-family: 'Cinzel', serif; font-size: 0.5rem; color: #b08a4a; letter-spacing: .1em; margin-top: 3px; }
+.attr6 .a-v { font-family: 'Cinzel', serif; font-size: 0.95rem; font-weight: 600; color: var(--gilt-hi); line-height: 1.2; }
+
+/* Compétences */
+#page-char .skill-card { padding: 8px 10px; gap: 10px; border-color: rgba(216,180,90,.2) !important; background: linear-gradient(90deg, rgba(0,0,0,.4), rgba(0,0,0,.15)) !important; }
+.skill-icon, .inv-icon, .dsc-icon, .item-sheet-icon, .loot-banner-icon, .gold-icon {
+  display: grid; place-items: center; border-radius: 50%;
+  border: 1px solid rgba(216,180,90,.45);
+  background: radial-gradient(circle at 50% 35%, rgba(216,180,90,.16), rgba(0,0,0,.5) 70%);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.35), 0 0 0 3px rgba(216,180,90,.12);
+  filter: sepia(.25) saturate(.9);
+}
+.skill-icon { width: 32px; height: 32px; font-size: 0.95rem; }
+#page-char .skill-name { font-size: 0.66rem; color: var(--gilt-hi); letter-spacing: .06em; }
+#page-char .skill-desc { font-size: 0.78rem; color: var(--ink-sepia); font-style: italic; line-height: 1.35; }
+#page-char .skill-cost { font-size: 0.6rem; color: var(--sky); border: 1px solid rgba(159,208,238,.3); padding: 2px 7px; border-radius: 9px; background: rgba(10,30,60,.35); }
+
+/* Sort de dualité */
+.dsc-icon { width: 42px; height: 42px; font-size: 1.3rem; margin-top: 0; }
+.dsc-angel .dsc-icon { border-color: rgba(159,208,238,.6); background: radial-gradient(circle at 50% 35%, rgba(159,208,238,.25), rgba(0,0,0,.5) 70%); }
+.dsc-demon .dsc-icon { border-color: rgba(208,80,58,.6); background: radial-gradient(circle at 50% 35%, rgba(208,80,58,.25), rgba(0,0,0,.5) 70%); }
+.dsc-name { font-family: 'Cinzel Decorative', serif; font-size: 0.8rem; }
+.dsc-desc { font-size: 0.84rem; color: var(--ink-sepia); }
+.dsc-tag { font-size: 0.52rem; padding: 3px 8px; }
+.dsc-lock-msg { font-size: 0.58rem; color: #7a6a58; }
+.duality-spell-card { border-radius: 4px; }
+.dsc-use-btn { font-size: 0.62rem; padding: 9px; border-radius: 3px; }
+
+/* Inventaire : reliquaires */
+.inv-grid { gap: 10px; }
+#page-inv .inv-slot {
+  min-height: 108px; padding: 14px 8px 10px; gap: 6px;
+  border-radius: 46% 46% 4px 4px / 24px 24px 4px 4px !important;
+  background: radial-gradient(ellipse at 50% 20%, rgba(216,180,90,.08), transparent 60%), linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.5)) !important;
+  border: 1px solid rgba(216,180,90,.24) !important;
+}
+#page-inv .inv-slot.equipped { border-color: rgba(159,208,238,.55) !important; box-shadow: 0 0 14px rgba(159,208,238,.14), inset 0 0 14px rgba(159,208,238,.06) !important; }
+#page-inv .inv-slot.cursed { border-color: rgba(208,80,58,.6) !important; box-shadow: 0 0 14px rgba(208,80,58,.16), inset 0 0 14px rgba(208,80,58,.07) !important; }
+#page-inv .inv-slot.empty { opacity: .4; }
+.inv-icon { width: 46px; height: 46px; font-size: 1.45rem; }
+#page-inv .inv-slot.empty .inv-icon { border-style: dashed; filter: none; background: transparent; box-shadow: none; }
+.inv-name { font-size: 0.66rem; }
+#page-inv .inv-slot > div:last-child { font-size: 0.5rem !important; }
+.inv-badge { font-size: 0.5rem; top: 6px; right: auto; left: 50%; transform: translateX(-50%); padding: 1px 8px; border: 1px solid currentColor; border-radius: 8px 8px 2px 2px; z-index: 2; }
+#page-inv .inv-slot:has(.inv-badge) { padding-top: 26px; }
+#page-inv .inv-slot > div:last-child { color: #a08058 !important; opacity: 1 !important; }
+.gold-icon { width: 44px; height: 44px; font-size: 1.3rem; color: var(--gilt); filter: none !important; }
+#page-inv .gold-card { display: flex; align-items: center; gap: 14px; }
+#page-inv .gold-lbl { font-size: 0.6rem; color: #b08a4a; letter-spacing: .3em; }
+#page-inv .gold-val { font-family: 'Cinzel Decorative', serif; font-size: 1.4rem; color: var(--gilt-hi); }
+
+/* Quêtes */
+#page-quests .quest-card { padding: 12px 12px 12px 14px; border-color: rgba(216,180,90,.22) !important; background: linear-gradient(90deg, rgba(0,0,0,.4), rgba(0,0,0,.15)) !important; }
+.quest-star { color: var(--gilt); font-size: 1rem; }
+#page-quests .quest-title { font-size: 0.8rem; color: var(--gilt-hi); }
+#page-quests .quest-desc { font-size: 0.86rem; color: var(--ink-sepia); font-style: italic; }
+#page-quests .quest-prog { font-size: 0.62rem; color: var(--sky); }
+#page-quests .quest-track { height: 6px; border: 1px solid rgba(216,180,90,.2); border-radius: 1px; }
+#page-quests .quest-fill { background: linear-gradient(90deg, #6a4a10, #c9a84c 60%, #fff0c0) !important; box-shadow: 0 0 8px rgba(216,180,90,.5); border-radius: 0; }
+#page-quests .loc-name, #page-inv .loc-name { display: flex; align-items: center; gap: 8px; font-size: 0.86rem; color: var(--gilt-hi); }
+#page-quests .loc-desc, #page-inv .loc-desc { font-size: 0.88rem; color: var(--ink-sepia); font-style: italic; }
+
+/* ═════════ FEUILLETS (objet / sauvegarde) ═════════ */
+.item-sheet, .save-sheet {
+  position: relative;
+  background:
+    var(--orn) left 10px top 10px / 20px 20px no-repeat,
+    var(--grain) repeat,
+    radial-gradient(ellipse at 50% 0%, rgba(216,180,90,.12), transparent 55%),
+    linear-gradient(180deg, #2e1a0c, #1a0d06 70%, #120804) !important;
+  border: 1px solid rgba(216,180,90,.4) !important;
+  border-bottom: 0 !important;
+  border-radius: 50% 50% 0 0 / 34px 34px 0 0 !important;
+  padding-top: 26px !important;
+  box-shadow: 0 -10px 40px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,220,150,.1);
+}
+.item-sheet::after, .save-sheet::after {
+  content: ''; position: absolute; inset: 6px 6px 0; pointer-events: none;
+  border: 1px solid rgba(216,180,90,.14); border-bottom: 0;
+  border-radius: 50% 50% 0 0 / 30px 30px 0 0;
+}
+.item-sheet-handle, .save-sheet-handle {
+  width: 9px !important; height: 9px !important; border-radius: 0 !important; transform: rotate(45deg);
+  background: linear-gradient(135deg, #fff3cc, #c9a84c 55%, #7a5010) !important;
+  box-shadow: 0 0 10px rgba(246,227,164,.7);
+}
+.item-sheet-icon { width: 60px; height: 60px; font-size: 1.9rem; }
+.item-sheet-type { font-size: 0.6rem; color: #b08a4a; }
+.item-sheet-desc { color: var(--ink-sepia); font-size: 0.95rem; }
+.item-power-tag { font-size: 0.58rem; border-radius: 2px; }
+.item-action-btn { border-radius: 3px; font-size: 0.72rem; padding: 13px; }
+.ia-drop { color: #c0604a; border-color: #5a1a12; }
+.save-sheet-title { font-family: 'Cinzel Decorative', serif; font-size: 0.78rem; letter-spacing: .18em; color: var(--gilt-hi); }
+.save-slot {
+  border-radius: 3px; padding: 12px;
+  background: linear-gradient(90deg, rgba(0,0,0,.45), rgba(0,0,0,.2)) !important;
+  border: 1px solid rgba(216,180,90,.2) !important;
+}
+.save-slot.has-data { border-color: rgba(216,180,90,.45) !important; }
+.save-slot-num {
+  width: 34px; height: 34px; min-width: 34px; display: grid; place-items: center; border-radius: 50%;
+  border: 1px solid rgba(216,180,90,.35); font-size: 0.95rem; color: #6a5030;
+  background: radial-gradient(circle at 50% 35%, rgba(216,180,90,.1), rgba(0,0,0,.4));
+}
+.save-slot-name { font-size: 0.7rem; color: var(--ink-sepia); }
+.save-slot.has-data .save-slot-name { color: var(--gilt-hi); }
+.save-slot-meta { font-size: 0.72rem; color: var(--ink-faint); font-style: italic; opacity: 1; }
+.slot-btn { border-radius: 2px; font-size: 0.56rem; padding: 6px 9px; }
+.slot-btn-save { background: rgba(20,40,70,.5); border-color: rgba(159,208,238,.5); color: var(--sky); }
+.save-divider { background: linear-gradient(90deg, transparent, rgba(216,180,90,.5), transparent); }
+.save-io-btn { border-radius: 3px; font-size: 0.62rem; }
+.btn-export { background: rgba(20,40,70,.4); border-color: rgba(159,208,238,.35); color: var(--sky); }
+.btn-import { background: rgba(60,20,12,.4); border-color: rgba(208,80,58,.35); color: #e0806a; }
+.btn-close-save { border-radius: 3px; border-color: rgba(216,180,90,.3); color: #b08a4a; font-size: 0.62rem; }
+.save-autosave { font-size: 0.62rem; color: var(--ink-faint); opacity: 1; font-family: 'Crimson Pro', serif; font-style: italic; letter-spacing: .02em; }
+
+/* Toast */
+#save-toast {
+  border-radius: 2px; border-color: rgba(216,180,90,.6);
+  background: linear-gradient(180deg, #2e1a0c, #160a04);
+  color: var(--gilt-hi); font-size: 0.62rem;
+  box-shadow: 0 4px 16px rgba(0,0,0,.6), inset 0 0 0 2px rgba(0,0,0,.4), inset 0 0 0 3px rgba(216,180,90,.18);
+}
+
+/* Barre de défilement dorée */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #8b6a20, #c9a84c, #8b6a20); border-radius: 0; }
+* { scrollbar-color: #8b6a20 transparent; scrollbar-width: thin; }
+
+/* Focus visible (clavier) */
+button:focus-visible, input:focus-visible, textarea:focus-visible, .class-card:focus-visible {
+  outline: 1px solid var(--gilt-hi); outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-btn::before, .tab-btn::after, .tab-icon, .class-icon { transition: none; }
+}
+/* FIN REFONTE VISUELLE */
 </style>
 </head>
 <body>
+<!-- ===== ICONOGRAPHIE LIMINAL (gravures dorées) ===== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <linearGradient id="ico-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e3a4"/><stop offset=".55" stop-color="#c9a84c"/><stop offset="1" stop-color="#8b6a20"/></linearGradient>
+  </defs>
+  <symbol id="i-book" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 6.5C9.5 4.8 6.5 4.3 3 5v13.5c3.5-.7 6.5-.2 9 1.5 2.5-1.7 5.5-2.2 9-1.5V5c-3.5-.7-6.5-.2-9 1.5z"/><path d="M12 6.5V20"/><path d="M6 9.2c1.4-.2 2.7 0 3.8.5M6 12.2c1.4-.2 2.7 0 3.8.5M14.2 9.7c1.1-.5 2.4-.7 3.8-.5"/><path d="M16.1 11.6v3.6M14.3 13.4h3.6"/></g></symbol>
+  <symbol id="i-sword" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M20.5 3.5 20 7.5l-9.2 9.2-3.5-3.5L16.5 4z"/><path d="M5.2 12.3l6.5 6.5"/><path d="M8.3 17.2 5 20.5"/><circle cx="4.3" cy="21.2" r=".9"/><path d="M18.4 5.6 11 13"/></g></symbol>
+  <symbol id="i-swords" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M3.5 3.5l.4 3.2 8.6 8.6 2.8-2.8L6.7 3.9z"/><path d="M20.5 3.5l-.4 3.2-8.6 8.6-2.8-2.8 8.6-8.6z"/><path d="M8 14.5l1.5 1.5M16 14.5 14.5 16M4.5 15.5l4 4M19.5 15.5l-4 4"/><path d="M6.5 17.5 4 20M17.5 17.5 20 20"/></g></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M9 6V5a3 3 0 0 1 6 0v1"/><path d="M4.5 8.5C4.5 7 5.5 6 7 6h10c1.5 0 2.5 1 2.5 2.5L19 19c0 1-.8 1.8-1.8 1.8H6.8C5.8 20.8 5 20 5 19z"/><path d="M4.6 10.5c2.3 1.6 4.8 2.3 7.4 2.3s5.1-.7 7.4-2.3"/><rect x="10.3" y="11.8" width="3.4" height="3.2" rx=".6"/></g></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M7 4h11.5a2 2 0 0 1 0 4H17"/><path d="M8.5 4A2 2 0 0 1 10.5 6v11.5"/><path d="M17 8v10.5a1.8 1.8 0 0 1-1.8 1.8H5.5a2 2 0 0 1 0-4H13a2 2 0 0 1 2 2"/><path d="M6.5 4A2 2 0 0 0 7 8h2"/><path d="M12.8 10h2M12.8 13h2"/></g></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="3"/><path d="M12 10v4"/><path d="M12 2.5v2M5.5 4.5l1.2 1.6M18.5 4.5l-1.2 1.6"/></g></symbol>
+  <symbol id="i-speak" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.5c-4.7 0-8.5 3-8.5 6.8 0 2.2 1.3 4.2 3.3 5.4L6 20l4.3-2.8c.6.1 1.1.1 1.7.1 4.7 0 8.5-3 8.5-6.8S16.7 3.5 12 3.5z"/><path d="M8.5 10.3h7M9.5 13h5"/></g></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M12 2.5l1.9 7.6 7.6 1.9-7.6 1.9-1.9 7.6-1.9-7.6-7.6-1.9 7.6-1.9z"/><path d="M12 7.8l.9 3.3 3.3.9-3.3.9-.9 3.3-.9-3.3-3.3-.9 3.3-.9z" fill="currentColor" fill-opacity=".35"/><path d="M5.5 5.5l2 2M18.5 5.5l-2 2M5.5 18.5l2-2M18.5 18.5l-2-2" stroke-linecap="round"/></g></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="7" cy="12" r="3.8"/><circle cx="7" cy="12" r="1.3"/><path d="M10.8 12H21.5"/><path d="M18.5 12v3.2M15.5 12v2.2"/><path d="M3.2 12h-1"/></g></symbol>
+  <symbol id="i-wing" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M2.5 18.5c5.5.5 11-1 14.5-5s4.5-8.5 4.5-9.5c-3 1-8 2.5-11.5 6S4.5 16 2.5 18.5z"/><path d="M6 17c3.5-2 7.5-5.5 11-10"/><path d="M8.5 13.5l-1.6-2M11.5 11l-1.6-2M14.5 8.4 13 6.3"/></g></symbol>
+  <symbol id="i-quill" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M21 3C13.5 3.5 8 8.5 6.5 16l-.5 2.5 2.5-.5C16 16.5 20.5 10.5 21 3z"/><path d="M4 21l6.5-6.5"/><path d="M10.5 13.5c2.2 0 4 .2 5.8-1M13 10.5c1.5.2 3 0 4.5-1"/></g></symbol>
+  <symbol id="i-feather" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M19.5 3C12 3.5 6.5 9 6.5 17.5c7-.5 12.5-6 13-14.5z"/><path d="M4 20.5l12.5-13"/><path d="M8.3 14.6h4.2M10.5 11.9h4.3M13 9.3h3.5"/></g></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.5c.5 3.5 5.5 5.5 5.5 11a5.5 5.5 0 0 1-11 0c0-2.8 1.5-4.2 2.3-6.2.8 1.2 1.2 2.3 1.2 3.7 1.5-2.2 2.3-5 2-8.5z"/><path d="M12 20.5a2.5 2.5 0 0 1-2.5-2.5c0-1.6 1.3-2.4 2.5-4 1.2 1.6 2.5 2.4 2.5 4a2.5 2.5 0 0 1-2.5 2.5z"/></g></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M15 3.2A8.8 8.8 0 1 0 20.8 17 7.2 7.2 0 0 1 15 3.2z"/><path d="M17.5 7.5l.5 1.5 1.5.5-1.5.5-.5 1.5-.5-1.5L15.5 9.5l1.5-.5z" fill="currentColor"/><circle cx="10.5" cy="13" r="1.4"/></g></symbol>
+  <symbol id="i-twin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><ellipse cx="12" cy="5" rx="6.5" ry="2"/><path d="M6.5 21c-2.5-3.5-2.5-8 .5-11 .5 2.5 2 4 4 4.8M17.5 21c2.5-3.5 2.5-8-.5-11-.5 2.5-2 4-4 4.8"/><path d="M12 11.5l1.8 3.5L12 18.5 10.2 15z" fill="currentColor" fill-opacity=".4"/></g></symbol>
+  <symbol id="i-skull" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3.5a7 7 0 0 0-7 7c0 2.7 1.3 4.3 3 5.3v3.7h8v-3.7c1.7-1 3-2.6 3-5.3a7 7 0 0 0-7-7z"/><circle cx="9.2" cy="11" r="1.7"/><circle cx="14.8" cy="11" r="1.7"/><path d="M12 13.5l-.9 1.8h1.8z"/><path d="M10.5 17.5v2M13.5 17.5v2"/></g></symbol>
+  <symbol id="i-wind" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 9h11a3 3 0 1 0-3-3"/><path d="M3 15h14a3 3 0 1 1-3 3"/><path d="M3 12h16.5a2.5 2.5 0 1 0-2.5-2.5"/></g></symbol>
+  <symbol id="i-sigil" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 3.8l7.1 12.3H4.9z"/><path d="M12 20.2 4.9 7.9h14.2z" opacity=".75"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></g></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.8l8 3v6.2c0 5-3.6 8.2-8 9.3-4.4-1.1-8-4.3-8-9.3V5.8z"/><path d="M12 7v10M8 10.5h8"/></g></symbol>
+  <symbol id="i-rose" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 12.5c-3.3 0-5.5-2.3-5.5-5.5 1.8 0 3.4.6 4.3 1.6.3-1.8 1-3.1 1.2-4.6.8 1.3 1.3 2.7 1.3 4.6 1-1 2.5-1.6 4.2-1.6 0 3.2-2.2 5.5-5.5 5.5z"/><path d="M12 12.5v9"/><path d="M12 16.5c-1.2-1.5-2.7-2-4.5-1.8.5 1.8 2 2.8 4.5 2.8M12 18c1.4-1.3 2.9-1.6 4.5-1.3-.6 1.6-2.1 2.4-4.5 2.3"/></g></symbol>
+  <symbol id="i-dual" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="none"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" fill-opacity=".55"/><path d="M12 3.5a4.25 4.25 0 0 1 0 8.5 4.25 4.25 0 0 0 0 8.5" fill="none"/></g></symbol>
+  <symbol id="i-halo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><ellipse cx="12" cy="8" rx="8" ry="3"/><path d="M12 13.5v7M9 17.5h6" opacity=".7"/></g></symbol>
+  <symbol id="i-horns" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M8.5 19C4 18 2.5 12.5 4 5.5c1 4.5 3.2 7 7 7.8"/><path d="M15.5 19c4.5-1 6-6.5 4.5-13.5-1 4.5-3.2 7-7 7.8"/></g></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6.5" opacity=".6"/><path d="M12 7.5l1.3 3.2 3.2 1.3-3.2 1.3L12 16.5l-1.3-3.2L7.5 12l3.2-1.3z" fill="currentColor" fill-opacity=".4" stroke-linejoin="round"/></g></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 6.2 9 4l6 2.2L21 4v13.8L15 20l-6-2.2L3 20z"/><path d="M9 4v13.8M15 6.2V20"/></g></symbol>
+  <symbol id="i-hood" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.8c-4.2 0-6.5 3.8-6.5 8.2 0 3-1.2 5.5-2.5 7.5 3 1.8 6 2.7 9 2.7s6-.9 9-2.7c-1.3-2-2.5-4.5-2.5-7.5 0-4.4-2.3-8.2-6.5-8.2z"/><path d="M8.5 13c0-3 1.5-5 3.5-5s3.5 2 3.5 5c0 1.7-1.6 3-3.5 3s-3.5-1.3-3.5-3z" fill="currentColor" fill-opacity=".35"/><circle cx="10.6" cy="12.4" r=".7" fill="currentColor"/><circle cx="13.4" cy="12.4" r=".7" fill="currentColor"/></g></symbol>
+  <symbol id="i-emblem" viewBox="0 0 120 64"><path d="M44,58 C22,58 10,40 17,12 C22,32 32,44 52,49 Z" fill="#b8452a" stroke="#e08a5a" stroke-width="1.6"/><path d="M76,58 C98,58 110,40 103,12 C98,32 88,44 68,49 Z" fill="#b8452a" stroke="#e08a5a" stroke-width="1.6"/><ellipse cx="60" cy="20" rx="27" ry="8" fill="none" stroke="#f0d890" stroke-width="4"/><path d="M60,30 L66,44 L60,58 L54,44 Z" fill="#c9a84c" stroke="#f6e9b8" stroke-width="1"/></symbol>
+</svg>
 
 <canvas id="bg-canvas"></canvas>
 <div id="save-toast">✦ Progression sauvegardée</div>
@@ -2151,12 +2733,12 @@ html, body {
         <div class="field-group">
           <div class="field-lbl"><div class="field-lbl-deco">Choisissez votre voie</div></div>
           <div class="class-grid" id="class-grid">
-            <div class="class-card" data-class="Séraphin Maudit"><div class="class-icon">🪶</div><div class="class-name">Séraphin Maudit</div><div class="class-sub">Lumière corrompue</div></div>
-            <div class="class-card" data-class="Démoniste Repenti"><div class="class-icon">🔥</div><div class="class-name">Démoniste Repenti</div><div class="class-sub">Flammes rachetées</div></div>
-            <div class="class-card" data-class="Lame Liminale"><div class="class-icon">⚔️</div><div class="class-name">Lame Liminale</div><div class="class-sub">Équilibre & dualité</div></div>
-            <div class="class-card" data-class="Psionique des Ombres"><div class="class-icon">🌑</div><div class="class-name">Psionique</div><div class="class-sub">Esprits & voyance</div></div>
-            <div class="class-card" data-class="Invocateur des Deux Cours"><div class="class-icon">✨</div><div class="class-name">Invocateur</div><div class="class-sub">Anges & démons</div></div>
-            <div class="class-card" data-class="Nécrologue Sanctifié"><div class="class-icon">💀</div><div class="class-name">Nécrologue</div><div class="class-sub">Mort & lumière</div></div>
+            <div class="class-card" data-class="Séraphin Maudit"><div class="class-icon"><svg class="ico" aria-hidden="true"><use href="#i-feather"/></svg></div><div class="class-name">Séraphin Maudit</div><div class="class-sub">Lumière corrompue</div></div>
+            <div class="class-card" data-class="Démoniste Repenti"><div class="class-icon"><svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg></div><div class="class-name">Démoniste Repenti</div><div class="class-sub">Flammes rachetées</div></div>
+            <div class="class-card" data-class="Lame Liminale"><div class="class-icon"><svg class="ico" aria-hidden="true"><use href="#i-swords"/></svg></div><div class="class-name">Lame Liminale</div><div class="class-sub">Équilibre & dualité</div></div>
+            <div class="class-card" data-class="Psionique des Ombres"><div class="class-icon"><svg class="ico" aria-hidden="true"><use href="#i-moon"/></svg></div><div class="class-name">Psionique</div><div class="class-sub">Esprits & voyance</div></div>
+            <div class="class-card" data-class="Invocateur des Deux Cours"><div class="class-icon"><svg class="ico" aria-hidden="true"><use href="#i-twin"/></svg></div><div class="class-name">Invocateur</div><div class="class-sub">Anges & démons</div></div>
+            <div class="class-card" data-class="Nécrologue Sanctifié"><div class="class-icon"><svg class="ico" aria-hidden="true"><use href="#i-skull"/></svg></div><div class="class-name">Nécrologue</div><div class="class-sub">Mort & lumière</div></div>
           </div>
         </div>
 
@@ -2216,16 +2798,16 @@ html, body {
     <div id="narrative"></div>
     <div id="input-zone">
       <div class="quick-btns">
-        <button class="qbtn" onclick="sendQuick('Examiner les environs')">🔍 Examiner</button>
-        <button class="qbtn" onclick="sendQuick('Parler à un personnage')">💬 Parler</button>
-        <button class="qbtn" onclick="sendQuick('Attaquer')">⚔️ Attaquer</button>
-        <button class="qbtn" onclick="sendQuick('Utiliser ma magie')">✨ Magie</button>
-        <button class="qbtn" onclick="sendQuick('Fouiller')">🗝️ Fouiller</button>
-        <button class="qbtn" onclick="sendQuick('Fuir')">💨 Fuir</button>
+        <button class="qbtn" onclick="sendQuick('Examiner les environs')"><svg class="ico" aria-hidden="true"><use href="#i-eye"/></svg><span>Examiner</span></button>
+        <button class="qbtn" onclick="sendQuick('Parler à un personnage')"><svg class="ico" aria-hidden="true"><use href="#i-speak"/></svg><span>Parler</span></button>
+        <button class="qbtn" onclick="sendQuick('Attaquer')"><svg class="ico" aria-hidden="true"><use href="#i-sword"/></svg><span>Attaquer</span></button>
+        <button class="qbtn" onclick="sendQuick('Utiliser ma magie')"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg><span>Magie</span></button>
+        <button class="qbtn" onclick="sendQuick('Fouiller')"><svg class="ico" aria-hidden="true"><use href="#i-key"/></svg><span>Fouiller</span></button>
+        <button class="qbtn" onclick="sendQuick('Fuir')"><svg class="ico" aria-hidden="true"><use href="#i-wing"/></svg><span>Fuir</span></button>
       </div>
       <div class="input-row">
         <textarea id="player-input" rows="1" placeholder="Votre action…" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-        <button id="send-btn" onclick="sendMessage()">➤</button>
+        <button id="send-btn" onclick="sendMessage()" aria-label="Envoyer"><svg class="ico" aria-hidden="true"><use href="#i-quill"/></svg></button>
       </div>
     </div>
   </div>
@@ -2233,10 +2815,10 @@ html, body {
   <!-- PAGE: CHARACTER -->
   <div class="page" id="page-char">
 
-    <!-- HERO ROW : avatar + nom + barres + dualité -->
-    <div class="card" style="padding:8px 10px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <svg class="avatar-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;flex-shrink:0">
+    <!-- HERO ROW : médaillon + nom + barres + dualité -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="hero-medal"><svg class="avatar-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="ag" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stop-color="#6bb8e840"/>
@@ -2254,67 +2836,62 @@ html, body {
           <circle cx="44" cy="29" r="2.5" fill="#c0392b" filter="url(#gf)"/>
           <path d="M37 34 Q40 36 43 34" stroke="#7a6a58" stroke-width="0.8" fill="none"/>
           <path d="M33 21 L34 17 L37 20 L40 14 L43 20 L46 17 L47 21" stroke="#c9a84c" stroke-width="1.2" fill="none" filter="url(#gf)"/>
-        </svg>
+        </svg></div>
         <div style="flex:1;min-width:0">
-          <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap">
-            <span style="font-family:'Cinzel Decorative',serif;font-size:0.78rem;color:var(--gold-light)" id="ch-name">Étranger</span>
-            <span style="font-family:'Cinzel',serif;font-size:0.5rem;color:var(--text-dim);letter-spacing:0.1em" id="ch-class">—</span>
-            <span style="font-family:'Cinzel',serif;font-size:0.48rem;color:var(--gold);background:#2a1a3a;border:1px solid var(--border-gold);border-radius:6px;padding:1px 6px">NIV.<span id="ch-level">1</span></span>
+          <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+            <span style="font-family:'Cinzel Decorative',serif" id="ch-name">Étranger</span>
+            <span class="lvl-badge">NIV. <span id="ch-level">1</span></span>
           </div>
-          <!-- Barres compactes -->
-          <div style="display:flex;flex-direction:column;gap:3px;margin-top:5px">
-            <div style="display:flex;align-items:center;gap:5px">
-              <span style="font-family:'Cinzel',serif;font-size:0.42rem;color:#e8a0a0;letter-spacing:0.08em;width:16px">PV</span>
-              <div style="flex:1;height:4px;background:#0e0912;border-radius:2px;overflow:hidden"><div class="vital-bar bar-hp" id="hp-fill" style="width:85%"></div></div>
-              <span style="font-size:0.55rem;color:#e8a0a0;font-weight:700;min-width:42px;text-align:right" id="hp-display">85/100</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:5px">
-              <span style="font-family:'Cinzel',serif;font-size:0.42rem;color:var(--angel);letter-spacing:0.08em;width:16px">PM</span>
-              <div style="flex:1;height:4px;background:#0e0912;border-radius:2px;overflow:hidden"><div class="vital-bar bar-mp" id="mp-fill" style="width:87%"></div></div>
-              <span style="font-size:0.55rem;color:var(--angel);font-weight:700;min-width:42px;text-align:right" id="mp-display">70/80</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:5px">
-              <span style="font-family:'Cinzel',serif;font-size:0.42rem;color:var(--gold);letter-spacing:0.08em;width:16px">XP</span>
-              <div style="flex:1;height:3px;background:#0e0912;border-radius:2px;overflow:hidden"><div class="vital-bar bar-xp" id="xp-fill" style="width:0%"></div></div>
-              <span style="font-size:0.5rem;color:var(--gold);min-width:42px;text-align:right" id="xp-display">0/100</span>
-            </div>
-          </div>
-          <!-- Dualité inline -->
-          <div style="display:flex;align-items:center;gap:5px;margin-top:5px">
-            <span style="font-size:0.7rem">😈</span>
-            <div style="flex:1;height:4px;background:#0e0912;border-radius:2px;overflow:hidden;position:relative;border:1px solid var(--border)">
-              <div class="dual-fill" id="dual-fill" style="width:50%"></div>
-            </div>
-            <span style="font-size:0.7rem">😇</span>
-            <span style="font-family:'Cinzel',serif;font-size:0.42rem;color:var(--text-dim);margin-left:2px" id="demon-score">50</span>
-            <span style="font-family:'Cinzel',serif;font-size:0.42rem;color:var(--text-dim)" id="angel-score">50</span>
-          </div>
+          <div style="font-family:'Cinzel',serif;letter-spacing:0.14em;text-transform:uppercase" id="ch-class">—</div>
         </div>
       </div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
+        <div class="vit">
+          <span class="vit-lbl" style="color:#f08070">PV</span>
+          <div class="vit-track"><div class="vital-bar bar-hp" id="hp-fill" style="width:85%"></div></div>
+          <span class="vit-num" style="color:#f0a090" id="hp-display">85/100</span>
+        </div>
+        <div class="vit">
+          <span class="vit-lbl" style="color:var(--sky)">PM</span>
+          <div class="vit-track"><div class="vital-bar bar-mp" id="mp-fill" style="width:87%"></div></div>
+          <span class="vit-num" style="color:var(--sky)" id="mp-display">70/80</span>
+        </div>
+        <div class="vit">
+          <span class="vit-lbl" style="color:var(--gilt)">XP</span>
+          <div class="vit-track" style="height:5px"><div class="vital-bar bar-xp" id="xp-fill" style="width:0%"></div></div>
+          <span class="vit-num" style="color:var(--gilt);font-size:0.62rem" id="xp-display">0/100</span>
+        </div>
+      </div>
+      <div class="duo">
+        <span style="color:#e0806a" title="Abîme"><svg class="ico" aria-hidden="true"><use href="#i-horns"/></svg></span>
+        <div class="duo-track"><div class="dual-fill" id="dual-fill" style="width:50%"></div></div>
+        <span style="color:var(--sky)" title="Ciel"><svg class="ico" aria-hidden="true"><use href="#i-halo"/></svg></span>
+      </div>
+      <div class="duo-scores"><span id="demon-score">50</span><span id="angel-score">50</span></div>
     </div>
 
     <!-- ATTRIBUTS compacts -->
     <div class="card" style="padding:7px 10px">
-      <div style="font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.25em;color:var(--gold);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border-gold)">⚔ ATTRIBUTS</div>
-      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:4px">
-        <div style="text-align:center"><div style="font-size:0.75rem">⚔️</div><div style="font-family:'Cinzel',serif;font-size:0.38rem;color:var(--text-dim)">FOR</div><div style="font-size:0.78rem;font-weight:700;color:var(--gold-light)" id="s-str">12</div></div>
-        <div style="text-align:center"><div style="font-size:0.75rem">🌬️</div><div style="font-family:'Cinzel',serif;font-size:0.38rem;color:var(--text-dim)">AGI</div><div style="font-size:0.78rem;font-weight:700;color:var(--gold-light)" id="s-agi">10</div></div>
-        <div style="text-align:center"><div style="font-size:0.75rem">📖</div><div style="font-family:'Cinzel',serif;font-size:0.38rem;color:var(--text-dim)">ARC</div><div style="font-size:0.78rem;font-weight:700;color:var(--gold-light)" id="s-arc">14</div></div>
-        <div style="text-align:center"><div style="font-size:0.75rem">🛡️</div><div style="font-family:'Cinzel',serif;font-size:0.38rem;color:var(--text-dim)">RÉS</div><div style="font-size:0.78rem;font-weight:700;color:var(--gold-light)" id="s-res">9</div></div>
-        <div style="text-align:center"><div style="font-size:0.75rem">🌹</div><div style="font-family:'Cinzel',serif;font-size:0.38rem;color:var(--text-dim)">CHA</div><div style="font-size:0.78rem;font-weight:700;color:var(--gold-light)" id="s-cha">11</div></div>
-        <div style="text-align:center"><div style="font-size:0.75rem">✨</div><div style="font-family:'Cinzel',serif;font-size:0.38rem;color:var(--text-dim)">DUA</div><div style="font-size:0.78rem;font-weight:700;color:var(--gold-light)" id="s-dual">8</div></div>
+      <div style="font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.25em;color:var(--gold);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border-gold)"><svg class="ico" aria-hidden="true"><use href="#i-swords"/></svg> Attributs</div>
+      <div class="attr6">
+        <div><svg class="ico" aria-hidden="true"><use href="#i-sword"/></svg><div class="a-n">FOR</div><div class="a-v" id="s-str">12</div></div>
+        <div><svg class="ico" aria-hidden="true"><use href="#i-wind"/></svg><div class="a-n">AGI</div><div class="a-v" id="s-agi">10</div></div>
+        <div><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg><div class="a-n">ARC</div><div class="a-v" id="s-arc">14</div></div>
+        <div><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg><div class="a-n">RÉS</div><div class="a-v" id="s-res">9</div></div>
+        <div><svg class="ico" aria-hidden="true"><use href="#i-rose"/></svg><div class="a-n">CHA</div><div class="a-v" id="s-cha">11</div></div>
+        <div><svg class="ico" aria-hidden="true"><use href="#i-dual"/></svg><div class="a-n">DUA</div><div class="a-v" id="s-dual">8</div></div>
       </div>
     </div>
 
     <!-- COMPÉTENCES -->
     <div class="card" style="padding:7px 10px">
-      <div style="font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.25em;color:var(--gold);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border-gold)">✦ COMPÉTENCES</div>
+      <div style="font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.25em;color:var(--gold);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--border-gold)"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg> Compétences</div>
       <div class="skill-list" id="skill-list"></div>
     </div>
 
     <!-- SORT DE DUALITÉ -->
     <div class="card" style="padding:7px 10px">
-      <div style="font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.25em;color:var(--gold);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border-gold)">🌗 SORT DE DUALITÉ</div>
+      <div style="font-family:'Cinzel',serif;font-size:0.48rem;letter-spacing:0.25em;color:var(--gold);margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border-gold)"><svg class="ico" aria-hidden="true"><use href="#i-dual"/></svg> Sort de Dualité</div>
       <div id="duality-spell-container"></div>
     </div>
 
@@ -2323,19 +2900,19 @@ html, body {
   <!-- PAGE: INVENTORY -->
   <div class="page" id="page-inv">
     <div class="card">
-      <div class="card-title">🎒 Équipement & Objets</div>
+      <div class="card-title"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg> Équipement &amp; Objets</div>
       <div class="inv-grid" id="inv-grid">
         <!-- Dynamically populated by updateInventoryUI() -->
       </div>
     </div>
 
     <div class="gold-card">
-      <div class="gold-icon">🪙</div>
+      <div class="gold-icon"><svg class="ico" aria-hidden="true"><use href="#i-coin"/></svg></div>
       <div><div class="gold-lbl">ÂME-OR</div><div class="gold-val" id="gold-display">250</div></div>
     </div>
 
     <div class="location-card" style="display:none">
-      <div class="loc-name">🗺️ <span>Carrefour des Âmes</span></div>
+      <div class="loc-name"><svg class="ico" aria-hidden="true"><use href="#i-map"/></svg> <span>Carrefour des Âmes</span></div>
       <div class="loc-desc">Un nexus entre les deux royaumes. Les voiles du réel sont minces ici. Des silhouettes spectrales errent dans la brume liminale.</div>
     </div>
 
@@ -2345,11 +2922,11 @@ html, body {
   <div class="page" id="page-quests">
 
     <div class="card">
-      <div class="card-title">📜 Quêtes Actives</div>
+      <div class="card-title"><svg class="ico" aria-hidden="true"><use href="#i-scroll"/></svg> Quêtes Actives</div>
       <div style="display:flex;flex-direction:column;gap:10px">
         <div class="quest-card">
           <div style="display:flex;align-items:center;gap:6px">
-            <span class="quest-star">⭐</span>
+            <span class="quest-star"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg></span>
             <span class="quest-title">La Faille du Sanctuaire</span>
           </div>
           <div class="quest-desc">Découvrez l'origine de la brèche entre les deux royaumes célestes et infernaux.</div>
@@ -2358,7 +2935,7 @@ html, body {
         </div>
         <div class="quest-card">
           <div style="display:flex;align-items:center;gap:6px">
-            <span class="quest-star">◈</span>
+            <span class="quest-star"><svg class="ico" aria-hidden="true"><use href="#i-sigil"/></svg></span>
             <span class="quest-title">L'Identité Liminale</span>
           </div>
           <div class="quest-desc">Comprendre votre double nature en faisant des choix moraux cruciaux.</div>
@@ -2369,7 +2946,7 @@ html, body {
     </div>
 
     <div class="location-card">
-      <div class="loc-name">🗺️ <span id="loc-name-display-q">Carrefour des Âmes</span></div>
+      <div class="loc-name"><svg class="ico" aria-hidden="true"><use href="#i-map"/></svg> <span id="loc-name-display-q">Carrefour des Âmes</span></div>
       <div class="loc-desc">Un nexus entre les deux royaumes. Les voiles du réel sont minces ici. Des silhouettes spectrales errent dans la brume liminale.</div>
     </div>
 
@@ -2421,19 +2998,19 @@ html, body {
 <!-- ===== TAB BAR ===== -->
 <div id="tab-bar">
   <button class="tab-btn active" onclick="switchTab('story',this)" id="tab-story">
-    <span class="tab-icon">📖</span>
+    <span class="tab-icon"><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg></span>
     <span class="tab-label">Histoire</span>
   </button>
   <button class="tab-btn" onclick="switchTab('char',this)" id="tab-char">
-    <span class="tab-icon">⚔️</span>
+    <span class="tab-icon"><svg class="ico" aria-hidden="true"><use href="#i-swords"/></svg></span>
     <span class="tab-label">Perso</span>
   </button>
   <button class="tab-btn" onclick="switchTab('inv',this)" id="tab-inv">
-    <span class="tab-icon">🎒</span>
+    <span class="tab-icon"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg></span>
     <span class="tab-label">Sac</span>
   </button>
   <button class="tab-btn" onclick="switchTab('quests',this)" id="tab-quests">
-    <span class="tab-icon">📜</span>
+    <span class="tab-icon"><svg class="ico" aria-hidden="true"><use href="#i-scroll"/></svg></span>
     <span class="tab-label">Quêtes</span>
   </button>
 </div>
@@ -3029,14 +3606,18 @@ function switchTab(name, btn) {
 }
 
 // ===== NARRATIVE =====
+// Lettrine gothique sur la première lettre du récit du Narrateur
+function addLettrine(html) {
+  return String(html).replace(/^((?:\s|<br\s*\/?>)*)([A-Za-zÀ-ÖØ-öø-ÿŒœ])/, '$1<span class="lettrine">$2</span>');
+}
 function appendBubble(role, html) {
   const narr = document.getElementById('narrative');
   const div = document.createElement('div');
   div.className = `narr-msg ${role}`;
   if (role === 'ai') {
-    div.innerHTML = `<div class="narr-av">⚜️</div><div class="narr-bubble"><span class="narr-lbl">Le Narrateur</span>${html}</div>`;
+    div.innerHTML = `<div class="narr-av"><svg class="ico" viewBox="0 0 120 64" aria-hidden="true"><use href="#i-emblem"/></svg></div><div class="narr-bubble"><span class="narr-lbl">Le Narrateur</span>${addLettrine(html)}</div>`;
   } else {
-    div.innerHTML = `<div class="narr-av">🧍</div><div class="narr-bubble">${html}</div>`;
+    div.innerHTML = `<div class="narr-av"><svg class="ico" aria-hidden="true"><use href="#i-hood"/></svg></div><div class="narr-bubble">${html}</div>`;
   }
   narr.appendChild(div);
   narr.scrollTop = narr.scrollHeight;
@@ -3064,7 +3645,7 @@ function showTyping() {
   const narr = document.getElementById('narrative');
   const div = document.createElement('div');
   div.id = 'typing-msg'; div.className = 'narr-msg ai';
-  div.innerHTML = `<div class="narr-av">⚜️</div><div class="narr-bubble"><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  div.innerHTML = `<div class="narr-av"><svg class="ico" viewBox="0 0 120 64" aria-hidden="true"><use href="#i-emblem"/></svg></div><div class="narr-bubble"><div class="typing-dots"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
   narr.appendChild(div);
   narr.scrollTop = narr.scrollHeight;
 }
@@ -3087,7 +3668,7 @@ function startGame() {
 // lui-même le modèle selon le « tier » demandé.
 // (Fonctionne aussi avec Ollama en local : 'http://localhost:11434/v1/chat/completions'
 //  → dans ce cas pas de code ni de quota, et NARRATOR_MODEL / SMALL_MODEL = noms de tes modèles.)
-const NARRATOR_URL   = 'https://liminal-voile.fictiph.workers.dev/';
+const NARRATOR_URL   = 'https://liminal-narrateur.fictiph.workers.dev';
 const NARRATOR_MODEL = 'llama-3.3-70b-versatile';   // narration : quota partagé, protégé
 const SMALL_MODEL    = 'llama-3.1-8b-instant';      // tâches secondaires : objets, chronique
 const TURNS_PER_CHAPTER = 6;                        // 1 chapitre = 1 épisode = 6 tours
@@ -3352,11 +3933,15 @@ function renderNarration(raw) {
     .replace(/\[STAT:[^\]]*\]/g, '')
     .replace(/\[VOIX\s+(ANGE|D[ÉE]MON)\s*:\s*([^\]]+)\]/gi, (_, who, t) => {
       const angel = /ANGE/i.test(who);
-      return `<span class="voice ${angel ? 'voice-angel' : 'voice-demon'}">${angel ? '🕊️' : '🔥'} ${t.trim().replace(/^["«]\s*|\s*["»]$/g, '')}</span>`;
+      return `<span class="voice ${angel ? 'voice-angel' : 'voice-demon'}">${angel ? '<svg class="ico" aria-hidden="true"><use href="#i-feather"/></svg>' : '<svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg>'} ${t.trim().replace(/^["«]\s*|\s*["»]$/g, '')}</span>`;
     })
-    .replace(/\[CHOIX (\d):\s*([^\]]+)\]/g, (_, n, t) => `<br><br><strong>▸ Choix ${n} :</strong> <em>${t.trim()}</em>`)
+    .replace(/\[CHOIX (\d):\s*([^\]]+)\]/g, (_, n, t) => `<span class="choice"><span class="choice-n">Choix ${n}</span><em>${t.trim()}</em></span>`)
     .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
-    .replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+    .replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>')
+    // les blocs (voix, choix) n'ont pas besoin de sauts de ligne autour
+    .replace(/(?:<br>\s*)+(<span class="(?:voice|choice))/g, '$1')
+    .replace(/(<span class="(?:voice|choice)[^"]*">(?:(?!<span class="(?:voice|choice)).)*?<\/span>(?:<\/span>)?)(?:\s*<br>)+/g, '$1')
+    .replace(/(?:<br>\s*)+$/, '');
 }
 
 // ===== AI CALL =====
