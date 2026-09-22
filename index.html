@@ -2461,6 +2461,372 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, .class-card:f
   .tab-btn::before, .tab-btn::after, .tab-icon, .class-icon { transition: none; }
 }
 /* FIN REFONTE VISUELLE */
+
+/* ═══════════════════════════════════════════════════════════════
+   CALQUE II — « NUIT DU CARREFOUR »
+   Le cuir brun laisse place à la pierre d'obsidienne, au verre
+   de vitrail et à la couture d'or entre Ciel et Abîme.
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --night-0: #07060d;     /* fond absolu */
+  --night-1: #0d0b16;     /* fond de page */
+  --stone-1: #201c33;     /* haut de dalle */
+  --stone-2: #171327;
+  --stone-3: #100d1c;     /* bas de dalle */
+  --soul: #9a7ed8;        /* violet des âmes */
+  --soul-deep: #4a3577;
+  --sky: #cfe6f7;
+  --sky-mid: #7fb6e2;
+  --sky-deep: #2f6795;
+  --ember: #e86a42;
+  --ember-mid: #c4431f;
+  --ember-deep: #6b1408;
+  --gilt: #e0bd68;
+  --gilt-hi: #fbeec2;
+  --gilt-lo: #8b6a20;
+  --ink-warm: #e6dcf2;
+  --ink-sepia: #b4a8cc;   /* texte secondaire : lavande cendrée */
+  --ink-faint: #8d82a8;
+  --edge: rgba(224,189,104,.30);
+  --edge-soft: rgba(224,189,104,.14);
+  --stone: linear-gradient(165deg, var(--stone-1) 0%, var(--stone-2) 45%, var(--stone-3) 100%);
+  --stone-sheen: radial-gradient(ellipse at 12% -10%, rgba(154,126,216,.16), transparent 58%);
+  --veil: radial-gradient(ellipse at 50% 120%, rgba(232,106,66,.10), transparent 60%);
+}
+
+html, body { background: var(--night-0); color: var(--ink-warm); }
+body::before { opacity: .05; }
+
+/* Voile de fond : lumière froide en haut, braise en bas */
+body::after {
+  content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 45% at 50% -10%, rgba(127,182,226,.10), transparent 70%),
+    radial-gradient(ellipse 80% 45% at 50% 110%, rgba(196,67,31,.12), transparent 70%),
+    linear-gradient(180deg, #0a0912 0%, #0b0a14 45%, #0c0810 100%);
+}
+
+/* ─────────── Dalles gravées (cartes) ─────────── */
+#page-char .card, #page-inv .card, #page-quests .card, #page-save .card,
+#page-inv .gold-card, #page-quests .location-card, #page-inv .location-card {
+  background:
+    var(--orn) left 5px top 5px / 18px 18px no-repeat,
+    var(--orn) right 5px bottom 5px / 18px 18px no-repeat,
+    var(--grain) repeat,
+    var(--stone-sheen),
+    var(--stone) !important;
+  border: 1px solid var(--edge) !important;
+  border-top-color: rgba(224,189,104,.45) !important;
+  box-shadow: inset 0 1px 0 rgba(255,235,190,.07), inset 0 -18px 30px rgba(0,0,0,.35), 0 3px 14px rgba(0,0,0,.55) !important;
+}
+#page-char, #page-inv, #page-quests, #page-save {
+  background:
+    radial-gradient(ellipse at 18% 4%, rgba(127,182,226,.09), transparent 45%),
+    radial-gradient(ellipse at 84% 96%, rgba(196,67,31,.10), transparent 45%),
+    linear-gradient(175deg, #100e1b 0%, #0b0913 55%, #090710 100%) !important;
+}
+
+/* ─────────── Bandeau d'histoire & saisie ─────────── */
+#story-context-bar, #input-zone {
+  background:
+    var(--grain) repeat,
+    linear-gradient(180deg, #1b1730 0%, #120f20 55%, #0c0a15 100%) !important;
+  border-color: var(--edge) !important;
+}
+#story-context-bar { border-bottom: 1px solid var(--edge); box-shadow: inset 0 1px 0 rgba(255,235,190,.06), 0 4px 18px rgba(0,0,0,.6); }
+#input-zone { border-top: 1px solid var(--edge); box-shadow: inset 0 2px 10px rgba(0,0,0,.45), 0 -2px 12px rgba(0,0,0,.4); }
+#story-ctx-class, #story-ctx-quest, #meter-chapter, #meter-quota { color: #b49ad8; }
+#player-input {
+  background: var(--grain) repeat, rgba(8,7,14,.6) !important;
+  border-color: var(--edge) !important; color: var(--ink-warm) !important;
+}
+#player-input::placeholder { color: #7a6f96; }
+.qbtn {
+  background: linear-gradient(180deg, rgba(154,126,216,.12), rgba(8,7,14,.5)) !important;
+  border-color: rgba(224,189,104,.28) !important; color: #e8d49a !important;
+}
+.qbtn:active { background: rgba(224,189,104,.16) !important; }
+#send-btn {
+  background: linear-gradient(180deg, #2a2340, #14101f) !important;
+  border-color: var(--edge) !important;
+}
+
+/* ─────────── Barre d'onglets : cinq arcades ─────────── */
+#tab-bar {
+  grid-template-columns: repeat(5, 1fr);
+  background: var(--grain) repeat, linear-gradient(180deg, #1b1730 0%, #0b0913 100%) !important;
+  border-top: 1px solid var(--edge) !important;
+}
+.tab-btn { color: #7c6fa0; }
+.tab-label { font-size: 0.5rem; letter-spacing: .1em; }
+.tab-btn::before { width: 52px; }
+@media (min-width: 600px) { .tab-label { font-size: 0.56rem; letter-spacing: .16em; } .tab-btn::before { width: 74px; } }
+
+/* ─────────── Narration ─────────── */
+.narr-msg.ai .narr-bubble {
+  background:
+    var(--orn) right 6px top 6px / 16px 16px no-repeat,
+    var(--orn) left 6px bottom 6px / 16px 16px no-repeat,
+    var(--grain) repeat,
+    radial-gradient(ellipse at 18% -10%, rgba(154,126,216,.20), transparent 60%),
+    linear-gradient(160deg, #241f3c 0%, #1a1630 45%, #120f22 100%) !important;
+  border: 1px solid var(--edge) !important;
+  border-top-color: rgba(224,189,104,.5) !important;
+  color: #e9e1f6 !important;
+  box-shadow: inset 0 1px 0 rgba(255,235,190,.07), inset 0 -20px 30px rgba(0,0,0,.3), 0 3px 14px rgba(0,0,0,.5) !important;
+}
+#typing-msg .narr-bubble { background: var(--grain) repeat, linear-gradient(160deg, #241f3c, #141122) !important; }
+#page-story[data-tone="angel"] .narr-msg.ai .narr-bubble { box-shadow: inset 0 1px 0 rgba(200,230,255,.10), 0 0 22px rgba(127,182,226,.14), 0 3px 14px rgba(0,0,0,.5) !important; border-top-color: rgba(127,182,226,.6) !important; }
+#page-story[data-tone="demon"] .narr-msg.ai .narr-bubble { box-shadow: inset 0 1px 0 rgba(255,200,170,.10), 0 0 22px rgba(196,67,31,.16), 0 3px 14px rgba(0,0,0,.5) !important; border-top-color: rgba(232,106,66,.6) !important; }
+.narr-av { background: radial-gradient(circle at 50% 35%, #2a2340, #0c0a15 75%) !important; }
+.narr-msg.user .narr-av { background: radial-gradient(circle at 50% 35%, #1b2b40, #070b12 75%) !important; }
+.lettrine {
+  background: radial-gradient(circle at 50% 40%, rgba(154,126,216,.5), transparent 70%), linear-gradient(160deg, #3a2360, #170e28) !important;
+  color: #fdf3d4;
+}
+#page-story[data-tone="demon"] .lettrine { background: radial-gradient(circle at 50% 40%, rgba(232,106,66,.45), transparent 70%), linear-gradient(160deg, #57190f, #24080a) !important; }
+.choice { background: linear-gradient(90deg, rgba(154,126,216,.10), rgba(0,0,0,.18)) !important; border-color: rgba(224,189,104,.26) !important; }
+.event-banner { background: linear-gradient(135deg, #2a1f48, #150e26) , linear-gradient(180deg, rgba(224,189,104,.6), rgba(224,189,104,.6)) top / 100% 1px no-repeat, linear-gradient(180deg, rgba(224,189,104,.6), rgba(224,189,104,.6)) bottom / 100% 1px no-repeat; }
+.event-banner.chapter-banner { background: radial-gradient(ellipse at 50% 50%, rgba(154,126,216,.30), transparent 70%), linear-gradient(135deg, #2a1f48, #140d24), linear-gradient(180deg, rgba(224,189,104,.7), rgba(224,189,104,.7)) top / 100% 1px no-repeat, linear-gradient(180deg, rgba(224,189,104,.7), rgba(224,189,104,.7)) bottom / 100% 1px no-repeat; }
+.narr-msg.user .narr-bubble { background: radial-gradient(ellipse at 100% 0%, rgba(127,182,226,.16), transparent 60%), linear-gradient(160deg, #16233a 0%, #0d1526 60%, #0a0f1c 100%) !important; }
+.veil-closed { background: radial-gradient(ellipse at 50% 0%, #241f3c 0%, #0b0913 80%) !important; border-color: var(--edge) !important; }
+
+/* ─────────── Perso : sceaux et reliquaires ─────────── */
+.hero-medal { background: radial-gradient(circle at 50% 35%, #2c2448, #0b0913 75%) !important; }
+.attr6 > div { background: linear-gradient(180deg, rgba(154,126,216,.14), rgba(0,0,0,.35)); border-color: var(--edge-soft); }
+.vit-track, #page-quests .quest-track, .duo-track { border-color: rgba(224,189,104,.22); background: rgba(6,5,12,.7); }
+#page-char .skill-card, #page-quests .quest-card {
+  background: linear-gradient(90deg, rgba(154,126,216,.10), rgba(8,7,14,.35)) !important;
+  border-color: var(--edge-soft) !important;
+}
+#page-char .skill-desc, #page-quests .quest-desc, .dsc-desc, .item-sheet-desc,
+#page-quests .loc-desc, #page-inv .loc-desc, .restore-info, .save-slot-meta { color: var(--ink-sepia) !important; }
+.skill-icon, .inv-icon, .dsc-icon, .item-sheet-icon, .loot-banner-icon, .gold-icon {
+  background: radial-gradient(circle at 50% 35%, rgba(224,189,104,.18), rgba(10,8,18,.72) 70%) !important;
+  color: var(--gilt-hi);
+  filter: none !important;
+}
+.skill-icon .ico { width: 19px; height: 19px; }
+.inv-icon .ico { width: 27px; height: 27px; }
+.dsc-icon .ico { width: 25px; height: 25px; }
+.item-sheet-icon .ico { width: 34px; height: 34px; }
+.gold-icon .ico { width: 26px; height: 26px; }
+.loot-banner-icon .ico { width: 22px; height: 22px; }
+.lp-pillar-ico .ico { width: 22px; height: 22px; }
+#page-inv .inv-slot {
+  background: radial-gradient(ellipse at 50% 15%, rgba(154,126,216,.16), transparent 62%), linear-gradient(180deg, rgba(32,28,51,.85), rgba(10,8,18,.9)) !important;
+  border-color: var(--edge-soft) !important;
+}
+#page-inv .inv-slot.equipped .inv-icon { border-color: rgba(127,182,226,.6) !important; background: radial-gradient(circle at 50% 35%, rgba(127,182,226,.22), rgba(10,8,18,.72) 70%) !important; color: var(--sky); }
+#page-inv .inv-slot.cursed .inv-icon { border-color: rgba(232,106,66,.6) !important; background: radial-gradient(circle at 50% 35%, rgba(232,106,66,.22), rgba(10,8,18,.72) 70%) !important; color: #f0a184; }
+.duality-spell-card { background: linear-gradient(160deg, rgba(36,31,60,.9), rgba(12,10,21,.9)) !important; }
+#page-char .duality-spell-card.dsc-angel { border-color: rgba(127,182,226,.5) !important; background: radial-gradient(ellipse at 0% 0%, rgba(127,182,226,.16), transparent 60%), linear-gradient(160deg, #18263c, #0b1120) !important; }
+#page-char .duality-spell-card.dsc-demon { border-color: rgba(232,106,66,.5) !important; background: radial-gradient(ellipse at 0% 0%, rgba(232,106,66,.16), transparent 60%), linear-gradient(160deg, #331410, #150809) !important; }
+#page-char .duality-spell-card.dsc-neutral { border-color: var(--edge) !important; background: radial-gradient(ellipse at 0% 0%, rgba(154,126,216,.18), transparent 60%), linear-gradient(160deg, #241f3c, #110e1e) !important; }
+.dsc-angel .dsc-name { color: var(--sky) !important; }
+.dsc-demon .dsc-name { color: #f0a184 !important; }
+.tag-cost { background: rgba(20,40,70,.5); border-color: rgba(127,182,226,.4); color: var(--sky); }
+.tag-effect { background: rgba(30,50,30,.45); border-color: rgba(120,180,120,.35); color: #9fd8a0; }
+.power-magic { background: rgba(20,40,70,.5); border-color: rgba(127,182,226,.4); color: var(--sky); }
+.power-curse { background: rgba(60,20,12,.5); border-color: rgba(232,106,66,.4); color: #f0a184; }
+.power-stat { background: rgba(30,50,30,.45); border-color: rgba(120,180,120,.35); color: #9fd8a0; }
+.power-neutral { background: rgba(40,34,66,.6); border-color: var(--edge); color: var(--gilt); }
+#page-inv .gold-val, #page-char #ch-name, .item-sheet-title { color: var(--gilt-hi) !important; }
+
+/* ─────────── Feuillets & sauvegarde ─────────── */
+.item-sheet, .save-sheet {
+  background:
+    var(--orn) left 10px top 10px / 20px 20px no-repeat,
+    var(--grain) repeat,
+    radial-gradient(ellipse at 50% 0%, rgba(154,126,216,.22), transparent 55%),
+    linear-gradient(180deg, #221d39, #100d1c 70%, #0a0812) !important;
+  border-color: var(--edge) !important;
+}
+.save-slot { background: linear-gradient(90deg, rgba(154,126,216,.10), rgba(8,7,14,.4)) !important; border-color: var(--edge-soft) !important; }
+.save-slot.has-data { border-color: var(--edge) !important; }
+.save-slot-num { background: radial-gradient(circle at 50% 35%, rgba(224,189,104,.14), rgba(8,7,14,.5)); color: #7c6fa0; }
+.ia-use { background: rgba(20,45,28,.55); border-color: rgba(120,180,120,.45); color: #9fd8a0; }
+.ia-equip { background: rgba(20,40,70,.55); border-color: rgba(127,182,226,.5); color: var(--sky); }
+.ia-upgrade { background: rgba(48,38,14,.55); border-color: var(--edge); color: var(--gilt); }
+.ia-drop { background: rgba(60,20,12,.45); border-color: rgba(232,106,66,.4); color: #e0806a; }
+#save-toast { background: linear-gradient(180deg, #241f3c, #0c0a15); }
+
+/* Page Sauvegarde (onglet Plume) */
+#page-save .card { padding: 14px !important; }
+#page-save .save-slots { margin-bottom: 12px; }
+#page-save .save-io-row { gap: 10px; }
+#page-save .save-autosave { margin-top: 12px; }
+.save-hint {
+  font-family: 'Crimson Pro', serif; font-style: italic; font-size: 0.86rem;
+  color: var(--ink-sepia); text-align: center; margin: -2px 0 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LE SEUIL — écran d'accueil & création (plus de livre de cuir)
+═══════════════════════════════════════════════════════════════ */
+#login-screen, #start-screen {
+  background:
+    radial-gradient(ellipse 70% 40% at 50% -5%, rgba(127,182,226,.12), transparent 70%),
+    radial-gradient(ellipse 70% 45% at 50% 105%, rgba(196,67,31,.16), transparent 70%),
+    linear-gradient(180deg, #0a0a14 0%, #0b0913 45%, #120a10 100%) !important;
+}
+
+/* La dalle de seuil remplace la couverture en cuir */
+#login-book, #book-cover {
+  background:
+    var(--grain) repeat,
+    radial-gradient(ellipse at 50% -8%, rgba(154,126,216,.22), transparent 60%),
+    radial-gradient(ellipse at 50% 108%, rgba(196,67,31,.16), transparent 60%),
+    linear-gradient(170deg, rgba(34,29,57,.94) 0%, rgba(20,16,36,.95) 45%, rgba(10,8,18,.96) 100%) !important;
+  border: 1px solid var(--edge) !important;
+  border-top: 1px solid rgba(224,189,104,.55) !important;
+  border-radius: 40% 40% 6px 6px / 70px 70px 6px 6px !important;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.6),
+    0 0 40px rgba(154,126,216,.18),
+    0 20px 60px rgba(0,0,0,.8),
+    inset 0 1px 0 rgba(255,235,190,.12),
+    inset 0 -40px 60px rgba(0,0,0,.45) !important;
+  backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  overflow: hidden !important;
+}
+#login-book::before, #login-book::after, #book-cover::before, #book-cover::after { display: none !important; }
+.login-border, .cover-border { inset: 9px !important; border-color: var(--edge-soft) !important; border-radius: 38% 38% 3px 3px / 62px 62px 3px 3px !important; }
+.login-border::before, .cover-border::before { border-color: rgba(224,189,104,.10) !important; border-radius: 36% 36% 2px 2px / 56px 56px 2px 2px !important; }
+.login-corner.tl, .cover-corner.tl { top: 58px; left: 12px; }
+.login-corner.tr, .cover-corner.tr { top: 58px; right: 12px; }
+#login-inner, #book-inner { padding-top: 26px; }
+#login-screen .login-corner.bl, #login-screen .login-corner.br { display: none; }
+#login-inner { padding-bottom: 26px; }
+
+/* Titre & sceau */
+.login-seal { margin-bottom: 6px; }
+.login-emblem { height: clamp(40px, 7vh, 62px); }
+.login-title, .cover-title { letter-spacing: .22em; }
+.login-subtitle, .cover-subtitle { color: #b49ad8 !important; letter-spacing: .42em; }
+.login-rule-line, .cover-rule-line, .ctx-rule-line, .book-divider {
+  background: linear-gradient(90deg, transparent, rgba(224,189,104,.35), rgba(224,189,104,.7), rgba(224,189,104,.35), transparent) !important;
+}
+.login-lore, .start-lore { color: var(--ink-sepia) !important; }
+.login-lore strong, .start-lore strong { color: var(--gilt-hi) !important; }
+
+/* ── Accueil : présentation du jeu ── */
+#login-inner { gap: 0; text-align: center; }
+.lp-hero { width: 100%; display: flex; flex-direction: column; align-items: center; }
+.lp-tagline {
+  font-family: 'Cinzel', serif; font-size: 0.58rem; letter-spacing: .26em;
+  text-transform: uppercase; color: var(--gilt); margin-top: 8px;
+}
+.lp-section-title {
+  font-family: 'Cinzel', serif; font-size: 0.56rem; letter-spacing: .32em;
+  text-transform: uppercase; color: #9a8ab8;
+  display: flex; align-items: center; gap: 10px; width: 100%; margin: 16px 0 10px;
+}
+.lp-section-title::before, .lp-section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(224,189,104,.45)); }
+.lp-section-title::after { background: linear-gradient(90deg, rgba(224,189,104,.45), transparent); }
+.lp-pillars { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.lp-pillar {
+  display: flex; align-items: flex-start; gap: 12px; text-align: left;
+  padding: 12px 14px; border: 1px solid var(--edge-soft); border-radius: 3px;
+  background: linear-gradient(120deg, rgba(154,126,216,.10), rgba(8,7,14,.35));
+}
+.lp-pillar-ico {
+  width: 38px; height: 38px; flex-shrink: 0; display: grid; place-items: center;
+  border-radius: 50%; border: 1px solid var(--edge); color: var(--gilt);
+  background: radial-gradient(circle at 50% 35%, rgba(224,189,104,.18), rgba(8,7,14,.6) 70%);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.4), 0 0 0 3px rgba(224,189,104,.12);
+}
+.lp-pillar-ico .ico { width: 22px; height: 22px; }
+.lp-pillar h3 { font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 600; letter-spacing: .08em; color: var(--gilt-hi); }
+.lp-pillar p { font-size: 0.88rem; line-height: 1.5; color: var(--ink-sepia); margin-top: 3px; }
+.lp-pillar.angel .lp-pillar-ico { border-color: rgba(127,182,226,.45); color: var(--sky); background: radial-gradient(circle at 50% 35%, rgba(127,182,226,.2), rgba(8,7,14,.6) 70%); }
+.lp-pillar.demon .lp-pillar-ico { border-color: rgba(232,106,66,.45); color: #f0a184; background: radial-gradient(circle at 50% 35%, rgba(232,106,66,.2), rgba(8,7,14,.6) 70%); }
+.lp-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+.lp-step { text-align: center; padding: 10px 6px; border: 1px solid var(--edge-soft); border-radius: 30% 30% 3px 3px / 16px 16px 3px 3px; background: linear-gradient(180deg, rgba(154,126,216,.10), rgba(0,0,0,.3)); }
+.lp-step-n { font-family: 'Cinzel Decorative', serif; font-size: 0.95rem; color: var(--gilt); }
+.lp-step p { font-size: 0.76rem; line-height: 1.35; color: var(--ink-sepia); margin-top: 3px; }
+.lp-cta { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 16px; }
+.lp-platforms { font-family: 'Cinzel', serif; font-size: 0.5rem; letter-spacing: .2em; color: #7c6fa0; text-transform: uppercase; margin-top: 10px; }
+#invite-field { margin: 4px 0 6px; }
+#invite-input {
+  background: rgba(6,5,12,.7) !important; border-color: var(--edge) !important;
+  color: var(--gilt-hi) !important;
+}
+#enter-btn {
+  background: var(--grain) repeat, linear-gradient(170deg, #35294f 0%, #241c3c 45%, #171129 100%) !important;
+  border: 1px solid var(--edge) !important;
+  border-top-color: rgba(224,189,104,.7) !important;
+  border-radius: 24px 24px 3px 3px / 16px 16px 3px 3px !important;
+}
+#enter-btn:hover { box-shadow: 0 0 22px rgba(154,126,216,.3), inset 0 1px 0 rgba(255,235,190,.12) !important; }
+
+/* ── Création : l'autel du Seuil ── */
+#start-screen { padding: 14px 16px !important; }
+#book-cover { max-width: 420px; }
+.start-lore { font-size: 0.9rem; }
+.field-lbl { color: #9a8ab8 !important; }
+#char-name-input {
+  background: rgba(6,5,12,.55) !important;
+  border-bottom-color: var(--edge) !important;
+  color: var(--gilt-hi) !important;
+}
+.class-card {
+  background:
+    radial-gradient(ellipse at 50% 15%, rgba(var(--acc), .16), transparent 62%),
+    linear-gradient(180deg, rgba(32,28,51,.8), rgba(8,7,14,.7)) !important;
+}
+#start-btn {
+  background: linear-gradient(170deg, #35294f 0%, #241c3c 45%, #171129 100%) !important;
+  border: 1px solid var(--edge) !important; border-top-color: rgba(224,189,104,.7) !important;
+  border-radius: 20px 20px 3px 3px / 14px 14px 3px 3px !important;
+}
+#restore-prompt { background: linear-gradient(180deg, rgba(154,126,216,.12), rgba(8,7,14,.45)) !important; border-color: var(--edge) !important; border-radius: 3px !important; }
+.btn-restore { background: rgba(224,189,104,.12); border-color: var(--edge); color: var(--gilt-hi); }
+.btn-new { background: rgba(196,67,31,.14); border-color: rgba(232,106,66,.4); color: #f0a184; }
+
+/* Décor : la Faille reste la couture d'or entre les deux royaumes */
+.ld-mist { background: linear-gradient(0deg, rgba(150,30,14,.22) 0%, transparent 34%), linear-gradient(180deg, rgba(190,210,245,.08) 0%, transparent 24%) !important; }
+
+/* ─────────── Confort sur grand écran ─────────── */
+@media (min-width: 900px) {
+  #narrative, #input-zone > .quick-btns, #input-zone > .input-row { max-width: 920px; margin-left: auto; margin-right: auto; width: 100%; }
+  #page-char > *, #page-inv > *, #page-quests > *, #page-save > * { max-width: 880px; width: 100%; margin-left: auto; margin-right: auto; }
+  #login-book { max-width: min(880px, 84vw) !important; }
+  #login-screen { --book-half: min(452px, 44vw); }
+  #login-inner { padding-left: clamp(24px, 4vw, 54px); padding-right: clamp(24px, 4vw, 54px); }
+  .lp-pillar { padding: 16px 14px; }
+  .lp-step { padding: 14px 10px; }
+  .login-lore { max-width: 680px; }
+  #login-book, #book-cover { border-radius: 34% 34% 8px 8px / 90px 90px 8px 8px !important; }
+  #book-cover { max-width: 760px; }
+  .lp-pillars { flex-direction: row; }
+  .lp-pillar { flex-direction: column; align-items: center; text-align: center; flex: 1; }
+  .lp-pillar p { font-size: 0.84rem; }
+  .login-corner.tl, .cover-corner.tl { top: 74px; left: 18px; }
+  .login-corner.tr, .cover-corner.tr { top: 74px; right: 18px; }
+}
+@media (max-width: 380px) {
+  .lp-steps { grid-template-columns: 1fr; }
+  .lp-step { border-radius: 3px; display: flex; align-items: baseline; gap: 10px; text-align: left; }
+}
+/* Accueil : tenir dans une fenêtre basse sans perdre le souffle */
+@media (min-width: 900px) and (max-height: 920px) {
+  .login-emblem { height: 44px; }
+  .login-lore { font-size: 0.86rem; line-height: 1.5; }
+  .lp-section-title { margin: 10px 0 8px; }
+  .lp-pillar { padding: 11px 12px; }
+  .lp-pillar p { font-size: 0.79rem; line-height: 1.4; }
+  .lp-pillar h3 { font-size: 0.68rem; }
+  .lp-pillar-ico { width: 32px; height: 32px; }
+  .lp-pillar-ico .ico { width: 18px; height: 18px; }
+  .lp-step { padding: 8px 8px; }
+  .lp-step p { font-size: 0.72rem; }
+  .lp-cta { margin-top: 10px; }
+  .login-rule { margin: 8px 0 !important; }
+  #login-inner { padding-top: 18px; padding-bottom: 18px; }
+}
+/* FIN CALQUE II */
+
 </style>
 </head>
 <body>
@@ -2496,6 +2862,44 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, .class-card:f
   <symbol id="i-map" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 6.2 9 4l6 2.2L21 4v13.8L15 20l-6-2.2L3 20z"/><path d="M9 4v13.8M15 6.2V20"/></g></symbol>
   <symbol id="i-hood" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.8c-4.2 0-6.5 3.8-6.5 8.2 0 3-1.2 5.5-2.5 7.5 3 1.8 6 2.7 9 2.7s6-.9 9-2.7c-1.3-2-2.5-4.5-2.5-7.5 0-4.4-2.3-8.2-6.5-8.2z"/><path d="M8.5 13c0-3 1.5-5 3.5-5s3.5 2 3.5 5c0 1.7-1.6 3-3.5 3s-3.5-1.3-3.5-3z" fill="currentColor" fill-opacity=".35"/><circle cx="10.6" cy="12.4" r=".7" fill="currentColor"/><circle cx="13.4" cy="12.4" r=".7" fill="currentColor"/></g></symbol>
   <symbol id="i-emblem" viewBox="0 0 120 64"><path d="M44,58 C22,58 10,40 17,12 C22,32 32,44 52,49 Z" fill="#b8452a" stroke="#e08a5a" stroke-width="1.6"/><path d="M76,58 C98,58 110,40 103,12 C98,32 88,44 68,49 Z" fill="#b8452a" stroke="#e08a5a" stroke-width="1.6"/><ellipse cx="60" cy="20" rx="27" ry="8" fill="none" stroke="#f0d890" stroke-width="4"/><path d="M60,30 L66,44 L60,58 L54,44 Z" fill="#c9a84c" stroke="#f6e9b8" stroke-width="1"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M13.5 2.5 6 13h4.5l-1 8.5L18 11h-4.5z"/><path d="M4 6.5 6 8M20 6.5 18 8"/></g></symbol>
+  <symbol id="i-chain" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2.5" y="9" width="8" height="6" rx="3"/><rect x="13.5" y="9" width="8" height="6" rx="3"/><path d="M10.5 12h3"/></g></symbol>
+  <symbol id="i-burst" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.5 13.6 8 19 6l-2.6 5L21 13.5l-5.6.8L16 20l-4-3.2L8 20l.6-5.7L3 13.5 7.6 11 5 6l5.4 2z"/><circle cx="12" cy="12" r="2.4" fill="currentColor" fill-opacity=".4"/></g></symbol>
+  <symbol id="i-spiral" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 12a2.5 2.5 0 1 1 2.5 2.5A5 5 0 0 1 9.5 9.5 7.5 7.5 0 0 1 17 2"/><path d="M12 12a2.5 2.5 0 1 0-2.5-2.5A5 5 0 0 0 14.5 14.5 7.5 7.5 0 0 0 7 22"/></g></symbol>
+  <symbol id="i-orb" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="10.5" r="7"/><path d="M12 3.5c-3 3-3 11 0 14M12 3.5c3 3 3 11 0 14M5.2 9h13.6"/><path d="M7 19.5h10l-1.5 2h-7z" stroke-linejoin="round"/></g></symbol>
+  <symbol id="i-potion" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M9.5 2.5h5M10.5 3v4.2L6.4 15.6A3.6 3.6 0 0 0 9.6 21h4.8a3.6 3.6 0 0 0 3.2-5.4L13.5 7.2V3"/><path d="M7.6 13.5h8.8"/><circle cx="11" cy="17" r="1"/><circle cx="14" cy="18.5" r=".8"/></g></symbol>
+  <symbol id="i-grimoire" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H18v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H18v-3"/><path d="M12 7v6M9 10h6"/></g></symbol>
+  <symbol id="i-dagger" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 1.8 14.6 6v8.5H9.4V6z"/><path d="M6.5 14.5h11"/><path d="M12 16.5v4"/><path d="M10.5 22h3"/></g></symbol>
+  <symbol id="i-spear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2c1.6 1.8 2.4 3.6 2.4 5.4S13.2 10.6 12 12c-1.2-1.4-2.4-2.8-2.4-4.6S10.4 3.8 12 2z"/><path d="M12 12v9"/><path d="M8.5 6.5c-.8 2-1 4 .5 6M15.5 6.5c.8 2 1 4-.5 6"/></g></symbol>
+  <symbol id="i-axe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M13.5 3C17 3 20 5.5 20.5 9.5c-3-1-5.5-1-7.5.5-1-2.5-1.5-5 .5-7z"/><path d="M13 10 4 20"/><path d="M12.4 4.2C9 5 6.5 7.5 6 11c2.5-1.5 5-1.5 7.5 0"/></g></symbol>
+  <symbol id="i-bow" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M6 3a13 13 0 0 1 0 18"/><path d="M6 3.5 20 3.5M6 20.5 20 20.5" opacity="0"/><path d="M5.5 3.2 5.5 20.8"/><path d="M4 12h16M16 8.5 20 12l-4 3.5"/></g></symbol>
+  <symbol id="i-staff" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M16 4.5 5 20.5"/><circle cx="17.5" cy="3.5" r="2.2"/><path d="M17.5 .3v1M17.5 6.3v1M14.3 3.5h1M20 3.5h1"/></g></symbol>
+  <symbol id="i-armor" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 3 5 5.5v6c0 5 3.5 8 7 9.5 3.5-1.5 7-4.5 7-9.5v-6z"/><path d="M9 6.5c1 1.5 1.5 3 1.5 5S10 15 9 16.5M15 6.5c-1 1.5-1.5 3-1.5 5s.5 3.5 1.5 5"/></g></symbol>
+  <symbol id="i-cloak" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M9 3c0 1.7 1.3 3 3 3s3-1.3 3-3c3 1 5 4 5 8l-2 1v8H6v-8l-2-1c0-4 2-7 5-8z"/><path d="M9 3c1 2 5 2 6 0"/></g></symbol>
+  <symbol id="i-ring" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><circle cx="12" cy="15" r="6"/><path d="M12 3.5 15 7l-3 2.5L9 7z" fill="currentColor" fill-opacity=".35"/></g></symbol>
+  <symbol id="i-amulet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M5 3c0 5 2.5 8 7 8s7-3 7-8"/><path d="M12 11.5 15 15l-3 6-3-6z" fill="currentColor" fill-opacity=".3"/></g></symbol>
+  <symbol id="i-bone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M6.5 3.5a2.4 2.4 0 0 0-1.8 4 2.4 2.4 0 0 0 .6 4.1l7.1 7.1a2.4 2.4 0 0 0 4.1.6 2.4 2.4 0 0 0 4-1.8 2.4 2.4 0 0 0-1.8-4 2.4 2.4 0 0 0-.6-4.1l-7.1-7.1a2.4 2.4 0 0 0-4.1-.6z"/></g></symbol>
+  <symbol id="i-gem" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M7 3.5h10l4 5.5-9 12-9-12z"/><path d="M3 9h18M7 3.5 12 9l5-5.5M12 9v12"/></g></symbol>
+  <symbol id="i-crown" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 7.5 6.5 13 12 5.5 17.5 13 21 7.5V18H3z"/><path d="M3 20.5h18"/><circle cx="12" cy="3.6" r="1.2"/></g></symbol>
+  <symbol id="i-relic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M5 9h14v11H5z"/><path d="M12 3.5 16 9H8z"/><path d="M12 12v5M10 14h4"/></g></symbol>
+  <symbol id="i-candle" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2.2c1.6 1.8 2.4 3 2.4 4.2a2.4 2.4 0 0 1-4.8 0c0-1.2.8-2.4 2.4-4.2z"/><path d="M8.5 9.5h7V21h-7z"/><path d="M8.5 13h7"/></g></symbol>
+  <symbol id="i-scales" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3v18M7 21h10M4 8h16M12 5.5 4 8l-2 5a4 4 0 0 0 8 0zM12 5.5 20 8l2 5a4 4 0 0 1-8 0z"/></g></symbol>
+  <symbol id="i-web" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/><path d="M12 6.5 15.9 8.1 17.5 12l-1.6 3.9-3.9 1.6-3.9-1.6L6.5 12l1.6-3.9z"/><path d="M12 2.8 18.5 5.5 21.2 12l-2.7 6.5L12 21.2 5.5 18.5 2.8 12 5.5 5.5z" opacity=".55"/></g></symbol>
+  <symbol id="i-dawn" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M18 6l-1.4 1.4M7.4 16.6 6 18"/></g></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M20 3.5C11 3.5 4.5 8 4.5 15.5c0 1.6.4 3.2 1.2 4.5C13 20 20 14 20 3.5z"/><path d="M4 21c3-6 7.5-10 13-12"/></g></symbol>
+  <symbol id="i-drop" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2.8c3.2 4 6 7 6 10.2a6 6 0 0 1-12 0c0-3.2 2.8-6.2 6-10.2z"/><path d="M9 14a3 3 0 0 0 3 3"/></g></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 20.5C6.5 17 3 13.7 3 9.8A4.8 4.8 0 0 1 12 7.2 4.8 4.8 0 0 1 21 9.8c0 3.9-3.5 7.2-9 10.7z"/></g></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="5" y="10" width="14" height="11" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1.4"/></g></symbol>
+  <symbol id="i-unlock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="5" y="10" width="14" height="11" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 7.6-1.7"/><circle cx="12" cy="15" r="1.4"/></g></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4 6.5h16M9.5 6.5V4h5v2.5"/><path d="M6.5 6.5 7.5 21h9l1-14.5"/><path d="M10.5 10v7M13.5 10v7"/></g></symbol>
+  <symbol id="i-hammer" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4.5 9.5 9 5l3 1.5L16 3l5 5-3.5 4-1.5-3-4.5 4.5z"/><path d="M11 12 3.5 19.5l1 1L12 13"/></g></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 16V4"/><path d="M7.5 8.5 12 4l4.5 4.5"/><path d="M4 15v4.5h16V15"/></g></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 4v12"/><path d="M7.5 11.5 12 16l4.5-4.5"/><path d="M4 15v4.5h16V15"/></g></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M12 3 22 20.5H2z"/><path d="M12 9v5.5M12 17.3v.2"/></g></symbol>
+  <symbol id="i-question" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M8.5 8.5a3.5 3.5 0 1 1 5 3.2c-1 .6-1.5 1.3-1.5 2.3v.5"/><path d="M12 18.2v.2"/><circle cx="12" cy="12" r="9.2" opacity=".5"/></g></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2.5A6.5 6.5 0 0 0 5.5 9c0 4.8 6.5 12.5 6.5 12.5S18.5 13.8 18.5 9A6.5 6.5 0 0 0 12 2.5z"/><circle cx="12" cy="9" r="2.4"/></g></symbol>
+  <symbol id="i-gate" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M3.5 21V11a8.5 8.5 0 0 1 17 0v10"/><path d="M7.5 21v-9.6a4.5 4.5 0 0 1 9 0V21"/><path d="M12 6.8V21M2 21h20"/></g></symbol>
+  <symbol id="i-hourglass" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M6 2.5h12M6 21.5h12"/><path d="M7.5 2.5v3.2c0 2 4.5 4.5 4.5 6.3 0 1.8-4.5 4.3-4.5 6.3v3.2M16.5 2.5v3.2c0 2-4.5 4.5-4.5 6.3 0 1.8 4.5 4.3 4.5 6.3v3.2"/></g></symbol>
 </svg>
 
 <canvas id="bg-canvas"></canvas>
@@ -2512,7 +2916,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, .class-card:f
     <div class="login-corner bl">✦</div>
     <div class="login-corner br">✦</div>
     <div id="login-inner">
-      <div class="login-seal"><svg class="login-emblem" viewBox="0 0 120 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <header class="lp-hero">
+        <div class="login-seal"><svg class="login-emblem" viewBox="0 0 120 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <defs>
     <linearGradient id="emH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e9b8"/><stop offset="1" stop-color="#c9a84c"/></linearGradient>
     <linearGradient id="emK" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#7a1c10"/><stop offset="1" stop-color="#d9603a"/></linearGradient>
@@ -2524,23 +2929,62 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, .class-card:f
   <path d="M60,32 L65,44 L60,56 L55,44 Z" fill="#c9a84c" stroke="#f6e9b8" stroke-width=".6"/>
   <circle cx="60" cy="44" r="1.6" fill="#2a1408"/>
 </svg></div>
-      <div class="login-title">LIMINAL</div>
-      <div class="login-subtitle">Entre Ciel &amp; Abîme</div>
-      <div class="login-rule"><div class="login-rule-line"></div><div class="login-rule-gem"></div><div class="login-rule-line"></div></div>
-      <p class="login-lore">
-        Les portes du <strong>Liminal</strong> s'ouvrent à ceux qui osent franchir la faille.<br>
-        Franchissez le seuil pour que votre légende commence.
-      </p>
-      <div class="login-rule"><div class="login-rule-line"></div><div class="login-rule-gem"></div><div class="login-rule-line"></div></div>
-      <div id="invite-field">
-        <label for="invite-input">Sceau d'invitation</label>
-        <input id="invite-input" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="32" placeholder="· · · · · ·">
-        <div id="invite-error" role="alert"></div>
-      </div>
-      <button id="enter-btn" type="button">
-        <span class="enter-btn-text">✦ Entrer ✦</span>
-      </button>
-      <div class="login-note">Votre progression est sauvegardée automatiquement sur cet appareil.</div>
+        <h1 class="login-title">LIMINAL</h1>
+        <div class="login-subtitle">Entre Ciel &amp; Ab&#238;me</div>
+        <div class="lp-tagline">Jeu de r&#244;le narratif gothique</div>
+        <div class="login-rule"><div class="login-rule-line"></div><div class="login-rule-gem"></div><div class="login-rule-line"></div></div>
+        <p class="login-lore">
+          Vous n'&#234;tes ni ange, ni d&#233;mon. Vous &#234;tes une &#226;me n&#233;e dans la faille&#160;:
+          au <strong>Carrefour des &#194;mes</strong>, l&#224; o&#249; le Paradis et l'Ab&#238;me se touchent
+          sans jamais se m&#234;ler. Les deux cours vous veulent. Aucune ne vous aura sans contrepartie.
+        </p>
+      </header>
+
+      <div class="lp-section-title">Ce qui vous attend</div>
+      <section class="lp-pillars">
+        <article class="lp-pillar">
+          <div class="lp-pillar-ico"><svg class="ico" aria-hidden="true"><use href="#i-gate"/></svg></div>
+          <div>
+            <h3>Le Carrefour des &#194;mes</h3>
+            <p>Sanctuaires noy&#233;s, ruines de l'Aube, cloches sonnant sous la terre&#160;: chaque lieu du seuil garde une dette et un secret.</p>
+          </div>
+        </article>
+        <article class="lp-pillar angel">
+          <div class="lp-pillar-ico"><svg class="ico" aria-hidden="true"><use href="#i-quill"/></svg></div>
+          <div>
+            <h3>Un Ma&#238;tre du Jeu qui vous r&#233;pond</h3>
+            <p>Une intelligence raconte la sc&#232;ne, r&#233;agit &#224; vos actions et s'en souvient. &#201;crivez ce que vous faites&#160;: l'histoire se plie &#224; vos gestes.</p>
+          </div>
+        </article>
+        <article class="lp-pillar demon">
+          <div class="lp-pillar-ico"><svg class="ico" aria-hidden="true"><use href="#i-dual"/></svg></div>
+          <div>
+            <h3>Votre dualit&#233; d&#233;cide</h3>
+            <p>Chaque choix vous incline vers le Ciel ou vers l'Ab&#238;me. La jauge ouvre des sorts, ferme des portes, et d&#233;cide de votre fin.</p>
+          </div>
+        </article>
+      </section>
+
+      <div class="lp-section-title">En trois gestes</div>
+      <section class="lp-steps">
+        <div class="lp-step"><div class="lp-step-n">I</div><p>Gravez votre nom, choisissez votre voie parmi six.</p></div>
+        <div class="lp-step"><div class="lp-step-n">II</div><p>Jouez en &#233;crivant vos actions, phrase apr&#232;s phrase.</p></div>
+        <div class="lp-step"><div class="lp-step-n">III</div><p>Sorts, butin et qu&#234;tes se d&#233;bloquent au fil du r&#233;cit.</p></div>
+      </section>
+
+      <section class="lp-cta">
+        <div class="login-rule"><div class="login-rule-line"></div><div class="login-rule-gem"></div><div class="login-rule-line"></div></div>
+        <div id="invite-field">
+          <label for="invite-input">Sceau d'invitation</label>
+          <input id="invite-input" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="32" placeholder="&#183; &#183; &#183; &#183; &#183; &#183;">
+          <div id="invite-error" role="alert"></div>
+        </div>
+        <button id="enter-btn" type="button">
+          <span class="enter-btn-text">&#10022; Franchir le seuil &#10022;</span>
+        </button>
+        <div class="login-note">Votre progression est sauvegard&#233;e automatiquement, sur cet appareil et dans le Voile.</div>
+        <div class="lp-platforms">Mobile &#183; Ordinateur</div>
+      </section>
     </div>
   </div>
 </div>
@@ -2952,6 +3396,23 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, .class-card:f
 
   </div><!-- /page-quests -->
 
+
+  <!-- PAGE: SAUVEGARDE -->
+  <div class="page" id="page-save">
+    <div class="card">
+      <div class="card-title"><svg class="ico" aria-hidden="true"><use href="#i-feather"/></svg> Sauvegarde &amp; Chargement</div>
+      <p class="save-hint">Trois emplacements gard&#233;s par la Plume. La partie en cours est aussi sauvegard&#233;e toute seule.</p>
+      <div class="save-slots save-slots-list"></div>
+      <div class="save-divider"></div>
+      <div class="save-io-row">
+        <button class="save-io-btn btn-export" onclick="exportSave()"><svg class="ico" aria-hidden="true"><use href="#i-upload"/></svg> Exporter</button>
+        <button class="save-io-btn btn-import" onclick="document.getElementById('import-input-page').click()"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg> Importer</button>
+      </div>
+      <input type="file" id="import-input-page" accept=".json" style="display:none" onchange="importSave(event)">
+      <div class="save-autosave autosave-info">Sauvegarde automatique active</div>
+    </div>
+  </div>
+
 </div><!-- /pages -->
 
 
@@ -2978,20 +3439,20 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, .class-card:f
     <div class="save-sheet-handle"></div>
     <div class="save-sheet-title">✦ Sauvegarde & Chargement ✦</div>
 
-    <div class="save-slots" id="save-slots-list">
+    <div class="save-slots save-slots-list" id="save-slots-list">
       <!-- rempli par JS -->
     </div>
 
     <div class="save-divider"></div>
 
     <div class="save-io-row">
-      <button class="save-io-btn btn-export" onclick="exportSave()">📤 Exporter</button>
-      <button class="save-io-btn btn-import" onclick="document.getElementById('import-input').click()">📥 Importer</button>
+      <button class="save-io-btn btn-export" onclick="exportSave()"><svg class="ico" aria-hidden="true"><use href="#i-upload"/></svg> Exporter</button>
+      <button class="save-io-btn btn-import" onclick="document.getElementById('import-input').click()"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg> Importer</button>
     </div>
     <input type="file" id="import-input" accept=".json" style="display:none" onchange="importSave(event)">
 
     <button class="btn-close-save" onclick="closeSaveModal()">✕ Fermer</button>
-    <div class="save-autosave" id="autosave-info">Sauvegarde automatique active</div>
+    <div class="save-autosave autosave-info" id="autosave-info">Sauvegarde automatique active</div>
   </div>
 </div>
 
@@ -3012,6 +3473,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, .class-card:f
   <button class="tab-btn" onclick="switchTab('quests',this)" id="tab-quests">
     <span class="tab-icon"><svg class="ico" aria-hidden="true"><use href="#i-scroll"/></svg></span>
     <span class="tab-label">Quêtes</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab('save',this)" id="tab-save">
+    <span class="tab-icon"><svg class="ico" aria-hidden="true"><use href="#i-feather"/></svg></span>
+    <span class="tab-label">Plume</span>
   </button>
 </div>
 
@@ -3301,11 +3766,7 @@ function getSlotData(n) { return _savesCache.slots[n] || null; }
 async function openSaveModal() {
   await fetchAllSaves();
   renderSaveSlots();
-  const as = loadSave();
-  const info = document.getElementById('autosave-info');
-  info.textContent = as && as.saveTime
-    ? `Autosave : ${as.name} — ${fmtDate(as.saveTime)} · ☁ Cloud`
-    : 'Sauvegarde automatique active · ☁ Cloud';
+  refreshAutosaveInfo();
   const m = document.getElementById('save-modal');
   m.style.display = 'flex';
   requestAnimationFrame(() => { requestAnimationFrame(() => { m.classList.add('open'); }); });
@@ -3319,7 +3780,9 @@ function closeSaveModal(e) {
 }
 
 function renderSaveSlots() {
-  const container = document.getElementById('save-slots-list');
+  document.querySelectorAll('.save-slots-list').forEach(container => renderSlotsInto(container));
+}
+function renderSlotsInto(container) {
   container.innerHTML = '';
   for (let i = 1; i <= NUM_SLOTS; i++) {
     const data = getSlotData(i);
@@ -3333,7 +3796,7 @@ function renderSaveSlots() {
         <div class="save-slot-meta">${hasData ? `Niveau ${data.level} · ${fmtDate(data.saveTime)}` : '—'}</div>
       </div>
       <div class="save-slot-actions">
-        <button class="slot-btn slot-btn-save" onclick="saveToSlot(${i})">💾 Sauver</button>
+        <button class="slot-btn slot-btn-save" onclick="saveToSlot(${i})">${ico('\u{1F4BE}')} Sauver</button>
         ${hasData ? `<button class="slot-btn slot-btn-load" onclick="loadFromSlot(${i})">▶ Charger</button>` : ''}
         ${hasData ? `<button class="slot-btn slot-btn-del" onclick="deleteSlot(${i})">✕</button>` : ''}
       </div>
@@ -3525,7 +3988,7 @@ function applyClassSkills(cls) {
   };
   const skills = S[cls] || S['Lame Liminale'];
   document.getElementById('skill-list').innerHTML = skills.map(([ic,nm,ds,co]) =>
-    `<div class="skill-card"><div class="skill-icon">${ic}</div><div class="skill-info"><div class="skill-name">${nm}</div><div class="skill-desc">${ds}</div></div><div class="skill-cost">${co}</div></div>`
+    `<div class="skill-card"><div class="skill-icon">${ico(ic)}</div><div class="skill-info"><div class="skill-name">${nm}</div><div class="skill-desc">${ds}</div></div><div class="skill-cost">${co}</div></div>`
   ).join('');
 }
 
@@ -3603,6 +4066,50 @@ function switchTab(name, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const target = document.getElementById('page-' + name);
   if (target) target.classList.add('active');
+  if (name === 'save') openSavePage();
+}
+
+
+function refreshAutosaveInfo() {
+  const as = loadSave();
+  const txt = as && as.saveTime
+    ? `Dernière sauvegarde automatique : ${as.name} — ${fmtDate(as.saveTime)}`
+    : 'Sauvegarde automatique active';
+  document.querySelectorAll('.autosave-info').forEach(el => { el.textContent = txt; });
+}
+
+// Onglet Plume : recharge la liste à chaque ouverture
+async function openSavePage() {
+  renderSaveSlots();
+  refreshAutosaveInfo();
+  try { await fetchAllSaves(); } catch(_) {}
+  renderSaveSlots();
+  refreshAutosaveInfo();
+}
+
+// ===== ICÔNES GRAVÉES (remplacent les emojis) =====
+const ICO_MAP = {
+  '\u{1F9EA}':'potion','\u{1F4DC}':'scroll','\u{1F4DA}':'grimoire','\u{1F5E1}':'dagger','\u2694':'swords',
+  '\u{1F531}':'spear','\u{1FA93}':'axe','\u{1F3F9}':'bow','\u{1FA84}':'staff','\u{1F52E}':'orb',
+  '\u{1F6E1}':'shield','\u{1F94B}':'armor','\u{1F9E5}':'cloak','\u{1F48D}':'ring','\u{1F4FF}':'amulet',
+  '\u{1F480}':'skull','\u2620':'skull','\u{1F9B4}':'bone','\u{1F525}':'flame','\u{1F48E}':'gem',
+  '\u{1F5DD}':'key','\u{1F451}':'crown','\u{1F381}':'relic','\u{1F4AB}':'bolt','\u{1F54A}':'feather',
+  '\u{1F31F}':'halo','\u26D3':'chain','\u{1F517}':'chain','\u{1F311}':'moon','\u{1F4A5}':'burst',
+  '\u{1F441}':'eye','\u{1F300}':'spiral','\u2728':'star','\u{1F607}':'halo','\u{1F608}':'horns',
+  '\u{1F33F}':'leaf','\u{1F324}':'dawn','\u2696':'scales','\u{1F56F}':'candle','\u{1F578}':'web',
+  '\u{1F512}':'lock','\u{1F513}':'unlock','\u{1F4A7}':'drop','\u2764':'heart','\u2753':'question',
+  '\u2754':'question','\u{1F4D6}':'book','\u2B50':'star','\u{1F4CD}':'pin','\u26A0':'warn',
+  '\u{1F5D1}':'trash','\u{1F528}':'hammer','\u{1F4E4}':'upload','\u{1F4E5}':'download','\u{1F4BE}':'feather',
+  '\u{1F9CD}':'hood','\u{1F3AF}':'sigil','\u{1F5FA}':'map','\u{1FA99}':'coin','\u{1F9F5}':'chain',
+  '\u{1F52D}':'eye','\u23F3':'hourglass','\u231B':'hourglass','\u{1F6AA}':'gate','\u{1F4A7}':'drop','\u2697':'potion','\u{1F9EC}':'spiral'
+};
+function ico(e) {
+  const k = ICO_MAP[String(e).replace(/\uFE0F/g, '')];
+  return k ? `<svg class="ico" aria-hidden="true"><use href="#i-${k}"/></svg>` : String(e);
+}
+// Remplace dans un fragment HTML tous les emojis connus par leur gravure
+function icoText(html) {
+  return String(html).replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{23E9}-\u{23FA}]\uFE0F?/gu, m => ico(m));
 }
 
 // ===== NARRATIVE =====
@@ -3636,7 +4143,7 @@ function addBanner(text, cls) {
   const narr = document.getElementById('narrative');
   const div = document.createElement('div');
   div.className = 'event-banner' + (cls ? ' ' + cls : '');
-  div.textContent = text;
+  div.innerHTML = icoText(String(text).replace(/[<>&]/g, ''));
   narr.appendChild(div);
   narr.scrollTop = narr.scrollHeight;
 }
@@ -3668,7 +4175,7 @@ function startGame() {
 // lui-même le modèle selon le « tier » demandé.
 // (Fonctionne aussi avec Ollama en local : 'http://localhost:11434/v1/chat/completions'
 //  → dans ce cas pas de code ni de quota, et NARRATOR_MODEL / SMALL_MODEL = noms de tes modèles.)
-const NARRATOR_URL   = 'https://liminal-voile.fictiph.workers.dev';
+const NARRATOR_URL   = 'https://liminal-narrateur.fictiph.workers.dev';
 const NARRATOR_MODEL = 'llama-3.3-70b-versatile';   // narration : quota partagé, protégé
 const SMALL_MODEL    = 'llama-3.1-8b-instant';      // tâches secondaires : objets, chronique
 const TURNS_PER_CHAPTER = 6;                        // 1 chapitre = 1 épisode = 6 tours
@@ -4170,7 +4677,7 @@ function showStatEvents(events) {
       isNeg ? 'background:#1a0a0a;border-color:#5a1a1a;color:#aa5a5a' :
                'background:#1a1008;border-color:#4a3010;color:#aa8030'
     }`;
-    tag.textContent = e;
+    tag.innerHTML = icoText(e.replace(/[<>&]/g, ''));
     div.appendChild(tag);
   });
   narr.appendChild(div);
@@ -4202,11 +4709,11 @@ function updateInventoryUI() {
     const rarityColor = d.rarity==='rare'?'var(--angel-glow)':d.rarity==='maudit'?'var(--demon-glow)':d.rarity==='épique'?'#c060ff':'var(--text-dim)';
     return `<div class="inv-slot ${cls}" onclick="openItemModal('${item.replace(/'/g,"\\'")}')">
       ${badge}
-      <div class="inv-icon">${d.icon}</div>
+      <div class="inv-icon">${ico(d.icon)}</div>
       <div class="inv-name" style="color:${rarityColor}">${item}</div>
       <div style="font-family:'Cinzel',serif;font-size:0.38rem;color:var(--text-dim);opacity:0.7;letter-spacing:0.08em">${d.type}</div>
     </div>`;
-  }).join('') + (gs.inventory.length < 6 ? Array(6-gs.inventory.length).fill('<div class="inv-slot empty"><div class="inv-icon" style="opacity:.25">□</div><div class="inv-name">Vide</div></div>').join('') : '');
+  }).join('') + (gs.inventory.length < 6 ? Array(6-gs.inventory.length).fill('<div class="inv-slot empty"><div class="inv-icon" style="opacity:.3">✧</div><div class="inv-name">Vide</div></div>').join('') : '');
 }
 
 // ===== ITEM MODAL =====
@@ -4215,28 +4722,28 @@ let currentItemName = null;
 function openItemModal(name) {
   currentItemName = name;
   const d = getItemData(name);
-  document.getElementById('item-modal-icon').textContent = d.icon;
+  document.getElementById('item-modal-icon').innerHTML = ico(d.icon);
   document.getElementById('item-modal-name').textContent = name;
   document.getElementById('item-modal-type').textContent = `${d.type} · ${d.rarity.toUpperCase()}`;
   document.getElementById('item-modal-desc').textContent = d.desc;
 
   // Powers
   const pw = document.getElementById('item-modal-powers');
-  pw.innerHTML = (d.powers||[]).map(p=>`<span class="item-power-tag ${p.cls}">${p.tag}</span>`).join('');
+  pw.innerHTML = icoText((d.powers||[]).map(p=>`<span class="item-power-tag ${p.cls}">${p.tag}</span>`).join(''));
 
   // Actions
   const isEq  = (gs.equipped||[]).includes(name);
   const isCur = (gs.cursed||[]).includes(name);
   const isConsumable = d.type === 'Consommable';
   const actions = document.getElementById('item-modal-actions');
-  actions.innerHTML = `
+  actions.innerHTML = icoText(`
     ${isConsumable ? `<button class="item-action-btn ia-use" onclick="useItem('${name.replace(/'/g,"\\'")}')">🧪 Utiliser l'objet</button>` : ''}
     ${!isConsumable && !isCur ? `<button class="item-action-btn ia-equip" onclick="toggleEquip('${name.replace(/'/g,"\\'")}')">
       ${isEq ? '🔓 Déséquiper' : '⚔️ Équiper'}
     </button>` : ''}
     <button class="item-action-btn ia-upgrade" onclick="upgradeItem('${name.replace(/'/g,"\\'")}')">⚗️ Renforcer / Infuser un pouvoir</button>
     <button class="item-action-btn ia-drop" onclick="dropItem('${name.replace(/'/g,"\\'")}')">🗑️ Jeter l'objet</button>
-  `;
+  `);
 
   const m = document.getElementById('item-modal');
   m.style.display = 'flex';
@@ -4305,7 +4812,7 @@ function showLootBanner(itemName, itemIcon) {
   const narr = document.getElementById('narrative');
   const div = document.createElement('div');
   div.className = 'loot-banner';
-  div.innerHTML = `<div class="loot-banner-icon">${itemIcon}</div><div><div class="loot-banner-text">Objet obtenu !</div><div class="loot-banner-sub">${itemName}</div></div>`;
+  div.innerHTML = `<div class="loot-banner-icon">${ico(itemIcon)}</div><div><div class="loot-banner-text">Objet obtenu !</div><div class="loot-banner-sub">${itemName}</div></div>`;
   narr.appendChild(div);
   narr.scrollTop = narr.scrollHeight;
 }
@@ -4375,7 +4882,7 @@ function showDangerWarning() {
   const narr = document.getElementById('narrative');
   const div = document.createElement('div');
   div.style.cssText = 'background:linear-gradient(135deg,#2a0808,#1a0010);border:1px solid var(--demon-glow);border-radius:10px;padding:10px 14px;text-align:center;font-family:\'Cinzel\',serif;font-size:0.68rem;color:var(--demon-glow);letter-spacing:0.1em;animation:fadeUp 0.4s ease';
-  div.textContent = '⚠ DANGER CRITIQUE — Votre âme vacille au bord du néant ⚠';
+  div.innerHTML = ico('\u26A0') + ' DANGER CRITIQUE — Votre âme vacille au bord du néant ' + ico('\u26A0');
   narr.appendChild(div);
   narr.scrollTop = narr.scrollHeight;
   // Flash rouge
@@ -4388,7 +4895,7 @@ function triggerKO() {
   const narr = document.getElementById('narrative');
   const div = document.createElement('div');
   div.style.cssText = 'background:linear-gradient(135deg,#1a0000,#0a0010);border:1px solid #8a0000;border-radius:12px;padding:14px;text-align:center;font-family:\'Cinzel\',serif;font-size:0.75rem;color:#cc3333;letter-spacing:0.12em;animation:fadeUp 0.4s ease;line-height:1.8';
-  div.innerHTML = '💀 TOMBÉ AU COMBAT 💀<br><span style="font-size:0.6rem;color:var(--text-dim);font-family:\'Crimson Pro\',serif">Votre âme flotte entre les deux royaumes… Le Narrateur décidera de votre sort.</span>';
+  div.innerHTML = ico('\u{1F480}') + ' TOMBÉ AU COMBAT ' + ico('\u{1F480}') + '<br><span style="font-size:0.6rem;color:var(--text-dim);font-family:\'Crimson Pro\',serif">Votre âme flotte entre les deux royaumes… Le Narrateur décidera de votre sort.</span>';
   narr.appendChild(div);
   narr.scrollTop = narr.scrollHeight;
   updateUI();
@@ -4481,7 +4988,7 @@ function updateDualitySpellUI() {
   if (!isUnlocked) {
     container.innerHTML = `
       <div class="duality-spell-card dsc-locked">
-        <div class="dsc-icon">🔒</div>
+        <div class="dsc-icon">${ico('\u{1F512}')}</div>
         <div class="dsc-info">
           <div class="dsc-name" style="color:#555">${spell.name}</div>
           <div class="dsc-desc">${spell.desc}</div>
@@ -4498,13 +5005,13 @@ function updateDualitySpellUI() {
 
   container.innerHTML = `
     <div class="duality-spell-card ${clsMap[alignment]}">
-      <div class="dsc-icon">${spell.icon}</div>
+      <div class="dsc-icon">${ico(spell.icon)}</div>
       <div class="dsc-info">
         <div class="dsc-name">${spell.name}</div>
         <div class="dsc-desc">${spell.desc}</div>
         <div class="dsc-tags">
           <span class="dsc-tag tag-locked">${labelMap[alignment]}</span>
-          <span class="dsc-tag tag-cost">💧 ${spell.cost}</span>
+          <span class="dsc-tag tag-cost">${ico('\u{1F4A7}')} ${spell.cost}</span>
           <span class="dsc-tag tag-effect">✦ ${spell.effect}</span>
         </div>
         ${useBtn}
