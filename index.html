@@ -3332,6 +3332,111 @@ button.choice.chosen::after {
 @keyframes spin      { to { transform: rotate(360deg); } }
 @keyframes sand      { to { stroke-dashoffset: -6; } }
 @keyframes breathe   { 0%,100% { opacity: .42; } 50% { opacity: .6; } }
+
+/* ===================================================================
+   PASSE LISIBILITE MOBILE (ajout, n'affecte jamais >=900px)
+   Regroupe les textes trop petits pour etre lus confortablement
+   sur un ecran de telephone. La vue ordinateur (>=900px) est
+   entierement pilotee par les regles plus haut dans ce fichier
+   et n'est jamais concernee par ce bloc.
+   =================================================================== */
+@media (max-width: 899px) {
+  .attr-name { font-size: 0.67rem; }
+  #story-ctx-class { font-size: 0.68rem; }
+  #story-ctx-quest { font-size: 0.68rem; }
+  .bag-type { font-size: 0.68rem; }
+  .jd-foot { font-size: 0.7rem; }
+  .tab-label { font-size: 0.72rem; }
+  .inv-badge { font-size: 0.72rem; }
+  .attr6 .a-n { font-size: 0.72rem; }
+  #page-inv .inv-slot > div:last-child { font-size: 0.72rem; }
+  .lp-platforms { font-size: 0.72rem; }
+  button.choice.chosen::after { font-size: 0.72rem; }
+  .eq-lbl { font-size: 0.72rem; }
+  .bag-slot.empty .bag-name { font-size: 0.72rem; }
+  .jm-band { font-size: 0.72rem; }
+  .jm-legend { font-size: 0.72rem; }
+  .jd-bal { font-size: 0.72rem; }
+  .dsc-tag { font-size: 0.7rem; }
+  .duo-scores { font-size: 0.7rem; }
+  .ground-title { font-size: 0.7rem; }
+  .jd-when { font-size: 0.7rem; }
+  .header-class { font-size: 0.73rem; }
+  .hero-level { font-size: 0.73rem; }
+  #meter-gauge::before, #meter-gauge::after { font-size: 0.73rem; }
+  .slot-btn { font-size: 0.74rem; }
+  .narr-lbl { font-size: 0.74rem; }
+  .cover-subtitle { font-size: 0.74rem; }
+  .field-lbl { font-size: 0.74rem; }
+  .class-name { font-size: 0.74rem; }
+  .lvl-badge { font-size: 0.74rem; }
+  .vit-lbl { font-size: 0.74rem; }
+  .lp-section-title { font-size: 0.74rem; }
+  .eq-cap { font-size: 0.74rem; }
+  .bag-meta { font-size: 0.74rem; }
+  .save-slot-meta { font-size: 0.76rem; }
+  .card-title { font-size: 0.76rem; }
+  .vital-lbl { font-size: 0.76rem; }
+  .xp-lbl { font-size: 0.76rem; }
+  .skill-desc { font-size: 0.76rem; }
+  #invite-field label { font-size: 0.76rem; }
+  .dsc-lock-msg { font-size: 0.76rem; }
+  .item-power-tag { font-size: 0.76rem; }
+  .gold-lbl { font-size: 0.76rem; }
+  #page-char #ch-class { font-size: 0.76rem; }
+  .lp-tagline { font-size: 0.76rem; }
+  .hero-class { font-size: 0.74rem; }
+  .skill-name { font-size: 0.74rem; }
+  .item-sheet-type { font-size: 0.74rem; }
+  #page-char .skill-cost { font-size: 0.74rem; }
+  #page-inv .gold-lbl { font-size: 0.74rem; }
+  #page-save .card-title { font-size: 0.74rem; }
+  .save-io-btn { font-size: 0.76rem; }
+  .btn-close-save { font-size: 0.76rem; }
+  .save-autosave { font-size: 0.76rem; }
+  .dual-labels { font-size: 0.76rem; }
+  #meter-chapter, #meter-quota { font-size: 0.76rem; }
+  .qbtn { font-size: 0.76rem; }
+  .dsc-use-btn { font-size: 0.76rem; }
+  #story-ctx-class, #story-ctx-quest { font-size: 0.76rem; }
+  .choice-n { font-size: 0.76rem; }
+  #page-quests .quest-prog { font-size: 0.76rem; }
+  .restore-btn { font-size: 0.78rem; }
+  .save-sheet-title { font-size: 0.79rem; }
+  .xp-val { font-size: 0.79rem; }
+  .skill-cost { font-size: 0.79rem; }
+  .loot-banner-text { font-size: 0.79rem; }
+  .restore-title { font-size: 0.79rem; }
+  .inv-name { font-size: 0.76rem; }
+  #page-char .skill-name { font-size: 0.76rem; }
+  .quest-prog { font-size: 0.78rem; }
+  .eq-item { font-size: 0.78rem; }
+  .save-slot-name { font-size: 0.8rem; }
+  .header-name { font-size: 0.8rem; }
+  .event-banner { font-size: 0.8rem; }
+  .item-action-btn { font-size: 0.8rem; }
+  .loot-banner-sub { font-size: 0.8rem; }
+  .class-sub { font-size: 0.8rem; }
+  #start-btn { font-size: 0.8rem; }
+  .event-banner.chapter-banner { font-size: 0.8rem; }
+  .bag-name { font-size: 0.8rem; }
+  .rel-sub { font-size: 0.8rem; }
+
+  /* Meilleure lisibilite des blocs de texte narratif/descriptif */
+  .skill-desc, .dsc-lock-msg, .lp-tagline, .login-note, .login-lore,
+  .restore-title, .class-sub, .rel-sub, .loot-banner-sub, .item-sheet-type {
+    line-height: 1.5;
+  }
+
+  /* Cibles tactiles plus confortables sur les boutons cles */
+  .slot-btn, .save-io-btn, .btn-close-save, .qbtn, .dsc-use-btn,
+  .item-action-btn, .restore-btn, #start-btn {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 </style>
 </head>
 <body>
