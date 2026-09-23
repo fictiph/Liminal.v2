@@ -2827,6 +2827,367 @@ body::after {
 }
 /* FIN CALQUE II */
 
+
+/* ═══════════════════════════════════════════════════════════════
+   CALQUE III — ÉQUIPEMENT, CARTE DU SEUIL, CHOIX, SAUVEGARDE
+   ═══════════════════════════════════════════════════════════════ */
+#page-char > *, #page-inv > *, #page-quests > *, #page-save > * { flex-shrink: 0; }
+#pages { overflow: clip; }   /* empêche un décalage latéral quand le navigateur fait défiler vers un champ */
+
+/* ─────────── Bandeau : indications lisibles ─────────── */
+#story-ctx-class, #story-ctx-quest, #meter-chapter, #meter-quota {
+  color: #e2d6ff !important; font-weight: 600;
+  text-shadow: 0 0 8px rgba(154,126,216,.55), 0 1px 2px rgba(0,0,0,.95);
+  opacity: 1;
+}
+#story-ctx-class, #story-ctx-quest { font-size: 0.62rem !important; line-height: 1.3; }
+#story-ctx-quest { white-space: normal; }
+#meter-chapter, #meter-quota { font-size: 0.62rem !important; letter-spacing: .1em; white-space: normal; line-height: 1.25; }
+#meter-quota.is-closed { color: #ffb49a !important; text-shadow: 0 0 8px rgba(232,106,66,.6), 0 1px 2px rgba(0,0,0,.95); }
+@media (min-width: 600px) {
+  #story-ctx-class, #story-ctx-quest, #meter-chapter, #meter-quota { font-size: 0.7rem !important; }
+}
+
+/* ─────────── Balance Ombre / Lumière ─────────── */
+#story-meter { grid-template-columns: minmax(0,1fr) minmax(84px,150px) minmax(0,1fr); gap: 10px; margin-top: 7px; }
+#meter-gauge {
+  display: flex; height: 8px !important; border-radius: 5px; overflow: visible;
+  background: #07060c !important;
+  border: 1px solid rgba(224,189,104,.35);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.8), 0 0 8px rgba(0,0,0,.4);
+}
+.bal-seg { display: block; height: 100%; flex: 0 0 auto; transition: width .8s cubic-bezier(.4,0,.2,1); }
+.bal-shadow {
+  border-radius: 4px 0 0 4px;
+  background: linear-gradient(90deg, #1c0202 0%, #5a0a08 45%, #a1221a 100%);
+  box-shadow: 0 0 8px rgba(161,34,26,.55);
+}
+.bal-light {
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(90deg, #86bfea 0%, #cfe6f7 55%, #ffffff 100%);
+  box-shadow: 0 0 9px rgba(207,230,247,.6);
+}
+#meter-mark { z-index: 2; left: 50%; transition: left .8s cubic-bezier(.4,0,.2,1); }
+
+.duo .duo-track {
+  display: flex; height: 10px; border-radius: 5px; overflow: visible;
+  background: #07060c !important;
+  border: 1px solid rgba(224,189,104,.32);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.8);
+}
+.duo-cursor {
+  position: absolute; top: 50%; left: 50%; z-index: 2;
+  width: 12px; height: 12px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: linear-gradient(135deg, #fff3cc, #c9a84c 55%, #7a5010);
+  box-shadow: 0 0 8px rgba(246,227,164,.9), 0 0 0 2px rgba(20,10,4,.85);
+  transition: left .8s cubic-bezier(.4,0,.2,1);
+}
+.duo-scores #demon-score { color: #f08a6a !important; }
+
+/* ─────────── Attributs : quatre sceaux centrés ─────────── */
+.attr6 { grid-template-columns: repeat(4, minmax(0, 92px)); justify-content: center; gap: 8px; }
+
+/* ─────────── Choix du récit ─────────── */
+.narr-bubble .choices { display: flex; flex-direction: column; gap: 7px; margin-top: 14px; }
+button.choice {
+  -webkit-appearance: none; appearance: none;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; margin: 0 !important; padding: 9px 12px;
+  font: inherit; color: inherit; text-align: left; cursor: pointer;
+  border: 1px solid rgba(224,189,104,.34) !important;
+  border-radius: 3px 12px 3px 12px;
+  background: linear-gradient(90deg, rgba(154,126,216,.16), rgba(0,0,0,.22)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,235,190,.06);
+  transition: border-color .2s, background .2s, box-shadow .2s, transform .12s, opacity .3s;
+}
+button.choice em { font-style: italic; color: #f6dc98; font-size: .92rem; line-height: 1.45; }
+.choice-mark {
+  flex: 0 0 auto; width: 9px; height: 9px; transform: rotate(45deg);
+  border: 1px solid var(--gilt);
+  background: radial-gradient(circle, #fbeec2, #c9a84c 60%, #7a5010);
+  box-shadow: 0 0 6px rgba(224,189,104,.6);
+}
+button.choice:hover:not(:disabled), button.choice:focus-visible {
+  outline: none;
+  border-color: rgba(251,238,194,.7) !important;
+  background: linear-gradient(90deg, rgba(154,126,216,.32), rgba(0,0,0,.18)) !important;
+  box-shadow: 0 0 14px rgba(154,126,216,.3);
+}
+button.choice:active:not(:disabled) { transform: scale(.985); }
+button.choice:disabled { cursor: default; }
+.choices.single button.choice { justify-content: center; text-align: center; border-radius: 12px; }
+.choices.spent button.choice:not(.chosen) { opacity: .36; }
+.choices.spent .choice-mark { box-shadow: none; background: rgba(224,189,104,.25); }
+button.choice.chosen {
+  border-color: rgba(207,230,247,.6) !important;
+  background: linear-gradient(90deg, rgba(127,182,226,.22), rgba(0,0,0,.2)) !important;
+}
+button.choice.chosen .choice-mark { border-color: #cfe6f7; background: radial-gradient(circle, #fff, #cfe6f7 60%, #7fb6e2); box-shadow: 0 0 6px rgba(207,230,247,.7); }
+button.choice.chosen::after {
+  content: 'choisi'; margin-left: auto; padding-left: 8px; flex: 0 0 auto;
+  font-family: 'Cinzel', serif; font-size: .5rem; letter-spacing: .18em; text-transform: uppercase; color: var(--sky);
+}
+.choices.single button.choice.chosen::after { margin-left: 8px; }
+.narr-bubble .ask {
+  display: flex; align-items: flex-start; gap: 8px;
+  margin-top: 14px; padding: 9px 12px;
+  border-left: 2px solid var(--sky-mid);
+  border-radius: 0 10px 10px 0;
+  background: linear-gradient(90deg, rgba(127,182,226,.14), transparent);
+  color: #dcecf9; font-style: italic; cursor: text;
+}
+.narr-bubble .ask .ico { color: var(--sky); margin-top: .25em; }
+.narr-bubble .ask.spent { opacity: .55; cursor: default; }
+#player-input:focus { box-shadow: 0 0 0 1px rgba(127,182,226,.35), 0 0 12px rgba(127,182,226,.15); }
+
+/* ─────────── Équipement : silhouette et emplacements ─────────── */
+.paperdoll {
+  position: relative;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-areas:
+    "epaul  casque collier"
+    "coud   plast  sac"
+    "bague1 jamb   bague2"
+    "maind  .      maing";
+  gap: 8px 10px; max-width: 460px; margin: 0 auto; padding: 4px 2px 2px;
+}
+.pd-figure {
+  position: absolute; left: 50%; top: 0; width: 40%; height: 100%;
+  transform: translateX(-50%); pointer-events: none; z-index: 0;
+  filter: drop-shadow(0 0 10px rgba(154,126,216,.25));
+}
+.eq-slot {
+  --rar: 224,189,104;
+  position: relative; z-index: 1; overflow: hidden; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  min-height: 88px; padding: 10px 4px 7px;
+  font: inherit; color: inherit; text-align: center; cursor: pointer;
+  border: 1px solid rgba(224,189,104,.26);
+  border-radius: 40px 40px 6px 6px / 26px 26px 6px 6px;
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(154,126,216,.16), transparent 70%),
+    linear-gradient(180deg, rgba(22,18,38,.94), rgba(6,5,12,.94));
+  box-shadow: inset 0 1px 0 rgba(255,235,190,.06), inset 0 -10px 18px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.45);
+  transition: border-color .2s, box-shadow .2s, transform .12s;
+}
+.eq-slot.center {
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(154,126,216,.14), transparent 70%),
+    linear-gradient(180deg, rgba(22,18,38,.55), rgba(6,5,12,.62));
+}
+.eq-slot:hover, .eq-slot:focus-visible { outline: none; border-color: rgba(251,238,194,.6); box-shadow: inset 0 1px 0 rgba(255,235,190,.08), 0 0 14px rgba(154,126,216,.3); }
+.eq-slot:active { transform: scale(.97); }
+.eq-medal {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 1.15rem;
+  color: rgba(224,189,104,.42);
+  border: 1px dashed rgba(224,189,104,.3); background: rgba(0,0,0,.35);
+}
+.eq-lbl { font-family: 'Cinzel', serif; font-size: .5rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-sepia); margin-top: 3px; }
+.eq-item {
+  max-width: 100%; font-size: .68rem; line-height: 1.2; font-style: italic; color: #6f668a;
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.eq-slot.filled { border-color: rgba(var(--rar), .55); box-shadow: inset 0 1px 0 rgba(255,235,190,.08), inset 0 -10px 18px rgba(0,0,0,.4), 0 0 12px rgba(var(--rar), .18); }
+.eq-slot.filled .eq-medal {
+  color: rgb(var(--rar)); border: 1px solid rgba(var(--rar), .65);
+  background: radial-gradient(circle at 50% 35%, rgba(var(--rar), .22), #0b0913 72%);
+  box-shadow: 0 0 10px rgba(var(--rar), .3);
+}
+.eq-slot.filled .eq-item { color: var(--gilt-hi); font-style: normal; }
+.eq-slot.r-rare, .bag-slot.r-rare { --rar: 127,182,226; }
+.eq-slot.r-epique, .bag-slot.r-epique { --rar: 170,140,235; }
+.eq-slot.r-legendaire, .bag-slot.r-legendaire { --rar: 251,200,90; }
+.eq-slot.r-maudit, .eq-slot.cursed, .bag-slot.r-maudit, .bag-slot.cursed { --rar: 232,106,66; }
+.eq-slot.cursed::before, .bag-slot.cursed::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(135deg, rgba(232,106,66,.07) 0 6px, transparent 6px 12px);
+}
+.eq-slot.cursed .eq-lbl::after { content: ' · maudit'; color: var(--ember); }
+.eq-cap {
+  position: absolute; top: 7px; right: 9px; min-width: 18px; height: 18px; padding: 0 4px;
+  border-radius: 9px; font-family: 'Cinzel', serif; font-size: .56rem; font-weight: 700; line-height: 18px;
+  color: #1a0d05; background: linear-gradient(180deg, #fbeec2, #c9a84c 60%, #8b6a20);
+  box-shadow: 0 0 6px rgba(224,189,104,.5);
+}
+@media (max-width: 360px) {
+  .eq-slot { min-height: 80px; }
+  .eq-item { font-size: .62rem; }
+  .eq-medal { width: 32px; height: 32px; font-size: 1.05rem; }
+}
+
+/* ─────────── Sac à dos ─────────── */
+#page-inv .card.bag-card::after { inset: 6px; border: 1px dashed rgba(224,189,104,.26); border-radius: 6px; }
+.bag-meta {
+  text-align: center; margin: -4px 0 10px;
+  font-family: 'Cinzel', serif; font-size: .56rem; letter-spacing: .16em; color: var(--ink-sepia);
+}
+.bag-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.bag-slot {
+  --rar: 224,189,104;
+  position: relative; overflow: hidden; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  min-height: 92px; padding: 10px 6px 8px;
+  font: inherit; color: inherit; text-align: center; cursor: pointer;
+  border: 1px solid rgba(var(--rar), .4); border-radius: 8px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(var(--rar), .14), transparent 70%),
+    linear-gradient(180deg, rgba(22,18,38,.92), rgba(6,5,12,.92));
+  box-shadow: inset 0 1px 0 rgba(255,235,190,.06), 0 2px 8px rgba(0,0,0,.4);
+  transition: border-color .2s, box-shadow .2s, transform .12s;
+}
+.bag-slot:not(.empty):hover, .bag-slot:not(.empty):focus-visible { outline: none; border-color: rgba(var(--rar), .8); box-shadow: 0 0 14px rgba(var(--rar), .25); }
+.bag-slot:not(.empty):active { transform: scale(.97); }
+.bag-slot.empty { cursor: default; justify-content: center; border: 1px dashed rgba(224,189,104,.22); background: rgba(0,0,0,.28); box-shadow: inset 0 2px 10px rgba(0,0,0,.5); }
+.bag-icon { font-size: 1.35rem; min-height: 1.6rem; display: grid; place-items: center; color: rgb(var(--rar)); }
+.bag-slot.empty .bag-icon { color: rgba(224,189,104,.25); font-size: 1.1rem; }
+.bag-name {
+  max-width: 100%; font-size: .7rem; line-height: 1.2; color: var(--gilt-hi);
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.bag-slot.empty .bag-name { font-family: 'Cinzel', serif; font-size: .5rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-faint); }
+.bag-type { font-family: 'Cinzel', serif; font-size: .46rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); margin-top: auto; }
+.bag-slot.over { border-color: rgba(232,106,66,.6); }
+.ground { margin-top: 12px; padding-top: 10px; border-top: 1px dashed rgba(224,189,104,.22); }
+.ground-title { text-align: center; margin-bottom: 8px; font-family: 'Cinzel', serif; font-size: .52rem; letter-spacing: .24em; text-transform: uppercase; color: #f08a6a; }
+.ground-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.ground-chip {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px;
+  font: inherit; font-size: .72rem; color: #f3d6c8; cursor: pointer;
+  border: 1px solid rgba(232,106,66,.4); border-radius: 14px; background: rgba(232,106,66,.08);
+}
+.ground-chip:hover { border-color: rgba(232,106,66,.75); background: rgba(232,106,66,.16); }
+.loot-banner.loot-ground { border-color: rgba(232,106,66,.55) !important; }
+.loot-banner.loot-ground .loot-banner-text { color: #f08a6a; }
+
+/* ─────────── Carte du Seuil ─────────── */
+.jm-frame {
+  position: relative; height: 220px; overflow: hidden;
+  border: 1px solid rgba(224,189,104,.25); border-radius: 8px;
+  background: linear-gradient(180deg, #0d1624 0%, #0b0913 50%, #17070a 100%);
+  box-shadow: inset 0 0 24px rgba(0,0,0,.65);
+}
+.jm-scroll {
+  position: absolute; inset: 0; overflow-x: auto; overflow-y: hidden;
+  scrollbar-width: thin; scrollbar-color: rgba(224,189,104,.35) transparent;
+}
+.jm-scroll::-webkit-scrollbar { height: 5px; }
+.jm-scroll::-webkit-scrollbar-thumb { background: rgba(224,189,104,.35); border-radius: 3px; }
+#jm-svg { display: block; }
+.jm-band {
+  position: absolute; left: 6px; z-index: 1; pointer-events: none;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-family: 'Cinzel', serif; font-size: .5rem; letter-spacing: .3em; text-transform: uppercase;
+  padding: 6px 2px; border-radius: 3px; background: rgba(6,5,12,.6);
+}
+.jm-band-sky { top: 10px; color: var(--sky); }
+.jm-band-abyss { bottom: 10px; color: #f08a6a; }
+#jm-svg .jm-seuil { stroke: rgba(224,189,104,.24); stroke-width: 1; stroke-dasharray: 3 6; }
+#jm-svg .jm-faille { stroke: rgba(224,189,104,.55); stroke-width: 1.2; }
+#jm-svg .jm-chap { stroke: rgba(154,126,216,.5); stroke-width: 1; stroke-dasharray: 2 4; }
+#jm-svg .jm-chap-t { fill: #cbbcf2; font-family: 'Cinzel', serif; font-size: 9px; font-weight: 600; letter-spacing: .14em; }
+#jm-svg .jm-path-glow { fill: none; stroke: rgba(224,189,104,.2); stroke-width: 7; stroke-linecap: round; filter: blur(2px); }
+#jm-svg .jm-path { fill: none; stroke-width: 2; stroke-linecap: round; }
+#jm-svg .jm-ghost-line { stroke: rgba(224,189,104,.35); stroke-dasharray: 2 5; }
+#jm-svg .jm-ghost circle { fill: rgba(6,5,12,.7); stroke: rgba(224,189,104,.45); stroke-dasharray: 2 3; }
+#jm-svg .jm-ghost text { fill: rgba(224,189,104,.7); font-family: 'Cinzel', serif; font-size: 10px; }
+.jm-node { cursor: pointer; outline: none; --c: #e0bd68; }
+.jm-node.sky { --c: #cfe6f7; }
+.jm-node.abyss { --c: #e86a42; }
+.jm-node .hit { fill: transparent; }
+.jm-node .ring { fill: none; stroke: transparent; stroke-width: 1.2; transition: stroke .2s; }
+.jm-node .dot { fill: var(--c); stroke: #0b0913; stroke-width: 1.2; }
+.jm-node .gem { fill: var(--c); stroke: #fbeec2; stroke-width: 1; }
+.jm-node:hover .ring, .jm-node:focus-visible .ring { stroke: rgba(251,238,194,.55); }
+.jm-node.sel .ring { stroke: #fbeec2; stroke-width: 1.5; }
+.jm-node .pulse { fill: none; stroke: var(--c); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; animation: jmPulse 2.2s ease-out infinite; }
+@keyframes jmPulse { 0% { transform: scale(.7); opacity: .9; } 100% { transform: scale(2.1); opacity: 0; } }
+#jm-svg .jm-label {
+  fill: #efe6c9; font-family: 'Cinzel', serif; font-size: 9.5px; letter-spacing: .05em;
+  paint-order: stroke; stroke: rgba(6,5,12,.92); stroke-width: 3px; stroke-linejoin: round; pointer-events: none;
+}
+.jm-node.sel .jm-label { fill: #fbeec2; }
+@media (prefers-reduced-motion: reduce) { .jm-node .pulse { animation: none; opacity: .5; } }
+.jm-legend {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 14px; margin-top: 8px;
+  font-family: 'Cinzel', serif; font-size: .5rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-sepia);
+}
+.jm-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.jm-legend i { display: inline-block; }
+.lg-place { width: 8px; height: 8px; transform: rotate(45deg); background: var(--gilt); border: 1px solid #fbeec2; }
+.lg-turn { width: 6px; height: 6px; border-radius: 50%; background: var(--gilt); }
+.lg-seuil { width: 16px; border-top: 1px dashed rgba(224,189,104,.65); }
+.jm-detail {
+  margin-top: 10px; padding: 10px 12px; border-radius: 8px;
+  border: 1px solid rgba(224,189,104,.22);
+  background: linear-gradient(180deg, rgba(154,126,216,.10), rgba(0,0,0,.3));
+}
+.jd-head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; }
+.jd-name { font-family: 'Cinzel', serif; font-size: .78rem; letter-spacing: .06em; color: var(--gilt-hi); }
+.jd-when { font-family: 'Cinzel', serif; font-size: .52rem; letter-spacing: .14em; text-transform: uppercase; color: #cbbcf2; }
+.jd-when b { color: var(--sky); font-weight: 600; }
+.jd-bal { display: flex; align-items: center; gap: 8px; margin: 8px 0; font-family: 'Cinzel', serif; font-size: .5rem; letter-spacing: .1em; white-space: nowrap; }
+.jd-s { color: #f08a6a; }
+.jd-l { color: var(--sky); }
+.jd-track { flex: 1; display: flex; height: 6px; overflow: hidden; border-radius: 3px; background: #07060c; border: 1px solid rgba(224,189,104,.25); }
+.jd-track .bal-seg { border-radius: 0; box-shadow: none; }
+.jd-note { font-size: .8rem; line-height: 1.55; font-style: italic; color: #e6dcc4; }
+.jd-note.jd-empty { color: var(--ink-faint); }
+.jd-foot { margin-top: 8px; text-align: right; font-family: 'Cinzel', serif; font-size: .48rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); }
+
+/* ─────────── Sauvegarde : deux reliquaires ─────────── */
+#page-save { gap: 12px; padding: 12px 12px 16px; }
+#page-save .card { padding: 14px !important; }
+#page-save .card::after { content: ''; position: absolute; inset: 4px; pointer-events: none; border: 1px solid rgba(216,180,90,.13); border-radius: 2px; }
+#page-save .card-title {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: .6rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gilt);
+  margin-bottom: 14px; border-bottom: 0 !important; padding-bottom: 0 !important;
+}
+#page-save .card-title::before, #page-save .card-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(216,180,90,.6)); }
+#page-save .card-title::after { background: linear-gradient(90deg, rgba(216,180,90,.6), transparent); }
+.save-rel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 2px; }
+@media (max-width: 340px) { .save-rel { grid-template-columns: 1fr; } }
+.save-rel-btn {
+  --tone: 127,182,226;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 24px 10px 18px;
+  font: inherit; color: inherit; text-align: center; cursor: pointer;
+  border: 1px solid rgba(var(--tone), .45);
+  border-radius: 60px 60px 8px 8px / 42px 42px 8px 8px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(var(--tone), .22), transparent 65%),
+    var(--grain) repeat,
+    linear-gradient(180deg, #1b1730, #0c0a15);
+  box-shadow: inset 0 1px 0 rgba(255,235,190,.08), inset 0 -14px 24px rgba(0,0,0,.45), 0 4px 14px rgba(0,0,0,.5);
+  transition: transform .15s, box-shadow .25s, border-color .25s;
+}
+.save-rel-btn::before {
+  content: ''; position: absolute; inset: 5px; pointer-events: none;
+  border: 1px solid rgba(var(--tone), .2);
+  border-radius: 56px 56px 5px 5px / 38px 38px 5px 5px;
+}
+.save-rel-btn.rel-import { --tone: 232,106,66; }
+.rel-medal {
+  width: 54px; height: 54px; border-radius: 50%;
+  display: grid; place-items: center; font-size: 1.4rem; color: rgb(var(--tone));
+  border: 1px solid rgba(var(--tone), .6);
+  background: radial-gradient(circle at 50% 35%, rgba(var(--tone), .25), #0b0913 72%);
+  box-shadow: 0 0 0 3px #0b0913, 0 0 0 4px rgba(224,189,104,.35), 0 0 18px rgba(var(--tone), .35);
+}
+.rel-title { margin-top: 6px; font-family: 'Cinzel Decorative', 'Cinzel', serif; font-size: .9rem; letter-spacing: .12em; color: var(--gilt-hi); }
+.rel-sub { max-width: 190px; font-size: .7rem; line-height: 1.35; color: var(--ink-sepia); }
+.save-rel-btn:hover, .save-rel-btn:focus-visible {
+  outline: none; border-color: rgba(var(--tone), .8);
+  box-shadow: inset 0 1px 0 rgba(255,235,190,.1), inset 0 -14px 24px rgba(0,0,0,.4), 0 0 22px rgba(var(--tone), .3);
+}
+.save-rel-btn:active { transform: scale(.97); }
+/* FIN CALQUE III */
+
 </style>
 </head>
 <body>
@@ -2900,6 +3261,12 @@ body::after {
   <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2.5A6.5 6.5 0 0 0 5.5 9c0 4.8 6.5 12.5 6.5 12.5S18.5 13.8 18.5 9A6.5 6.5 0 0 0 12 2.5z"/><circle cx="12" cy="9" r="2.4"/></g></symbol>
   <symbol id="i-gate" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M3.5 21V11a8.5 8.5 0 0 1 17 0v10"/><path d="M7.5 21v-9.6a4.5 4.5 0 0 1 9 0V21"/><path d="M12 6.8V21M2 21h20"/></g></symbol>
   <symbol id="i-hourglass" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M6 2.5h12M6 21.5h12"/><path d="M7.5 2.5v3.2c0 2 4.5 4.5 4.5 6.3 0 1.8-4.5 4.3-4.5 6.3v3.2M16.5 2.5v3.2c0 2-4.5 4.5-4.5 6.3 0 1.8 4.5 4.3 4.5 6.3v3.2"/></g></symbol>
+  <!-- Équipement : casque, épaulières, coudières, jambières, sac à dos -->
+  <symbol id="i-helm" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M4.5 13.5a7.5 7.5 0 0 1 15 0v6l-3.8 1.6V16H8.3v5.1L4.5 19.5z"/><path d="M12 4.5V16"/><path d="M7.2 12.6h3.3M13.5 12.6h3.3"/></g></symbol>
+  <symbol id="i-pauldron" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M3 16c0-5.5 4-9.5 9-9.5s9 4 9 9.5z"/><path d="M6.2 16c.5-3.3 2.8-5.6 5.8-5.6s5.3 2.3 5.8 5.6"/><path d="M8 16v3.5M12 16v4.5M16 16v3.5"/><circle cx="12" cy="4" r="1.1"/></g></symbol>
+  <symbol id="i-bracer" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M6.5 3.5h11l-1.6 17H8.1z"/><path d="M7 9h10M7.6 14.8h8.8"/><path d="M12 5.2l1 1.6-1 1.6-1-1.6z" fill="currentColor" fill-opacity=".4"/></g></symbol>
+  <symbol id="i-greaves" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M8 2.5h6.5v11l5 3.1c.6.4 1 1 1 1.7v2.2H8z"/><path d="M8 7h6.5M8 11.5h6.5"/><path d="M11.2 14.5v2"/></g></symbol>
+  <symbol id="i-backpack" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M6 10.5a6 6 0 0 1 12 0v9a1.8 1.8 0 0 1-1.8 1.8H7.8A1.8 1.8 0 0 1 6 19.5z"/><path d="M9.5 4.9V3.5h5v1.4"/><path d="M8.5 14.5h7v4.2h-7z"/><path d="M8.5 14.5c0-1.2.8-2 2-2h3c1.2 0 2 .8 2 2"/><path d="M12 16v1.2"/></g></symbol>
 </svg>
 
 <canvas id="bg-canvas"></canvas>
@@ -3205,7 +3572,6 @@ body::after {
 <!-- ===== HEADER ===== -->
 <div id="header">
   <div class="header-logo">LIMINAL</div>
-  <button onclick="openSaveModal()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:4px 9px;color:var(--text-dim);font-size:0.8rem;cursor:pointer;transition:all 0.2s;line-height:1" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--border)'">💾</button>
   <div class="header-info">
     <div class="header-name" id="hdr-name">—</div>
     <div class="header-class" id="hdr-class">—</div>
@@ -3234,21 +3600,17 @@ body::after {
         <div class="ctx-rule-line"></div>
       </div>
       <div id="story-meter">
-        <span id="meter-chapter">Chapitre 1 · Tour 0/6</span>
-        <div id="meter-gauge" title="Abîme ◂ ▸ Ciel"><i id="meter-mark"></i></div>
+        <span id="meter-chapter">Chapitre&nbsp;1 · Tour&nbsp;0/6</span>
+        <div id="meter-gauge" title="Ombre ◂ ▸ Lumière" role="img" aria-label="Équilibre Ombre / Lumière">
+          <i class="bal-seg bal-shadow" id="meter-shadow"></i>
+          <i class="bal-seg bal-light" id="meter-light"></i>
+          <i id="meter-mark"></i>
+        </div>
         <span id="meter-quota"></span>
       </div>
     </div>
     <div id="narrative"></div>
     <div id="input-zone">
-      <div class="quick-btns">
-        <button class="qbtn" onclick="sendQuick('Examiner les environs')"><svg class="ico" aria-hidden="true"><use href="#i-eye"/></svg><span>Examiner</span></button>
-        <button class="qbtn" onclick="sendQuick('Parler à un personnage')"><svg class="ico" aria-hidden="true"><use href="#i-speak"/></svg><span>Parler</span></button>
-        <button class="qbtn" onclick="sendQuick('Attaquer')"><svg class="ico" aria-hidden="true"><use href="#i-sword"/></svg><span>Attaquer</span></button>
-        <button class="qbtn" onclick="sendQuick('Utiliser ma magie')"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg><span>Magie</span></button>
-        <button class="qbtn" onclick="sendQuick('Fouiller')"><svg class="ico" aria-hidden="true"><use href="#i-key"/></svg><span>Fouiller</span></button>
-        <button class="qbtn" onclick="sendQuick('Fuir')"><svg class="ico" aria-hidden="true"><use href="#i-wing"/></svg><span>Fuir</span></button>
-      </div>
       <div class="input-row">
         <textarea id="player-input" rows="1" placeholder="Votre action…" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
         <button id="send-btn" onclick="sendMessage()" aria-label="Envoyer"><svg class="ico" aria-hidden="true"><use href="#i-quill"/></svg></button>
@@ -3292,13 +3654,13 @@ body::after {
       <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px">
         <div class="vit">
           <span class="vit-lbl" style="color:#f08070">PV</span>
-          <div class="vit-track"><div class="vital-bar bar-hp" id="hp-fill" style="width:85%"></div></div>
-          <span class="vit-num" style="color:#f0a090" id="hp-display">85/100</span>
+          <div class="vit-track"><div class="vital-bar bar-hp" id="hp-fill" style="width:100%"></div></div>
+          <span class="vit-num" style="color:#f0a090" id="hp-display">100 / 100</span>
         </div>
         <div class="vit">
           <span class="vit-lbl" style="color:var(--sky)">PM</span>
-          <div class="vit-track"><div class="vital-bar bar-mp" id="mp-fill" style="width:87%"></div></div>
-          <span class="vit-num" style="color:var(--sky)" id="mp-display">70/80</span>
+          <div class="vit-track"><div class="vital-bar bar-mp" id="mp-fill" style="width:100%"></div></div>
+          <span class="vit-num" style="color:var(--sky)" id="mp-display">100 / 100</span>
         </div>
         <div class="vit">
           <span class="vit-lbl" style="color:var(--gilt)">XP</span>
@@ -3308,10 +3670,14 @@ body::after {
       </div>
       <div class="duo">
         <span style="color:#e0806a" title="Abîme"><svg class="ico" aria-hidden="true"><use href="#i-horns"/></svg></span>
-        <div class="duo-track"><div class="dual-fill" id="dual-fill" style="width:50%"></div></div>
+        <div class="duo-track" id="duo-track" role="img" aria-label="Ombre 50, Lumière 50">
+          <i class="bal-seg bal-shadow" id="duo-shadow"></i>
+          <i class="bal-seg bal-light" id="duo-light"></i>
+          <i class="duo-cursor" id="duo-cursor"></i>
+        </div>
         <span style="color:var(--sky)" title="Ciel"><svg class="ico" aria-hidden="true"><use href="#i-halo"/></svg></span>
       </div>
-      <div class="duo-scores"><span id="demon-score">50</span><span id="angel-score">50</span></div>
+      <div class="duo-scores"><span id="demon-score">Ombre 50</span><span id="angel-score">Lumière 50</span></div>
     </div>
 
     <!-- ATTRIBUTS compacts -->
@@ -3322,8 +3688,6 @@ body::after {
         <div><svg class="ico" aria-hidden="true"><use href="#i-wind"/></svg><div class="a-n">AGI</div><div class="a-v" id="s-agi">10</div></div>
         <div><svg class="ico" aria-hidden="true"><use href="#i-book"/></svg><div class="a-n">ARC</div><div class="a-v" id="s-arc">14</div></div>
         <div><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg><div class="a-n">RÉS</div><div class="a-v" id="s-res">9</div></div>
-        <div><svg class="ico" aria-hidden="true"><use href="#i-rose"/></svg><div class="a-n">CHA</div><div class="a-v" id="s-cha">11</div></div>
-        <div><svg class="ico" aria-hidden="true"><use href="#i-dual"/></svg><div class="a-n">DUA</div><div class="a-v" id="s-dual">8</div></div>
       </div>
     </div>
 
@@ -3344,20 +3708,23 @@ body::after {
   <!-- PAGE: INVENTORY -->
   <div class="page" id="page-inv">
     <div class="card">
-      <div class="card-title"><svg class="ico" aria-hidden="true"><use href="#i-bag"/></svg> Équipement &amp; Objets</div>
-      <div class="inv-grid" id="inv-grid">
-        <!-- Dynamically populated by updateInventoryUI() -->
+      <div class="card-title"><svg class="ico" aria-hidden="true"><use href="#i-armor"/></svg> Équipement</div>
+      <div class="paperdoll" id="paperdoll"><!-- rempli par renderPaperdoll() --></div>
+    </div>
+
+    <div class="card bag-card">
+      <div class="card-title"><svg class="ico" aria-hidden="true"><use href="#i-backpack"/></svg> <span id="bag-title">Sac en cuir</span></div>
+      <div class="bag-meta" id="bag-meta"></div>
+      <div class="bag-grid" id="bag-grid"><!-- rempli par renderBag() --></div>
+      <div class="ground" id="ground" hidden>
+        <div class="ground-title">Au sol</div>
+        <div class="ground-list" id="ground-list"></div>
       </div>
     </div>
 
     <div class="gold-card">
       <div class="gold-icon"><svg class="ico" aria-hidden="true"><use href="#i-coin"/></svg></div>
       <div><div class="gold-lbl">ÂME-OR</div><div class="gold-val" id="gold-display">250</div></div>
-    </div>
-
-    <div class="location-card" style="display:none">
-      <div class="loc-name"><svg class="ico" aria-hidden="true"><use href="#i-map"/></svg> <span>Carrefour des Âmes</span></div>
-      <div class="loc-desc">Un nexus entre les deux royaumes. Les voiles du réel sont minces ici. Des silhouettes spectrales errent dans la brume liminale.</div>
     </div>
 
   </div><!-- /page-inv -->
@@ -3391,7 +3758,22 @@ body::after {
 
     <div class="location-card">
       <div class="loc-name"><svg class="ico" aria-hidden="true"><use href="#i-map"/></svg> <span id="loc-name-display-q">Carrefour des Âmes</span></div>
-      <div class="loc-desc">Un nexus entre les deux royaumes. Les voiles du réel sont minces ici. Des silhouettes spectrales errent dans la brume liminale.</div>
+      <div class="loc-desc" id="loc-desc-q">Un nexus entre les deux royaumes. Les voiles du réel sont minces ici. Des silhouettes spectrales errent dans la brume liminale.</div>
+    </div>
+
+    <div class="card journey-card">
+      <div class="card-title"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg> Carte du Seuil</div>
+      <div class="jm-frame">
+        <div class="jm-scroll" id="jm-scroll"><svg id="jm-svg" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Chemin parcouru entre Ciel et Abîme"></svg></div>
+        <span class="jm-band jm-band-sky">Ciel</span>
+        <span class="jm-band jm-band-abyss">Abîme</span>
+      </div>
+      <div class="jm-legend" aria-hidden="true">
+        <span><i class="lg-place"></i>Lieu découvert</span>
+        <span><i class="lg-turn"></i>Tour joué</span>
+        <span><i class="lg-seuil"></i>Seuils des sorts (70 / 30)</span>
+      </div>
+      <div class="jm-detail" id="jm-detail" aria-live="polite"></div>
     </div>
 
   </div><!-- /page-quests -->
@@ -3399,17 +3781,21 @@ body::after {
 
   <!-- PAGE: SAUVEGARDE -->
   <div class="page" id="page-save">
-    <div class="card">
-      <div class="card-title"><svg class="ico" aria-hidden="true"><use href="#i-feather"/></svg> Sauvegarde &amp; Chargement</div>
-      <p class="save-hint">Trois emplacements gard&#233;s par la Plume. La partie en cours est aussi sauvegard&#233;e toute seule.</p>
-      <div class="save-slots save-slots-list"></div>
-      <div class="save-divider"></div>
-      <div class="save-io-row">
-        <button class="save-io-btn btn-export" onclick="exportSave()"><svg class="ico" aria-hidden="true"><use href="#i-upload"/></svg> Exporter</button>
-        <button class="save-io-btn btn-import" onclick="document.getElementById('import-input-page').click()"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg> Importer</button>
+    <div class="card save-card">
+      <div class="card-title"><svg class="ico" aria-hidden="true"><use href="#i-feather"/></svg> Sauvegarde</div>
+      <div class="save-rel">
+        <button type="button" class="save-rel-btn rel-export" onclick="exportSave()">
+          <span class="rel-medal"><svg class="ico" aria-hidden="true"><use href="#i-upload"/></svg></span>
+          <span class="rel-title">Exporter</span>
+          <span class="rel-sub">Télécharge ta partie dans un fichier .json</span>
+        </button>
+        <button type="button" class="save-rel-btn rel-import" onclick="document.getElementById('import-input-page').click()">
+          <span class="rel-medal"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg></span>
+          <span class="rel-title">Importer</span>
+          <span class="rel-sub">Reprends une partie depuis un fichier .json</span>
+        </button>
       </div>
-      <input type="file" id="import-input-page" accept=".json" style="display:none" onchange="importSave(event)">
-      <div class="save-autosave autosave-info">Sauvegarde automatique active</div>
+      <input type="file" id="import-input-page" accept=".json" hidden onchange="importSave(event)">
     </div>
   </div>
 
@@ -3433,29 +3819,6 @@ body::after {
   </div>
 </div>
 
-<!-- ===== SAVE MODAL ===== -->
-<div id="save-modal" onclick="closeSaveModal(event)">
-  <div class="save-sheet">
-    <div class="save-sheet-handle"></div>
-    <div class="save-sheet-title">✦ Sauvegarde & Chargement ✦</div>
-
-    <div class="save-slots save-slots-list" id="save-slots-list">
-      <!-- rempli par JS -->
-    </div>
-
-    <div class="save-divider"></div>
-
-    <div class="save-io-row">
-      <button class="save-io-btn btn-export" onclick="exportSave()"><svg class="ico" aria-hidden="true"><use href="#i-upload"/></svg> Exporter</button>
-      <button class="save-io-btn btn-import" onclick="document.getElementById('import-input').click()"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg> Importer</button>
-    </div>
-    <input type="file" id="import-input" accept=".json" style="display:none" onchange="importSave(event)">
-
-    <button class="btn-close-save" onclick="closeSaveModal()">✕ Fermer</button>
-    <div class="save-autosave autosave-info" id="autosave-info">Sauvegarde automatique active</div>
-  </div>
-</div>
-
 <!-- ===== TAB BAR ===== -->
 <div id="tab-bar">
   <button class="tab-btn active" onclick="switchTab('story',this)" id="tab-story">
@@ -3476,7 +3839,7 @@ body::after {
   </button>
   <button class="tab-btn" onclick="switchTab('save',this)" id="tab-save">
     <span class="tab-icon"><svg class="ico" aria-hidden="true"><use href="#i-feather"/></svg></span>
-    <span class="tab-label">Plume</span>
+    <span class="tab-label">Save</span>
   </button>
 </div>
 
@@ -3618,7 +3981,7 @@ function addRipple(e, el) {
 }
 
 // Sélecteurs pour le ripple
-const RIPPLE_SELECTORS = '.qbtn, #send-btn, .tab-btn, .slot-btn, .save-io-btn, .btn-close-save, .item-action-btn, .dsc-use-btn, .restore-btn, #start-btn, .class-card';
+const RIPPLE_SELECTORS = 'button.choice:not(:disabled), #send-btn, .tab-btn, .save-rel-btn, .item-action-btn, .dsc-use-btn, .restore-btn, #start-btn, .class-card, .eq-slot, .bag-slot:not(.empty), .ground-chip';
 
 document.addEventListener('pointerdown', e => {
   const el = e.target.closest(RIPPLE_SELECTORS);
@@ -3627,8 +3990,6 @@ document.addEventListener('pointerdown', e => {
 
 // ===== SAVE SYSTEM =====
 const SAVE_KEY = 'liminal_save_v1'; // autosave
-const SLOT_KEY = 'liminal_slot_'; // slots 1-3
-const NUM_SLOTS = 3;
 
 function fmtDate(iso) {
   if (!iso) return '';
@@ -3641,23 +4002,30 @@ function fmtDate(iso) {
 // ===== ITEM DATABASE =====
 // Chaque item : { name, icon, type, rarity, desc, powers[], statBonus{} }
 const ITEM_TEMPLATES = {
-  'Lame Liminale':     { icon:'🗡️', type:'Arme', rarity:'rare', desc:'Une lame forgée dans la faille entre les deux mondes. Elle vibre d\'une énergie double.', powers:[{tag:'⚔️ +FOR 2', cls:'power-stat'},{tag:'✨ Dualité', cls:'power-magic'}], statBonus:{ str:2 } },
-  'Orbe des Plans':    { icon:'🔮', type:'Catalyseur', rarity:'rare', desc:'Une sphère translucide qui capte les énergies des deux royaumes.', powers:[{tag:'📖 +ARC 3', cls:'power-stat'},{tag:'🔵 -5 PM/tour', cls:'power-curse'}], statBonus:{ arc:3 } },
-  'Collier Brisé':     { icon:'📿', type:'Accessoire', rarity:'maudit', desc:'Un collier autrefois béni, désormais corrompu. Son porteur ressent une sombre attraction.', powers:[{tag:'☠️ Maudit', cls:'power-curse'},{tag:'🌑 +CHA 1 (Ombre)', cls:'power-neutral'}], statBonus:{ cha:1 } },
-  "Potion d'Ombre ×2": { icon:'🧪', type:'Consommable', rarity:'commun', desc:'Un élixir sombre qui soigne les blessures en puisant dans l\'énergie des ombres.', powers:[{tag:'❤️ +30 PV', cls:'power-stat'},{tag:'🌑 +5 Ombre', cls:'power-curse'}], statBonus:{} },
-  'Parchemin Scellé':  { icon:'📜', type:'Parchemin', rarity:'commun', desc:'Un parchemin aux runes indéchiffrables. Son contenu reste mystérieux.', powers:[{tag:'❓ Inconnu', cls:'power-neutral'}], statBonus:{} },
+// slot : où l'objet se porte (voir EQUIP_SLOTS) ; null = ne se porte pas. capacity : places d'un sac.
+  'Lame Liminale':     { icon:'🗡️', type:'Arme', slot:'main', rarity:'rare', desc:'Une lame forgée dans la faille entre les deux mondes. Elle vibre d\'une énergie double.', powers:[{tag:'⚔️ +FOR 2', cls:'power-stat'},{tag:'✨ Dualité', cls:'power-magic'}], statBonus:{ str:2 } },
+  'Orbe des Plans':    { icon:'🔮', type:'Catalyseur', slot:'main', rarity:'rare', desc:'Une sphère translucide qui capte les énergies des deux royaumes.', powers:[{tag:'📖 +ARC 3', cls:'power-stat'},{tag:'🔵 -5 PM/tour', cls:'power-curse'}], statBonus:{ arc:3 } },
+  'Collier Brisé':     { icon:'📿', type:'Accessoire', slot:'collier', rarity:'maudit', desc:'Un collier autrefois béni, désormais corrompu. Son porteur ressent une sombre attraction.', powers:[{tag:'☠️ Maudit', cls:'power-curse'},{tag:'🌑 +RÉS 1 (Ombre)', cls:'power-neutral'}], statBonus:{ res:1 } },
+  "Potion d'Ombre ×2": { icon:'🧪', type:'Consommable', slot:null, rarity:'commun', desc:'Un élixir sombre qui soigne les blessures en puisant dans l\'énergie des ombres.', powers:[{tag:'❤️ +30 PV', cls:'power-stat'},{tag:'🌑 +5 Ombre', cls:'power-curse'}], statBonus:{} },
+  'Parchemin Scellé':  { icon:'📜', type:'Parchemin', slot:null, rarity:'commun', desc:'Un parchemin aux runes indéchiffrables. Son contenu reste mystérieux.', powers:[{tag:'❓ Inconnu', cls:'power-neutral'}], statBonus:{} },
+  'Sac en cuir':       { icon:'🎒', type:'Sac', slot:'sac', capacity:3, rarity:'commun', desc:'Un sac de cuir tanné, cousu d\'un fil d\'or terni. Il ne porte que trois objets.', powers:[{tag:'🎒 3 emplacements', cls:'power-neutral'}], statBonus:{} },
 };
 
 // ===== GAME STATE =====
 let gs = {
   name: '', charClass: '',
-  hp: 85, maxHp: 100, mp: 70, maxMp: 80,
+  hp: 100, maxHp: 100, mp: 100, maxMp: 100, vitals100: true,
   level: 1, xp: 0, maxXp: 100,
   gold: 250, duality: 50,
   attrs: { str:12, agi:10, arc:14, res:9, cha:11, dual:8 },
-  inventory: ['Lame Liminale','Orbe des Plans','Collier Brisé',"Potion d'Ombre ×2",'Parchemin Scellé'],
-  equipped: ['Lame Liminale','Orbe des Plans'],
+  // Sac à dos : ce qu'il contient (sa capacité dépend du sac porté)
+  inventory: ["Potion d'Ombre ×2",'Parchemin Scellé'],
+  // Ce qui est porté, emplacement par emplacement
+  equip: { epaulieres:null, casque:null, collier:'Collier Brisé', coudieres:null, plastron:null, sac:'Sac en cuir',
+           bague1:null, jambieres:null, bague2:null, mainDroite:'Lame Liminale', mainGauche:'Orbe des Plans' },
+  ground: [],     // objets trouvés sac plein : restent au sol
   cursed: ['Collier Brisé'],
+  journey: [],    // pas du joueur, pour la carte du Seuil
   itemData: {},   // stockage données items découverts par IA
   lastDualityAlignment: null,
   neutralBonusApplied: false,
@@ -3717,94 +4085,6 @@ function _loadLocal() {
 function loadSave() { return _savesCache.autosave || _loadLocal(); }
 function clearSave() { localStorage.removeItem(SAVE_KEY); _savesCache.autosave = null; }
 
-async function saveToSlot(n) {
-  const data = Object.assign({}, gs, { saveTime: new Date().toISOString(), slotName: `Emplacement ${n}` });
-  try {
-    const res = await fetch(`/api/saves/slot/${n}`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ gameState: data }),
-    });
-    if (res.ok) {
-      _savesCache.slots[n] = data;
-      renderSaveSlots();
-      showSaveToast(`✦ Emplacement ${n} sauvegardé ☁`);
-    } else { showSaveToast(`⚠ Erreur emplacement ${n}`); }
-  } catch(_) {
-    try { localStorage.setItem(SLOT_KEY + n, JSON.stringify(data)); } catch(_) {}
-    _savesCache.slots[n] = data;
-    renderSaveSlots();
-    showSaveToast(`✦ Emplacement ${n} (local)`);
-  }
-}
-
-async function loadFromSlot(n) {
-  const cached = _savesCache.slots[n];
-  if (!cached) { showSaveToast('⚠ Emplacement vide'); return; }
-  if (!confirm(`Charger "${cached.name}" (Niv.${cached.level}) ?\nToute progression non sauvegardée sera perdue.`)) return;
-  try {
-    const res = await fetch(`/api/saves/slot/${n}`, { credentials: 'include' });
-    const data = res.ok ? await res.json() : cached;
-    gs = data;
-  } catch(_) { gs = cached; }
-  hideStart(); updateUI(); applyClassSkills(gs.charClass); restoreNarrative(); closeSaveModal();
-  showSaveToast('✦ Partie chargée');
-}
-
-async function deleteSlot(n) {
-  if (!confirm(`Supprimer l'emplacement ${n} ?`)) return;
-  try { await fetch(`/api/saves/slot/${n}`, { method: 'DELETE', credentials: 'include' }); } catch(_) {}
-  localStorage.removeItem(SLOT_KEY + n);
-  delete _savesCache.slots[n];
-  renderSaveSlots();
-}
-
-function getSlotData(n) { return _savesCache.slots[n] || null; }
-
-// --- MODAL ---
-async function openSaveModal() {
-  await fetchAllSaves();
-  renderSaveSlots();
-  refreshAutosaveInfo();
-  const m = document.getElementById('save-modal');
-  m.style.display = 'flex';
-  requestAnimationFrame(() => { requestAnimationFrame(() => { m.classList.add('open'); }); });
-}
-
-function closeSaveModal(e) {
-  if (e && e.target !== document.getElementById('save-modal')) return;
-  const m = document.getElementById('save-modal');
-  m.classList.remove('open');
-  setTimeout(() => { if (!m.classList.contains('open')) m.style.display = 'none'; }, 300);
-}
-
-function renderSaveSlots() {
-  document.querySelectorAll('.save-slots-list').forEach(container => renderSlotsInto(container));
-}
-function renderSlotsInto(container) {
-  container.innerHTML = '';
-  for (let i = 1; i <= NUM_SLOTS; i++) {
-    const data = getSlotData(i);
-    const hasData = !!data;
-    const div = document.createElement('div');
-    div.className = 'save-slot' + (hasData ? ' has-data' : '');
-    div.innerHTML = `
-      <div class="save-slot-num">${i}</div>
-      <div class="save-slot-info">
-        <div class="save-slot-name">${hasData ? `${data.name} — ${data.charClass}` : 'Emplacement vide'}</div>
-        <div class="save-slot-meta">${hasData ? `Niveau ${data.level} · ${fmtDate(data.saveTime)}` : '—'}</div>
-      </div>
-      <div class="save-slot-actions">
-        <button class="slot-btn slot-btn-save" onclick="saveToSlot(${i})">${ico('\u{1F4BE}')} Sauver</button>
-        ${hasData ? `<button class="slot-btn slot-btn-load" onclick="loadFromSlot(${i})">▶ Charger</button>` : ''}
-        ${hasData ? `<button class="slot-btn slot-btn-del" onclick="deleteSlot(${i})">✕</button>` : ''}
-      </div>
-    `;
-    container.appendChild(div);
-  }
-}
-
 // --- EXPORT / IMPORT ---
 function exportSave() {
   const data = Object.assign({}, gs, { saveTime: new Date().toISOString(), exportedAt: new Date().toISOString() });
@@ -3828,11 +4108,12 @@ function importSave(e) {
       if (!data.name || !data.charClass) throw new Error('Fichier invalide');
       if (!confirm(`Charger "${data.name}" (Niv.${data.level}) ?\nToute progression non sauvegardée sera perdue.`)) return;
       gs = data;
+      migrateState();
       hideStart();
       updateUI();
+      updateInventoryUI();
       applyClassSkills(gs.charClass);
       restoreNarrative();
-      closeSaveModal();
       showSaveToast('✦ Sauvegarde importée');
     } catch(err) { alert('Fichier invalide : ' + err.message); }
   };
@@ -3905,8 +4186,10 @@ function restoreGame() {
   const save = loadSave();
   if (!save) return;
   gs = save;
+  migrateState();
   hideStart();
   updateUI();
+  updateInventoryUI();
   applyClassSkills(gs.charClass);
   restoreNarrative();
 }
@@ -3922,7 +4205,8 @@ function restoreNarrative() {
   }
   ensureNarr();
   updateStoryMeter();
-  if (quota.locked) showVeilClosed();
+  refreshInputState();
+  if (veilLocked()) showVeilClosed();
 }
 
 function showNewGame() {
@@ -3965,16 +4249,20 @@ function hideStart() {
 // ===== CLASS PRESETS =====
 function applyClassStats(cls) {
   const P = {
-    'Séraphin Maudit':          { str:10,agi:12,arc:16,res:10,cha:13,dual:9,  hp:90,mp:100 },
-    'Démoniste Repenti':        { str:14,agi:10,arc:16,res:8, cha:10,dual:12, hp:85,mp:90  },
-    'Lame Liminale':            { str:16,agi:14,arc:10,res:12,cha:10,dual:10, hp:110,mp:70 },
-    'Psionique des Ombres':     { str:8, agi:14,arc:18,res:8, cha:12,dual:12, hp:75,mp:110 },
-    'Invocateur des Deux Cours':{ str:9, agi:10,arc:15,res:10,cha:16,dual:14, hp:80,mp:100 },
-    'Nécrologue Sanctifié':     { str:11,agi:9, arc:17,res:11,cha:11,dual:13, hp:85,mp:95  }
+    'Séraphin Maudit':          { str:10,agi:12,arc:16,res:10,cha:13,dual:9,  hp:100,mp:100 },
+    'Démoniste Repenti':        { str:14,agi:10,arc:16,res:8, cha:10,dual:12, hp:100,mp:100 },
+    'Lame Liminale':            { str:16,agi:14,arc:10,res:12,cha:10,dual:10, hp:100,mp:100 },
+    'Psionique des Ombres':     { str:8, agi:14,arc:18,res:8, cha:12,dual:12, hp:100,mp:100 },
+    'Invocateur des Deux Cours':{ str:9, agi:10,arc:15,res:10,cha:16,dual:14, hp:100,mp:100 },
+    'Nécrologue Sanctifié':     { str:11,agi:9, arc:17,res:11,cha:11,dual:13, hp:100,mp:100 }
   };
   const p = P[cls] || P['Lame Liminale'];
   gs.attrs = { str:p.str,agi:p.agi,arc:p.arc,res:p.res,cha:p.cha,dual:p.dual };
   gs.maxHp = p.hp; gs.hp = p.hp; gs.maxMp = p.mp; gs.mp = p.mp;
+  gs.vitals100 = true;
+  // Attributs neufs : le bonus d'équilibre sera réappliqué proprement par updateUI()
+  gs.neutralBonusApplied = false;
+  gs.lastDualityAlignment = null;
 }
 
 function applyClassSkills(cls) {
@@ -4013,17 +4301,19 @@ function updateUI() {
   document.getElementById('mp-fill').style.width = `${(gs.mp/gs.maxMp)*100}%`;
   document.getElementById('xp-display').textContent = `${gs.xp} / ${gs.maxXp} XP`;
   document.getElementById('xp-fill').style.width = `${(gs.xp/gs.maxXp)*100}%`;
-  // Duality
-  document.getElementById('dual-fill').style.width = `${gs.duality}%`;
-  document.getElementById('demon-score').textContent = `Ombre ${100-gs.duality}`;
-  document.getElementById('angel-score').textContent = `Lumière ${gs.duality}`;
+  // Dualité : l'Ombre (rouge sombre) part de la gauche, la Lumière (bleu-blanc) de la droite ;
+  // le curseur sépare les deux, donc plus de Lumière = curseur plus à gauche.
+  const light = Math.round(clamp(gs.duality, 0, 100));
+  paintBalance('duo-shadow', 'duo-light', 'duo-cursor', light);
+  document.getElementById('demon-score').textContent = `Ombre ${100 - light}`;
+  document.getElementById('angel-score').textContent = `Lumière ${light}`;
+  const duoTrack = document.getElementById('duo-track');
+  if (duoTrack) duoTrack.setAttribute('aria-label', `Ombre ${100 - light}, Lumière ${light}`);
   // Attrs
   document.getElementById('s-str').textContent = gs.attrs.str;
   document.getElementById('s-agi').textContent = gs.attrs.agi;
   document.getElementById('s-arc').textContent = gs.attrs.arc;
   document.getElementById('s-res').textContent = gs.attrs.res;
-  document.getElementById('s-cha').textContent = gs.attrs.cha;
-  document.getElementById('s-dual').textContent = gs.attrs.dual;
   // Gold / location
   document.getElementById('gold-display').textContent = gs.gold;
   const locEl = document.getElementById('loc-name-display');
@@ -4057,6 +4347,26 @@ function updateUI() {
   // Location in quests page
   const locQ = document.getElementById('loc-name-display-q');
   if(locQ) locQ.textContent = gs.location;
+  const locD = document.getElementById('loc-desc-q');
+  if (locD) {
+    const home = gs.location === 'Carrefour des Âmes';
+    const arrival = [...(gs.journey || [])].reverse().find(j => j.p && j.loc === gs.location && j.n);
+    locD.textContent = home
+      ? 'Un nexus entre les deux royaumes. Les voiles du réel sont minces ici. Des silhouettes spectrales errent dans la brume liminale.'
+      : arrival ? arrival.n : "Un lieu encore obscur : le récit n'en a pas livré les secrets.";
+  }
+  const quests = document.getElementById('page-quests');
+  if (quests && quests.classList.contains('active')) renderJourneyMap();
+}
+
+// Remplit une jauge Ombre / Lumière : l'Ombre occupe la gauche, la Lumière la droite,
+// le curseur se tient à la frontière (position = part d'Ombre).
+function paintBalance(shadowId, lightId, markId, light) {
+  const L = Math.round(clamp(light, 0, 100)), S = 100 - L;
+  const s = document.getElementById(shadowId), l = document.getElementById(lightId), m = document.getElementById(markId);
+  if (s) s.style.width = S + '%';
+  if (l) l.style.width = L + '%';
+  if (m) m.style.left = S + '%';
 }
 
 // ===== TAB NAVIGATION =====
@@ -4066,26 +4376,9 @@ function switchTab(name, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const target = document.getElementById('page-' + name);
   if (target) target.classList.add('active');
-  if (name === 'save') openSavePage();
+  if (name === 'quests') renderJourneyMap();
 }
 
-
-function refreshAutosaveInfo() {
-  const as = loadSave();
-  const txt = as && as.saveTime
-    ? `Dernière sauvegarde automatique : ${as.name} — ${fmtDate(as.saveTime)}`
-    : 'Sauvegarde automatique active';
-  document.querySelectorAll('.autosave-info').forEach(el => { el.textContent = txt; });
-}
-
-// Onglet Plume : recharge la liste à chaque ouverture
-async function openSavePage() {
-  renderSaveSlots();
-  refreshAutosaveInfo();
-  try { await fetchAllSaves(); } catch(_) {}
-  renderSaveSlots();
-  refreshAutosaveInfo();
-}
 
 // ===== ICÔNES GRAVÉES (remplacent les emojis) =====
 const ICO_MAP = {
@@ -4101,11 +4394,17 @@ const ICO_MAP = {
   '\u2754':'question','\u{1F4D6}':'book','\u2B50':'star','\u{1F4CD}':'pin','\u26A0':'warn',
   '\u{1F5D1}':'trash','\u{1F528}':'hammer','\u{1F4E4}':'upload','\u{1F4E5}':'download','\u{1F4BE}':'feather',
   '\u{1F9CD}':'hood','\u{1F3AF}':'sigil','\u{1F5FA}':'map','\u{1FA99}':'coin','\u{1F9F5}':'chain',
-  '\u{1F52D}':'eye','\u23F3':'hourglass','\u231B':'hourglass','\u{1F6AA}':'gate','\u{1F4A7}':'drop','\u2697':'potion','\u{1F9EC}':'spiral'
+  '\u{1F52D}':'eye','\u23F3':'hourglass','\u231B':'hourglass','\u{1F6AA}':'gate','\u{1F4A7}':'drop','\u2697':'potion','\u{1F9EC}':'spiral',
+  '\u{1F392}':'backpack','\u26D1':'helm','\u{1FA96}':'helm','\u{1F97E}':'greaves','\u{1F462}':'greaves','\u{1F9E4}':'bracer'
 };
 function ico(e) {
-  const k = ICO_MAP[String(e).replace(/\uFE0F/g, '')];
-  return k ? `<svg class="ico" aria-hidden="true"><use href="#i-${k}"/></svg>` : String(e);
+  const s = String(e);
+  if (s.startsWith('i:')) return `<svg class="ico" aria-hidden="true"><use href="#i-${s.slice(2)}"/></svg>`;   // icône gravée directe
+  const k = ICO_MAP[s.replace(/\uFE0F/g, '')];
+  return k ? `<svg class="ico" aria-hidden="true"><use href="#i-${k}"/></svg>` : s;
+}
+function escapeHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 // Remplace dans un fragment HTML tous les emojis connus par leur gravure
 function icoText(html) {
@@ -4163,6 +4462,7 @@ function startGame() {
   addBanner(`✦ La Faille du Sanctuaire ✦`);
   // Nouvelle histoire : chapitre 1 vierge, chronique vide, mystère tiré au sort
   gs.chapter = 1; gs.chapterTurn = 0; gs.chronicle = ''; gs.pendingChapter = false;
+  gs.chapterComplete = false; gs.veilDay = null; gs.journey = [];
   gs.mystery = pickMystery();
   const initPrompt = `Ouvre l'aventure de ${gs.name} (${gs.charClass}) au Carrefour des Âmes, lieu suspendu entre le Paradis céleste et l'Abîme démoniaque, baigné de brumes argentées et de flammes noires. Installe l'atmosphère, glisse un premier signe du mystère et une menace diffuse qui implique directement ${gs.name}. Respecte strictement le format d'un tour.`;
   callAI(initPrompt, true);
@@ -4170,7 +4470,7 @@ function startGame() {
 
 // ===== NARRATEUR (relais sécurisé) =====
 // La clé Groq n'est PLUS dans ce fichier : elle vit dans le relais (Cloudflare Worker).
-// Colle ici l'adresse de ton Worker, ex. 'https://liminal-narrateur.ton-compte.workers.dev'.
+// Colle ici l'adresse de ton Worker, ex. 'https://liminal-voile.fictiph.workers.dev'.
 // Le Worker (worker.js) vérifie le code d'invitation, compte les tours et choisit
 // lui-même le modèle selon le « tier » demandé.
 // (Fonctionne aussi avec Ollama en local : 'http://localhost:11434/v1/chat/completions'
@@ -4213,6 +4513,8 @@ function narratorStatus(code) {
 }
 
 // ===== QUOTA / « LE VOILE SE REFERME » =====
+// Le Voile ne se ferme qu'au bout des 6 tours du chapitre, puis se rouvre le lendemain.
+// Le relais (Worker) garde le vrai plafond : il ne ferme le Voile que s'il refuse réellement un tour.
 let quota = { left: null, limit: DAILY_TURNS_HINT, globalLeft: null, locked: false, lockDay: null };
 let _busy = false;
 
@@ -4223,32 +4525,40 @@ function applyQuota(q) {
   quota.left = q.left;
   if (typeof q.limit === 'number') quota.limit = q.limit;
   quota.globalLeft = (typeof q.globalLeft === 'number') ? q.globalLeft : null;
-  const closed = q.left <= 0 || (quota.globalLeft !== null && quota.globalLeft <= 0);
-  quota.locked = closed;
-  quota.lockDay = closed ? utcDay() : null;
+  // Le statut du relais peut rouvrir le Voile, mais ne le referme jamais à l'avance.
+  if (q.left > 0 && (quota.globalLeft === null || quota.globalLeft > 0)) { quota.locked = false; quota.lockDay = null; }
   refreshInputState();
   updateStoryMeter();
 }
 
+// Refus réel du relais (plafond atteint) : fermé pour aujourd'hui
 function lockVeil() {
-  quota.left = 0; quota.locked = true; quota.lockDay = utcDay();
+  quota.locked = true; quota.lockDay = utcDay();
   refreshInputState(); updateStoryMeter();
 }
+
+// Fermé parce que les 6 tours du chapitre ont été joués aujourd'hui
+function chapterVeilClosed() { return !!gs.veilDay && gs.veilDay === utcDay(); }
+function veilLocked() { return chapterVeilClosed() || (quota.locked && quota.lockDay === utcDay()); }
 
 function setBusy(b) { _busy = b; refreshInputState(); }
 
 function refreshInputState() {
-  const locked = quota.locked;
+  const locked = veilLocked();
   const send = document.getElementById('send-btn');
   const inp  = document.getElementById('player-input');
+  const awaits = refreshChoices(locked);   // 'choice' | 'ask' | null
   if (send) send.disabled = _busy || locked;
   if (inp) {
     inp.disabled = locked;
-    inp.placeholder = locked ? 'Le Voile se referme… reviens demain.' : 'Votre action…';
+    inp.placeholder = locked ? 'Le Voile est fermé… reviens demain.'
+      : awaits === 'ask'    ? 'Ta réponse…'
+      : awaits === 'choice' ? 'Ou écris ta propre action…'
+      : 'Votre action…';
   }
-  document.querySelectorAll('.qbtn').forEach(b => { b.disabled = locked; });
   const iz = document.getElementById('input-zone');
   if (iz) iz.classList.toggle('veiled', locked);
+  if (!locked) document.querySelectorAll('#narrative .veil-closed').forEach(el => el.remove());
 }
 
 function showVeilClosed() {
@@ -4257,7 +4567,9 @@ function showVeilClosed() {
   if (narr.lastElementChild && narr.lastElementChild.classList.contains('veil-closed')) return;
   const div = document.createElement('div');
   div.className = 'veil-closed';
-  div.innerHTML = `<div class="veil-title">Le Voile se referme.</div><div class="veil-sub">Reviens demain.</div>`;
+  div.innerHTML = chapterVeilClosed()
+    ? `<div class="veil-title">Le Voile se referme.</div><div class="veil-sub">Les six tours du chapitre sont joués. Ta décision t'attend demain.</div>`
+    : `<div class="veil-title">Le Voile se referme.</div><div class="veil-sub">Le relais n'accepte plus de tour aujourd'hui. Reviens demain.</div>`;
   narr.appendChild(div);
   narr.scrollTop = narr.scrollHeight;
 }
@@ -4270,20 +4582,32 @@ async function refreshStatus() {
   } catch(_) {}
 }
 // Le lendemain, le Voile se rouvre tout seul (même si la page est restée ouverte)
-setInterval(() => { if (quota.locked && quota.lockDay !== utcDay()) refreshStatus(); }, 60000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden && quota.locked) refreshStatus(); });
+function reopenIfNewDay() {
+  if (quota.locked && quota.lockDay !== utcDay()) { quota.locked = false; quota.lockDay = null; refreshStatus(); }
+  refreshInputState();
+  updateStoryMeter();
+}
+setInterval(reopenIfNewDay, 60000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) reopenIfNewDay(); });
 
 function updateStoryMeter() {
   const chEl = document.getElementById('meter-chapter');
   const qEl  = document.getElementById('meter-quota');
-  const mark = document.getElementById('meter-mark');
-  if (chEl) chEl.textContent = `Chapitre ${gs.chapter || 1} · Tour ${Math.min(gs.chapterTurn || 0, TURNS_PER_CHAPTER)}/${TURNS_PER_CHAPTER}`;
+  const closed = veilLocked();
+  // Chapitre achevé et nouveau jour : on annonce déjà le chapitre suivant
+  const next = gs.chapterComplete && !chapterVeilClosed();
+  const ch   = (gs.chapter || 1) + (next ? 1 : 0);
+  const turn = next ? 0 : Math.min(gs.chapterTurn || 0, TURNS_PER_CHAPTER);
+  const left = TURNS_PER_CHAPTER - turn;
+  if (chEl) chEl.textContent = `Chapitre\u00a0${ch} · Tour\u00a0${turn}/${TURNS_PER_CHAPTER}`;
   if (qEl) {
-    if (quota.left === null) qEl.textContent = '';
-    else if (quota.locked)   qEl.textContent = 'Voile fermé';
-    else qEl.textContent = `✦ ${quota.left} tour${quota.left > 1 ? 's' : ''} restant${quota.left > 1 ? 's' : ''}`;
+    qEl.classList.toggle('is-closed', closed);
+    qEl.textContent = closed ? 'Voile fermé' : `✦ ${left} tour${left > 1 ? 's' : ''} restant${left > 1 ? 's' : ''}`;
   }
-  if (mark) mark.style.left = `${clamp(gs.duality, 0, 100)}%`;
+  const light = Math.round(clamp(gs.duality, 0, 100));
+  paintBalance('meter-shadow', 'meter-light', 'meter-mark', light);
+  const gauge = document.getElementById('meter-gauge');
+  if (gauge) gauge.setAttribute('aria-label', `Ombre ${100 - light}, Lumière ${light}`);
   const page = document.getElementById('page-story');
   if (page) page.dataset.tone = gs.duality >= 70 ? 'angel' : gs.duality <= 30 ? 'demon' : 'liminal';
 }
@@ -4326,7 +4650,7 @@ const TURN_BRIEFS = {
   3: "MONTÉE — La tension monte, un danger concret se dessine.",
   4: "MONTÉE — Les conséquences des choix du joueur se font sentir ; un allié ou un ennemi se révèle.",
   5: "TENSION — Point de non-retour : la menace frappe ou se précise.",
-  6: "CLIFFHANGER — Dernier tour du chapitre : coupe la scène sur un danger imminent ou une révélation, question ouverte. Les 3 choix sont la décision qui attendra le joueur demain."
+  6: "CLIFFHANGER — Dernier tour du chapitre : coupe la scène sur un danger imminent ou une révélation. Termine sur la décision (choix ou question) qui attendra le joueur demain."
 };
 
 // Ciel / Abîme : le ton de la narration suit la jauge de dualité
@@ -4354,17 +4678,22 @@ function ensureNarr() {
 function buildSystemPrompt(turn) {
   const m = gs.mystery || MYSTERIES[0];
   const perception = CLASS_PERCEPTION[gs.charClass] || CLASS_PERCEPTION['Lame Liminale'];
-  const eq = (gs.equipped || []).join(', ') || 'rien';
+  ensureEquip();
+  const cap = bagCapacity();
+  const ground = (gs.ground || []).length ? ` | Au sol : ${gs.ground.join(', ')}` : '';
   return `Tu es le Maître du Jeu de « LIMINAL », JDR gothique-fantastique entre le Ciel et l'Abîme. Tu parles au joueur en « tu », au présent, d'une voix poétique et sombre. Réponds en français.
 
 FORMAT D'UN TOUR (strict) :
 • UNE scène courte : environ 500 à 800 caractères (choix et balises exclus), 1 à 2 paragraphes.
 • 2 ou 3 détails sensoriels (vue, son, odeur, toucher…), dont UN inquiétant.
-• Dernière phrase = accroche qui donne envie de continuer.
 • Perception de classe (colore toute la scène) : ${perception}
 • Motifs récurrents (un par scène au plus, changés à chaque retour, jamais expliqués gratuitement) : une cloche lointaine, des plumes de cendre, un inconnu qui revient.
 • Voix : ${voiceDirective(turn)}
-• Termine par exactement 3 choix courts (90 caractères max) : [CHOIX 1: …] angélique, [CHOIX 2: …] neutre ou rusé, [CHOIX 3: …] démoniaque.
+• FIN DE SCÈNE : le récit mène TOUJOURS à un moment où le joueur doit répondre. Choisis la forme que la situation appelle et varie d'un tour à l'autre :
+  – un dilemme : 2 options concrètes (3 au plus, rarement), chacune au format [CHOIX: …] (90 caractères max) ;
+  – une décision pressante : un seul [CHOIX: …], que le joueur acceptera ou contournera à sa façon ;
+  – une question posée par un PNJ ou par la situation : [QUESTION: …], à laquelle le joueur répond librement.
+  Les options naissent de la scène : jamais de schéma fixe ange / neutre / démon, jamais de numéro. Rien après la dernière balise.
 
 TON (Ciel/Abîme : ${gs.duality}% Lumière) : ${toneDirective()}
 
@@ -4374,15 +4703,17 @@ MYSTÈRE (secret du MJ, ne le dis jamais tel quel) : « ${m.q} » Vérité : ${m
 
 CHRONIQUE (l'histoire jusqu'ici) : ${gs.chronicle || 'Rien encore : c\'est le tout début.'}
 
-JOUEUR : ${gs.name}, ${gs.charClass}, niv.${gs.level} | PV ${gs.hp}/${gs.maxHp} | PM ${gs.mp}/${gs.maxMp} | FOR ${gs.attrs.str} AGI ${gs.attrs.agi} ARC ${gs.attrs.arc} RES ${gs.attrs.res} CHA ${gs.attrs.cha} | ${getDualityAlignmentLabel()} | Or ${gs.gold} | Lieu : ${gs.location}
-Inventaire : ${gs.inventory.length ? gs.inventory.join(', ') : 'vide'} | Équipé : ${eq}
+JOUEUR : ${gs.name}, ${gs.charClass}, niv.${gs.level} | PV ${gs.hp}/${gs.maxHp} | PM ${gs.mp}/${gs.maxMp} | FOR ${gs.attrs.str} AGI ${gs.attrs.agi} ARC ${gs.attrs.arc} RES ${gs.attrs.res} | ${getDualityAlignmentLabel()} | Or ${gs.gold} | Lieu : ${gs.location}
+Porté : ${equippedSummary()}
+Sac (${gs.equip.sac || 'aucun'}, ${gs.inventory.length}/${cap}) : ${gs.inventory.length ? gs.inventory.join(', ') : 'vide'}${ground}
 
 RÈGLES DE JEU (tu es un arbitre juste, pas un allié) :
-• Utilise les stats : FOR (mêlée), AGI (esquive, fuite), ARC (magie ; sous 13 les sorts sont instables), RES (encaissement), CHA (persuasion). Sous 11-12, les actions du domaine peuvent échouer.
-• Le joueur PEUT échouer même avec de bonnes stats : l'échec est logique, jamais arbitraire. L'équipement donne un avantage réaliste, jamais la victoire assurée.
+• Utilise les stats : FOR (mêlée), AGI (esquive, fuite), ARC (magie ; sous 13 les sorts sont instables), RES (encaissement). Sous 11-12, les actions du domaine peuvent échouer. La persuasion dépend de l'approche du joueur et de ce qu'il offre.
+• Le joueur PEUT échouer même avec de bonnes stats : l'échec est logique, jamais arbitraire. L'équipement porté donne un avantage réaliste, jamais la victoire assurée ; ce qui dort dans le sac ne protège pas.
 • Conséquences réelles et durables. Surnombre ou embuscade : dégâts AVANT la réaction. Action impossible : échec partiel ou réussite au prix fort. Fuir ou négocier est parfois la bonne décision.
 • Dégâts : faible −5 à −10 PV ; standard −12 à −20 ; élite −20 à −35 ; boss −30 à −50 (+ FOR −1 ou malédiction possibles). RES > 12 réduit de ~20 %, RES 9-12 de ~10 %.
-• Fouille : or + 1 objet cohérent avec le lieu, ou piège / rien. Combat gagné : or, objet si ennemi notable. Objets aux noms évocateurs et effets concrets.
+• Fouille : or + 1 objet cohérent avec le lieu, ou piège / rien. Combat gagné : or, objet si ennemi notable. Objets aux noms évocateurs et effets concrets ; pour une pièce d'équipement, que le nom dise ce qu'elle est (casque, plastron, épaulières, coudières, jambières, bague, collier, arme, bouclier, sac…).
+• Le sac ne contient que ${cap} objet${cap > 1 ? 's' : ''} : s'il est plein, un nouvel objet reste au sol (dis-le dans le récit). Un objet maudit porté ne s'ôte pas sans rituel ou prix à payer.
 
 BALISES (invisibles pour le joueur, à glisser DANS le texte) :
 [STAT: +15 XP] après action significative · [STAT: -10 PV] · [STAT: +10 PV] · [STAT: -8 PM] · [STAT: +5 DUALITE_ANGE] acte noble · [STAT: +5 DUALITE_DEMON] acte cruel · [STAT: GOLD: +30] · [STAT: CHOIX_MORAL] décision morale majeure · [STAT: FOR +1] (rare, mérité) ou [STAT: FOR -1] · [STAT: ITEM_ADD: Nom] · [STAT: ITEM_REMOVE: Nom] · [STAT: LIEU: Nom]`;
@@ -4391,7 +4722,7 @@ BALISES (invisibles pour le joueur, à glisser DANS le texte) :
 // ===== HISTORIQUE COMPACT + CHRONIQUE =====
 function cleanForHistory(t, keepChoices) {
   let s = String(t).replace(/\[STAT:[^\]]*\]/g, '').replace(/\[VOIX[^\]]*\]/gi, '');
-  if (!keepChoices) s = s.replace(/\[CHOIX \d:[^\]]*\]/g, '');
+  if (!keepChoices) s = s.replace(/\[(?:CHOIX|QUESTION)[^\]]*\]/gi, '');
   return s.replace(/\n{3,}/g, '\n\n').trim();
 }
 function historyForModel() {
@@ -4426,40 +4757,52 @@ function updateChronicle(sceneRaw, playerMsg, chapterEnded) {
   })();
 }
 
+// Fin des 6 tours : le Voile se referme jusqu'à demain ;
+// le chapitre suivant s'ouvrira au premier tour du lendemain.
 function endChapter() {
   addBanner(`✦ Fin du chapitre ${gs.chapter} ✦`, 'chapter-banner');
-  gs.chapter = (gs.chapter || 1) + 1;
-  gs.chapterTurn = 0;
-  gs.pendingChapter = true;   // la bannière du chapitre suivant s'affichera au prochain tour
+  gs.chapterComplete = true;
+  gs.veilDay = utcDay();
 }
 
 // ===== RENDU DE LA NARRATION =====
 function renderNarration(raw) {
-  return String(raw)
+  // \u0002 / \u0001 : marqueurs de début / fin de bloc, pour ôter les sauts de ligne autour
+  let h = String(raw)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
     .replace(/\[STAT:[^\]]*\]/g, '')
     .replace(/\[VOIX\s+(ANGE|D[ÉE]MON)\s*:\s*([^\]]+)\]/gi, (_, who, t) => {
       const angel = /ANGE/i.test(who);
-      return `<span class="voice ${angel ? 'voice-angel' : 'voice-demon'}">${angel ? '<svg class="ico" aria-hidden="true"><use href="#i-feather"/></svg>' : '<svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg>'} ${t.trim().replace(/^["«]\s*|\s*["»]$/g, '')}</span>`;
+      return `\u0002<span class="voice ${angel ? 'voice-angel' : 'voice-demon'}">${angel ? '<svg class="ico" aria-hidden="true"><use href="#i-feather"/></svg>' : '<svg class="ico" aria-hidden="true"><use href="#i-flame"/></svg>'} ${t.trim().replace(/^["«]\s*|\s*["»]$/g, '')}</span>\u0001`;
     })
-    .replace(/\[CHOIX (\d):\s*([^\]]+)\]/g, (_, n, t) => `<span class="choice"><span class="choice-n">Choix ${n}</span><em>${t.trim()}</em></span>`)
+    .replace(/\[CHOIX(?:\s*\d+)?\s*:\s*([^\]]+)\]/gi, (_, t) =>
+      `\u0002<button type="button" class="choice"><span class="choice-mark" aria-hidden="true"></span><em>${t.trim()}</em></button>\u0001`)
+    .replace(/\[QUESTION\s*:\s*([^\]]+)\]/gi, (_, t) =>
+      `\u0002<span class="ask"><svg class="ico" aria-hidden="true"><use href="#i-speak"/></svg><span>${t.trim()}</span></span>\u0001`)
     .replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
-    .replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>')
-    // les blocs (voix, choix) n'ont pas besoin de sauts de ligne autour
-    .replace(/(?:<br>\s*)+(<span class="(?:voice|choice))/g, '$1')
-    .replace(/(<span class="(?:voice|choice)[^"]*">(?:(?!<span class="(?:voice|choice)).)*?<\/span>(?:<\/span>)?)(?:\s*<br>)+/g, '$1')
-    .replace(/(?:<br>\s*)+$/, '');
+    .replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+  h = h.replace(/(?:<br>\s*)+\u0002/g, '').replace(/\u0002/g, '')
+       .replace(/\u0001(?:\s*<br>)+/g, '').replace(/\u0001/g, '')
+       .replace(/(?:<br>\s*)+$/, '');
+  // les choix consécutifs forment une liste
+  return h.replace(/((?:<button type="button" class="choice">[\s\S]*?<\/button>\s*)+)/g, m =>
+    `<div class="choices${(m.match(/<button/g) || []).length === 1 ? ' single' : ''}">${m.trim()}</div>`);
 }
 
 // ===== AI CALL =====
 async function callAI(msg, isInit = false) {
   if (_busy) return;
-  if (quota.locked && quota.lockDay === utcDay()) { showVeilClosed(); return; }
+  if (veilLocked()) { showVeilClosed(); return; }
   ensureNarr();
   setBusy(true);
 
-  // Un nouveau chapitre s'ouvre (le précédent s'est arrêté sur un cliffhanger)
-  if (gs.pendingChapter && !isInit) {
+  // Un nouveau chapitre s'ouvre (le précédent s'est arrêté sur un cliffhanger la veille)
+  if (!isInit && gs.chapterComplete) {
+    gs.chapter = (gs.chapter || 1) + 1;
+    gs.chapterTurn = 0;
+    gs.chapterComplete = false;
+    addBanner(`✦ Chapitre ${gs.chapter} ✦`, 'chapter-banner');
+  } else if (gs.pendingChapter && !isInit) {   // anciennes sauvegardes
     addBanner(`✦ Chapitre ${gs.chapter} ✦`, 'chapter-banner');
     gs.pendingChapter = false;
   }
@@ -4510,6 +4853,7 @@ async function callAI(msg, isInit = false) {
 
     removeTyping();
     parseStats(raw);
+    recordJourney(raw, turn);
     addMsg('ai', renderNarration(raw), raw);
 
     // Historique compact (2 derniers échanges suffisent : le reste vit dans la chronique)
@@ -4533,7 +4877,7 @@ async function callAI(msg, isInit = false) {
     applyQuota(data.quota);
     updateUI();
     scheduleSave();
-    if (quota.locked) showVeilClosed();
+    if (veilLocked()) showVeilClosed();
   } catch (e) {
     removeTyping();
     if (e.message === 'NARRATOR_NOT_CONFIGURED') {
@@ -4552,12 +4896,60 @@ async function callAI(msg, isInit = false) {
 
 function parseStats(text) {
   const events = [];
+  ensureEquip();
+  const vacated = {};   // emplacement libéré par ITEM_REMOVE → l'objet amélioré (ITEM_ADD) y reprend place
   (text.match(/\[STAT:[^\]]+\]/g)||[]).forEach(m => {
     const s = m.slice(6,-1).trim();
     let changed = false;
 
+    // Inventaire : [STAT: ITEM_ADD: Katana] ou [STAT: ITEM_REMOVE: Lame Liminale]
+    // (testé en premier : un nom d'objet peut contenir « PV », « MP », « FOR »…)
+    if (s.includes('ITEM_ADD:')) {
+      const item = s.replace('ITEM_ADD:', '').trim();
+      if (item && !ownsItem(item)) {
+        // Créer données d'item si inconnues
+        if (!ITEM_TEMPLATES[item] && !(gs.itemData && gs.itemData[item])) {
+          gs.itemData = gs.itemData || {};
+          gs.itemData[item] = {
+            icon: getIcon(item), type: detectItemType(item), rarity: 'commun',
+            desc: 'Un objet récemment acquis. Ses propriétés restent à explorer.',
+            powers: [{tag:'❓ À identifier', cls:'power-neutral'}], statBonus:{}
+          };
+          // Demander à l'IA de générer les données (async, non bloquant)
+          fetchItemData(item);
+        }
+        const kind = getItemSlotKind(item);
+        let where;
+        if (kind && vacated[kind]) { gs.equip[vacated[kind]] = item; delete vacated[kind]; where = 'equip'; }
+        else where = stowItem(item);
+        events.push(`+${item}`); changed = true;
+        showLootBanner(item, getItemData(item).icon, where);
+        updateInventoryUI();
+      }
+    }
+    else if (s.includes('ITEM_REMOVE:')) {
+      const q = s.replace('ITEM_REMOVE:', '').trim().toLowerCase();
+      const all = [...gs.inventory, ...EQUIP_SLOTS.map(sl => gs.equip[sl.id]).filter(Boolean), ...(gs.ground || [])];
+      const found = all.find(i => i.toLowerCase() === q) || all.find(i => i.toLowerCase().includes(q));
+      if (q && found) {
+        const w = takeOut(found);
+        if (w && w.where === 'equip') {
+          if (w.slot === 'sac') {   // sans sac, son contenu tombe au sol
+            gs.ground.push(...gs.inventory); gs.inventory = [];
+          } else vacated[slotById(w.slot).kind] = w.slot;
+        }
+        gs.cursed = (gs.cursed||[]).filter(i => i !== found);
+        events.push(`-${found}`); changed = true;
+        updateInventoryUI();
+      }
+    }
+    // Lieu
+    else if (s.includes('LIEU:')) {
+      gs.location = s.replace('LIEU:', '').trim();
+      events.push(`📍 ${gs.location}`); changed = true;
+    }
     // XP
-    if (s.includes('XP')) {
+    else if (s.includes('XP')) {
       const v = parseInt(s.match(/\d+/)?.[0]||5);
       gs.xp = Math.min(gs.xp + v, gs.maxXp);
       events.push(`+${v} XP`); changed = true;
@@ -4602,9 +4994,9 @@ function parseStats(text) {
       gs.questProgress.identity = Math.min(gs.questProgress.identity+1, 3);
       events.push('Choix Moral'); changed = true;
     }
-    // Attributs : [STAT: FOR +2], [STAT: AGI -1], etc.
-    else if (/FOR|AGI|ARC|RES|CHA|DUAL/.test(s)) {
-      const attrMap = { FOR:'str', AGI:'agi', ARC:'arc', RES:'res', RÉS:'res', CHA:'cha', DUAL:'dual' };
+    // Attributs visibles : [STAT: FOR +2], [STAT: AGI -1], etc.
+    else if (/FOR|AGI|ARC|RÉS|RES/.test(s)) {
+      const attrMap = { FOR:'str', AGI:'agi', ARC:'arc', RES:'res', RÉS:'res' };
       for (const [key, field] of Object.entries(attrMap)) {
         if (s.includes(key)) {
           const v = parseInt(s.match(/[+-]?\d+/)?.[0]||1);
@@ -4612,44 +5004,6 @@ function parseStats(text) {
           events.push(`${v >= 0 ? '+' : ''}${v} ${key}`); changed = true;
         }
       }
-    }
-    // Inventaire : [STAT: ITEM_ADD: Katana] ou [STAT: ITEM_REMOVE: Lame Liminale]
-    else if (s.includes('ITEM_ADD:')) {
-      const item = s.replace('ITEM_ADD:', '').trim();
-      if (item && !gs.inventory.includes(item)) {
-        gs.inventory.push(item);
-        events.push(`+${item}`); changed = true;
-        // Créer données d'item si inconnues
-        if (!ITEM_TEMPLATES[item] && !(gs.itemData && gs.itemData[item])) {
-          gs.itemData = gs.itemData || {};
-          gs.itemData[item] = {
-            icon: getIcon(item), type: detectItemType(item), rarity: 'commun',
-            desc: 'Un objet récemment acquis. Ses propriétés restent à explorer.',
-            powers: [{tag:'❓ À identifier', cls:'power-neutral'}], statBonus:{}
-          };
-          // Demander à l'IA de générer les données (async, non bloquant)
-          fetchItemData(item);
-        }
-        const d = getItemData(item);
-        showLootBanner(item, d.icon);
-        updateInventoryUI();
-      }
-    }
-    else if (s.includes('ITEM_REMOVE:')) {
-      const item = s.replace('ITEM_REMOVE:', '').trim();
-      const idx = gs.inventory.findIndex(i => i.toLowerCase().includes(item.toLowerCase()));
-      if (idx !== -1) {
-        const removed = gs.inventory.splice(idx, 1)[0];
-        gs.equipped = (gs.equipped||[]).filter(i=>i!==removed);
-        gs.cursed   = (gs.cursed||[]).filter(i=>i!==removed);
-        events.push(`-${removed}`); changed = true;
-        updateInventoryUI();
-      }
-    }
-    // Lieu
-    else if (s.includes('LIEU:')) {
-      gs.location = s.replace('LIEU:', '').trim();
-      events.push(`📍 ${gs.location}`); changed = true;
     }
 
     if (changed && gs.xp >= gs.maxXp) levelUp();
@@ -4693,61 +5047,291 @@ function getItemData(name) {
   };
 }
 
-function updateInventoryUI() {
-  const grid = document.getElementById('inv-grid');
-  if (!grid) return;
-  gs.equipped = gs.equipped || [];
-  gs.cursed   = gs.cursed   || [];
-  const maxSlots = Math.max(6, gs.inventory.length + 2);
-  grid.innerHTML = gs.inventory.map(item => {
-    const d = getItemData(item);
-    const isEq  = gs.equipped.includes(item);
-    const isCur = gs.cursed.includes(item);
-    const cls   = isEq ? 'equipped' : isCur ? 'cursed' : '';
-    const badge = isEq  ? '<span class="inv-badge badge-eq">ÉQUIPÉ</span>'
-                : isCur ? '<span class="inv-badge badge-cur">MAUDIT</span>' : '';
-    const rarityColor = d.rarity==='rare'?'var(--angel-glow)':d.rarity==='maudit'?'var(--demon-glow)':d.rarity==='épique'?'#c060ff':'var(--text-dim)';
-    return `<div class="inv-slot ${cls}" onclick="openItemModal('${item.replace(/'/g,"\\'")}')">
-      ${badge}
-      <div class="inv-icon">${ico(d.icon)}</div>
-      <div class="inv-name" style="color:${rarityColor}">${item}</div>
-      <div style="font-family:'Cinzel',serif;font-size:0.38rem;color:var(--text-dim);opacity:0.7;letter-spacing:0.08em">${d.type}</div>
-    </div>`;
-  }).join('') + (gs.inventory.length < 6 ? Array(6-gs.inventory.length).fill('<div class="inv-slot empty"><div class="inv-icon" style="opacity:.3">✧</div><div class="inv-name">Vide</div></div>').join('') : '');
+// ===== ÉQUIPEMENT & SAC À DOS =====
+// Onze emplacements autour d'une silhouette ; le sac porté fixe la place disponible.
+const EQUIP_SLOTS = [
+  { id:'epaulieres', label:'Épaulières',  kind:'epaulieres', icon:'pauldron', area:'epaul'   },
+  { id:'casque',     label:'Casque',      kind:'casque',     icon:'helm',     area:'casque'  },
+  { id:'collier',    label:'Collier',     kind:'collier',    icon:'amulet',   area:'collier' },
+  { id:'coudieres',  label:'Coudières',   kind:'coudieres',  icon:'bracer',   area:'coud'    },
+  { id:'plastron',   label:'Plastron',    kind:'plastron',   icon:'armor',    area:'plast'   },
+  { id:'sac',        label:'Sac à dos',   kind:'sac',        icon:'backpack', area:'sac'     },
+  { id:'bague1',     label:'Bague I',     kind:'bague',      icon:'ring',     area:'bague1'  },
+  { id:'jambieres',  label:'Jambières',   kind:'jambieres',  icon:'greaves',  area:'jamb'    },
+  { id:'bague2',     label:'Bague II',    kind:'bague',      icon:'ring',     area:'bague2'  },
+  { id:'mainDroite', label:'Main droite', kind:'main',       icon:'sword',    area:'maind'   },
+  { id:'mainGauche', label:'Main gauche', kind:'main',       icon:'shield',   area:'maing'   },
+];
+const SLOT_KINDS   = ['casque','collier','epaulieres','plastron','coudieres','bague','jambieres','main','sac'];
+const CENTER_SLOTS = ['casque','plastron','jambieres'];
+
+function emptyEquip() { const e = {}; EQUIP_SLOTS.forEach(s => { e[s.id] = null; }); return e; }
+function slotById(id) { return EQUIP_SLOTS.find(s => s.id === id); }
+
+function ensureEquip() {
+  gs.inventory = gs.inventory || [];
+  gs.ground    = gs.ground    || [];
+  gs.cursed    = gs.cursed    || [];
+  if (!gs.equip) gs.equip = emptyEquip();
+  EQUIP_SLOTS.forEach(s => { if (!(s.id in gs.equip)) gs.equip[s.id] = null; });
 }
 
-// ===== ITEM MODAL =====
+// Anciennes sauvegardes : PV/PM sur une base de 100, inventaire réparti entre corps, sac et sol
+function migrateState() {
+  if (!gs.vitals100) {
+    const lvl = Math.max(1, gs.level || 1);
+    const hpR = gs.maxHp ? clamp(gs.hp / gs.maxHp, 0, 1) : 1;
+    const mpR = gs.maxMp ? clamp(gs.mp / gs.maxMp, 0, 1) : 1;
+    gs.maxHp = 100 + (lvl - 1) * 10; gs.hp = Math.max(1, Math.round(gs.maxHp * hpR));
+    gs.maxMp = 100 + (lvl - 1) * 8;  gs.mp = Math.round(gs.maxMp * mpR);
+    gs.vitals100 = true;
+  }
+  if (!gs.equip) {
+    const all = (gs.inventory || []).slice();
+    const wasEq = new Set(gs.equipped || []);
+    gs.equip = emptyEquip();
+    gs.equip.sac = 'Sac en cuir';
+    gs.inventory = [];
+    gs.ground = gs.ground || [];
+    const wear = item => {
+      const kind = getItemSlotKind(item);
+      if (!kind || kind === 'sac') return false;
+      const slot = EQUIP_SLOTS.find(s => s.kind === kind && !gs.equip[s.id]);
+      if (!slot) return false;
+      gs.equip[slot.id] = item;
+      return true;
+    };
+    // d'abord ce qui était équipé, puis tout ce qui se porte (pour libérer le petit sac)
+    const rest = all.filter(i => !(wasEq.has(i) && wear(i)));
+    rest.filter(i => !wear(i)).forEach(stowItem);
+  }
+  delete gs.equipped;
+  ensureEquip();
+  gs.journey = gs.journey || [];
+}
+
+function detectSlotKind(name) {
+  const n = String(name).toLowerCase();
+  if (/potion|élixir|elixir|onguent|fiole|parchemin|baume/.test(n)) return null;
+  if (/\bsac\b|besace|havresac|sacoche|musette|gibecière/.test(n)) return 'sac';
+  if (/casque|heaume|capuche|capuchon|masque|diadème|couronne|cagoule|bassinet/.test(n)) return 'casque';
+  if (/collier|amulette|pendentif|médaillon|medaillon|torque|chapelet/.test(n)) return 'collier';
+  if (/épaulière|epauliere|spalière|mantelet|\bcapes?\b|manteau|pèlerine/.test(n)) return 'epaulieres';
+  if (/coudière|coudiere|brassard|gantelet|\bgants?\b|bracelet|avant-bras/.test(n)) return 'coudieres';
+  if (/jambière|jambiere|grève|greve|cuissard|\bbottes?\b|genouillère/.test(n)) return 'jambieres';
+  if (/\bbagues?\b|anneau|chevalière|chevaliere/.test(n)) return 'bague';
+  if (/plastron|armure|cuirasse|cotte|brigandine|haubert|tunique|\brobe\b|corselet|pourpoint/.test(n)) return 'plastron';
+  if (/épée|epee|\blames?\b|katana|dague|lance|hache|marteau|\bfaux\b|\barc\b|arbalète|masse|fléau|rapière|sabre|poignard|glaive|fouet|bâton|baton|orbe|grimoire|sceptre|baguette|\btome\b|bouclier|targe|rondache|pavois|focus|catalyseur|faucille/.test(n)) return 'main';
+  return null;
+}
+function getItemSlotKind(name) {
+  const t = ITEM_TEMPLATES[name];
+  if (t) return t.slot || null;
+  const d = gs.itemData && gs.itemData[name];
+  if (d && d.type === 'Consommable') return null;
+  return detectSlotKind(name) || (d && SLOT_KINDS.includes(d.slot) ? d.slot : null);
+}
+function isCursed(name) { return (gs.cursed || []).includes(name); }
+function capacityOf(bag) {
+  const d = getItemData(bag);
+  if (typeof d.capacity === 'number' && d.capacity > 0) return Math.min(12, Math.round(d.capacity));
+  const n = String(bag).toLowerCase();
+  if (/grand|voyage|expédition|expedition|havresac/.test(n)) return 6;
+  if (/besace|sacoche|bourse|musette/.test(n)) return 4;
+  return 5;
+}
+function bagCapacity() { return gs.equip && gs.equip.sac ? capacityOf(gs.equip.sac) : 0; }
+function bagHasRoom()  { return gs.inventory.length < bagCapacity(); }
+function equippedSummary() {
+  const parts = EQUIP_SLOTS.filter(s => gs.equip && gs.equip[s.id])
+    .map(s => `${s.label} = ${gs.equip[s.id]}${isCursed(gs.equip[s.id]) ? ' (maudit)' : ''}`);
+  return parts.length ? parts.join(', ') : 'rien';
+}
+function whereIs(name) {
+  if ((gs.inventory || []).includes(name)) return { where:'bag' };
+  const s = EQUIP_SLOTS.find(sl => gs.equip && gs.equip[sl.id] === name);
+  if (s) return { where:'equip', slot:s.id };
+  if ((gs.ground || []).includes(name)) return { where:'ground' };
+  return null;
+}
+function ownsItem(name) { return !!whereIs(name); }
+// Range un objet : dans le sac s'il reste de la place, sinon au sol
+function stowItem(name) {
+  if (bagHasRoom()) { gs.inventory.push(name); return 'bag'; }
+  gs.ground.push(name); return 'ground';
+}
+// Retire l'objet de là où il se trouve et dit d'où il vient
+function takeOut(name) {
+  const w = whereIs(name);
+  if (!w) return null;
+  if (w.where === 'bag') gs.inventory = gs.inventory.filter(i => i !== name);
+  else if (w.where === 'ground') gs.ground = gs.ground.filter(i => i !== name);
+  else gs.equip[w.slot] = null;
+  return w;
+}
+function rarityKey(r) { return String(r || 'commun').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
+
+// Silhouette gravée derrière les emplacements
+const PD_FIGURE = `<svg class="pd-figure" viewBox="0 0 100 260" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <defs><linearGradient id="pd-fill" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#bfe1fa" stop-opacity=".20"/><stop offset=".5" stop-color="#e0bd68" stop-opacity=".10"/><stop offset="1" stop-color="#e86a42" stop-opacity=".20"/>
+  </linearGradient></defs>
+  <path d="M50 4v252" stroke="#e0bd68" stroke-opacity=".22" stroke-dasharray="2 5"/>
+  <g fill="url(#pd-fill)" stroke="#e0bd68" stroke-opacity=".38" stroke-width=".8" stroke-linejoin="round">
+    <circle cx="50" cy="24" r="13"/>
+    <path d="M50 42c-10 0-19 3-26 9-4 3-6 8-6 14l3 52c.3 4 6 4 6.4 0L30 76l2 60-4 104c0 3 3 5 6 5h8c2 0 3-1 3-3l5-96 5 96c0 2 1 3 3 3h8c3 0 6-2 6-5l-4-104 2-60 2.6 41c.4 4 6.1 4 6.4 0l3-52c0-6-2-11-6-14-7-6-16-9-26-9z"/>
+  </g>
+</svg>`;
+
+function renderPaperdoll() {
+  const pd = document.getElementById('paperdoll');
+  if (!pd) return;
+  pd.innerHTML = PD_FIGURE;
+  EQUIP_SLOTS.forEach(s => {
+    const item = gs.equip[s.id];
+    const d = item ? getItemData(item) : null;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.slot = s.id;
+    b.className = 'eq-slot'
+      + (CENTER_SLOTS.includes(s.id) ? ' center' : '')
+      + (item ? ` filled r-${rarityKey(d.rarity)}` : '')
+      + (item && isCursed(item) ? ' cursed' : '');
+    b.style.gridArea = s.area;
+    b.setAttribute('aria-label', `${s.label} : ${item || 'vide'}`);
+    const cap = s.id === 'sac' && item ? `<span class="eq-cap" title="Emplacements du sac">${bagCapacity()}</span>` : '';
+    b.innerHTML = `<span class="eq-medal">${ico(item ? d.icon : 'i:' + s.icon)}</span>${cap}`
+      + `<span class="eq-lbl">${s.label}</span><span class="eq-item">${item ? escapeHtml(item) : 'Vide'}</span>`;
+    b.addEventListener('click', () => item ? openItemModal(item) : openSlotPicker(s.id));
+    pd.appendChild(b);
+  });
+}
+
+function renderBag() {
+  const grid = document.getElementById('bag-grid');
+  if (!grid) return;
+  const cap = bagCapacity();
+  const bag = gs.equip.sac;
+  const title = document.getElementById('bag-title');
+  if (title) title.textContent = bag || 'Aucun sac';
+  const meta = document.getElementById('bag-meta');
+  if (meta) meta.textContent = bag
+    ? `${gs.inventory.length} / ${cap} emplacement${cap > 1 ? 's' : ''}`
+    : "Sans sac, rien ne se porte : équipe-en un depuis le sol.";
+  grid.innerHTML = '';
+  const n = Math.max(cap, gs.inventory.length);
+  for (let i = 0; i < n; i++) {
+    const item = gs.inventory[i];
+    if (!item) {
+      const e = document.createElement('div');
+      e.className = 'bag-slot empty';
+      e.innerHTML = `<span class="bag-icon">✧</span><span class="bag-name">Libre</span>`;
+      grid.appendChild(e);
+      continue;
+    }
+    const d = getItemData(item);
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = `bag-slot r-${rarityKey(d.rarity)}` + (isCursed(item) ? ' cursed' : '') + (i >= cap ? ' over' : '');
+    b.innerHTML = `<span class="bag-icon">${ico(d.icon)}</span><span class="bag-name">${escapeHtml(item)}</span><span class="bag-type">${escapeHtml(d.type)}</span>`;
+    b.addEventListener('click', () => openItemModal(item));
+    grid.appendChild(b);
+  }
+  const ground = document.getElementById('ground');
+  const list = document.getElementById('ground-list');
+  if (ground && list) {
+    ground.hidden = !gs.ground.length;
+    list.innerHTML = '';
+    gs.ground.forEach(item => {
+      const c = document.createElement('button');
+      c.type = 'button';
+      c.className = 'ground-chip';
+      c.innerHTML = `${ico(getItemData(item).icon)}<span>${escapeHtml(item)}</span>`;
+      c.addEventListener('click', () => openItemModal(item));
+      list.appendChild(c);
+    });
+  }
+}
+
+function updateInventoryUI() {
+  ensureEquip();
+  renderPaperdoll();
+  renderBag();
+}
+
+// ===== FEUILLET D'OBJET =====
 let currentItemName = null;
 
-function openItemModal(name) {
-  currentItemName = name;
-  const d = getItemData(name);
-  document.getElementById('item-modal-icon').innerHTML = ico(d.icon);
-  document.getElementById('item-modal-name').textContent = name;
-  document.getElementById('item-modal-type').textContent = `${d.type} · ${d.rarity.toUpperCase()}`;
-  document.getElementById('item-modal-desc').textContent = d.desc;
-
-  // Powers
-  const pw = document.getElementById('item-modal-powers');
-  pw.innerHTML = icoText((d.powers||[]).map(p=>`<span class="item-power-tag ${p.cls}">${p.tag}</span>`).join(''));
-
-  // Actions
-  const isEq  = (gs.equipped||[]).includes(name);
-  const isCur = (gs.cursed||[]).includes(name);
-  const isConsumable = d.type === 'Consommable';
-  const actions = document.getElementById('item-modal-actions');
-  actions.innerHTML = icoText(`
-    ${isConsumable ? `<button class="item-action-btn ia-use" onclick="useItem('${name.replace(/'/g,"\\'")}')">🧪 Utiliser l'objet</button>` : ''}
-    ${!isConsumable && !isCur ? `<button class="item-action-btn ia-equip" onclick="toggleEquip('${name.replace(/'/g,"\\'")}')">
-      ${isEq ? '🔓 Déséquiper' : '⚔️ Équiper'}
-    </button>` : ''}
-    <button class="item-action-btn ia-upgrade" onclick="upgradeItem('${name.replace(/'/g,"\\'")}')">⚗️ Renforcer / Infuser un pouvoir</button>
-    <button class="item-action-btn ia-drop" onclick="dropItem('${name.replace(/'/g,"\\'")}')">🗑️ Jeter l'objet</button>
-  `);
-
+function fillItemSheet({ icon, title, type, desc, powers, actions }) {
+  document.getElementById('item-modal-icon').innerHTML = ico(icon);
+  document.getElementById('item-modal-name').textContent = title;
+  document.getElementById('item-modal-type').textContent = type;
+  document.getElementById('item-modal-desc').textContent = desc;
+  document.getElementById('item-modal-powers').innerHTML = powers || '';
+  const box = document.getElementById('item-modal-actions');
+  box.innerHTML = '';
+  actions.forEach(a => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = `item-action-btn ${a.cls}`;
+    b.innerHTML = icoText(a.label);
+    b.addEventListener('click', a.fn);
+    box.appendChild(b);
+  });
   const m = document.getElementById('item-modal');
   m.style.display = 'flex';
-  requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('open')));
+  requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
+}
+
+function openItemModal(name) {
+  ensureEquip();
+  currentItemName = name;
+  const d = getItemData(name);
+  const w = whereIs(name) || { where:'bag' };
+  const kind = getItemSlotKind(name);
+  const cursed = isCursed(name);
+  const place = w.where === 'equip' ? `porté · ${slotById(w.slot).label}` : w.where === 'ground' ? 'au sol' : 'dans le sac';
+  const upgrade = { label:'⚗️ Renforcer / Infuser un pouvoir', cls:'ia-upgrade', fn:() => upgradeItem(name) };
+  const drop    = { label:"🗑️ Jeter l'objet", cls:'ia-drop', fn:() => dropItem(name) };
+  const equip   = { label: kind === 'sac' ? '🎒 Porter ce sac' : '⚔️ Équiper', cls:'ia-equip', fn:() => equipItem(name) };
+  const acts = [];
+  let desc = d.desc;
+  if (w.where === 'bag') {
+    if (d.type === 'Consommable') acts.push({ label:"🧪 Utiliser l'objet", cls:'ia-use', fn:() => useItem(name) });
+    if (kind) acts.push(equip);
+    acts.push(upgrade, drop);
+  } else if (w.where === 'equip') {
+    if (w.slot === 'sac') desc += ` Il porte ${capacityOf(name)} objets. Pour l'ôter, porte un autre sac.`;
+    else if (cursed) desc += ' Maudit : il ne se retire pas sans rituel.';
+    else acts.push({ label:'🔓 Retirer (ranger dans le sac)', cls:'ia-equip', fn:() => unequipSlot(w.slot) });
+    acts.push(upgrade);
+    if (!cursed && w.slot !== 'sac') acts.push(drop);
+  } else {
+    acts.push({ label:'🎒 Ramasser', cls:'ia-use', fn:() => pickUp(name) });
+    if (kind) acts.push(equip);
+    acts.push({ label:"🗑️ L'abandonner ici", cls:'ia-drop', fn:() => dropItem(name) });
+  }
+  fillItemSheet({
+    icon: d.icon, title: name, desc, actions: acts,
+    type: `${d.type} · ${String(d.rarity).toUpperCase()} · ${place}`,
+    powers: icoText((d.powers || []).map(p => `<span class="item-power-tag ${p.cls}">${escapeHtml(p.tag)}</span>`).join(''))
+  });
+}
+
+// Emplacement vide : proposer ce qui peut s'y porter
+function openSlotPicker(slotId) {
+  ensureEquip();
+  const s = slotById(slotId);
+  const pool = [...gs.inventory, ...gs.ground].filter(i => getItemSlotKind(i) === s.kind);
+  const acts = pool.map(item => ({
+    label: `${ico(getItemData(item).icon)} ${escapeHtml(item)}${gs.ground.includes(item) ? ' (au sol)' : ''}`,
+    cls: 'ia-equip', fn: () => equipItem(item, slotId)
+  }));
+  if (!acts.length) acts.push({ label:'Fermer', cls:'ia-upgrade', fn: forceCloseItemModal });
+  fillItemSheet({
+    icon: 'i:' + s.icon, title: s.label, type: 'Emplacement libre', powers: '', actions: acts,
+    desc: pool.length ? 'Choisis ce que tu veux porter ici.' : "Rien de ce que tu possèdes ne se porte ici. Le récit t'en offrira peut-être."
+  });
 }
 
 function closeItemModal(e) {
@@ -4763,56 +5347,86 @@ function forceCloseItemModal() {
   setTimeout(()=>{ m.style.display='none'; }, 300);
 }
 
-function toggleEquip(name) {
-  gs.equipped = gs.equipped || [];
-  if (gs.equipped.includes(name)) {
-    gs.equipped = gs.equipped.filter(i=>i!==name);
-    addBanner(`🔓 ${name} déséquipé`);
-  } else {
-    gs.equipped.push(name);
-    addBanner(`⚔️ ${name} équipé`);
-  }
+function afterInventoryChange(banner) {
+  if (banner) addBanner(banner);
   updateInventoryUI(); forceCloseItemModal(); scheduleSave();
 }
 
+function equipItem(name, slotId) {
+  ensureEquip();
+  const kind = getItemSlotKind(name);
+  if (!kind) return;
+  const list = EQUIP_SLOTS.filter(s => s.kind === kind);
+  const slot = slotId ? slotById(slotId)
+    : list.find(s => !gs.equip[s.id]) || list.find(s => !isCursed(gs.equip[s.id]));
+  if (!slot || slot.kind !== kind) { showSaveToast('✦ Emplacement déjà pris par un objet maudit'); return; }
+  const prev = gs.equip[slot.id];
+  if (prev && isCursed(prev)) { showSaveToast(`✦ ${prev} est maudit : impossible de l'ôter`); return; }
+  const from = whereIs(name);
+  if (kind === 'sac') {
+    // le nouveau sac doit tout contenir, l'ancien compris
+    const count = gs.inventory.length - (from && from.where === 'bag' ? 1 : 0) + (prev ? 1 : 0);
+    if (count > capacityOf(name)) { showSaveToast(`✦ ${name} est trop petit pour tes affaires`); return; }
+  }
+  if (isCursed(name) && !confirm(`${name} est maudit : une fois porté, il ne se retirera plus. Le porter quand même ?`)) return;
+  takeOut(name);
+  gs.equip[slot.id] = name;
+  if (prev) { if (bagHasRoom()) gs.inventory.push(prev); else gs.ground.push(prev); }
+  afterInventoryChange(kind === 'sac' ? `🎒 ${name} porté : ${bagCapacity()} emplacements` : `⚔️ ${name} équipé`);
+}
+
+function unequipSlot(slotId) {
+  const item = gs.equip[slotId];
+  if (!item || slotId === 'sac') return;
+  if (isCursed(item)) { showSaveToast(`✦ ${item} est maudit : il ne se retire pas`); return; }
+  if (!bagHasRoom()) { showSaveToast('✦ Ton sac est plein'); return; }
+  gs.equip[slotId] = null;
+  gs.inventory.push(item);
+  afterInventoryChange(`🔓 ${item} rangé dans le sac`);
+}
+
+function pickUp(name) {
+  if (!bagHasRoom()) { showSaveToast('✦ Ton sac est plein'); return; }
+  gs.ground = gs.ground.filter(i => i !== name);
+  gs.inventory.push(name);
+  afterInventoryChange(`🎒 ${name} ramassé`);
+}
+
 function dropItem(name) {
+  const w = whereIs(name);
+  if (!w) return;
+  if (w.where === 'equip' && (isCursed(name) || w.slot === 'sac')) return;
   if (!confirm(`Jeter "${name}" définitivement ?`)) return;
-  gs.inventory = gs.inventory.filter(i=>i!==name);
-  gs.equipped  = (gs.equipped||[]).filter(i=>i!==name);
-  gs.cursed    = (gs.cursed||[]).filter(i=>i!==name);
-  updateInventoryUI(); forceCloseItemModal();
-  addBanner(`🗑️ ${name} jeté`); scheduleSave();
+  takeOut(name);
+  gs.cursed = gs.cursed.filter(i => i !== name);
+  afterInventoryChange(`🗑️ ${name} jeté`);
 }
 
 async function useItem(name) {
   forceCloseItemModal();
-  switchTab('story', document.querySelector('[onclick*="story"]'));
-  const prompt = `Le joueur utilise : "${name}". Décris narrativement les effets de cet objet sur ${gs.name}. Génère les balises STAT appropriées (PV, PM, DUALITE, attributs...) selon les propriétés de l'objet. Si c'est un consommable, retire-le de l'inventaire avec ITEM_REMOVE. Termine par 3 choix.`;
+  switchTab('story', document.getElementById('tab-story'));
+  const prompt = `Le joueur utilise : "${name}". Décris narrativement les effets de cet objet sur ${gs.name}. Génère les balises STAT appropriées (PV, PM, DUALITE, attributs...) selon les propriétés de l'objet. Si c'est un consommable, retire-le de l'inventaire avec ITEM_REMOVE. Termine la scène sur un moment qui appelle une réponse du joueur (format habituel).`;
   callAI(prompt);
 }
 
 async function upgradeItem(name) {
   const d = getItemData(name);
   forceCloseItemModal();
-  switchTab('story', document.querySelector('[onclick*="story"]'));
-  const prompt = `Le joueur souhaite renforcer ou infuser un nouveau pouvoir dans : "${name}" (${d.type}, ${d.rarity}). 
-  
-Présente 3 options de renforcement possibles dans l'univers LIMINAL (lumière, ombre, ou dual/neutre) :
-[CHOIX 1: Infusion céleste — décris l'effet angélique]
-[CHOIX 2: Corruption démoniaque — décris l'effet infernal]  
-[CHOIX 3: Équilibre liminal — décris l'effet dual]
+  switchTab('story', document.getElementById('tab-story'));
+  const prompt = `Le joueur souhaite renforcer ou infuser un nouveau pouvoir dans : "${name}" (${d.type}, ${d.rarity}).
 
-Décris la scène narrative (le joueur trouve un forgeron mystique, un autel, ou un rituel). 
+Décris la scène (le joueur trouve un forgeron mystique, un autel ou un rituel) et laisse-le décider : propose 2 voies de renforcement (3 au plus) au format [CHOIX: …], céleste, infernale ou d'équilibre selon ce que le lieu permet.
 Selon le choix qui sera fait, tu utiliseras ITEM_REMOVE sur l'ancien nom puis ITEM_ADD sur la version améliorée, et tu ajusteras les stats avec les balises appropriées.`;
   callAI(prompt);
 }
 
 // Afficher un loot spécial dans la narrative
-function showLootBanner(itemName, itemIcon) {
+function showLootBanner(itemName, itemIcon, where) {
   const narr = document.getElementById('narrative');
   const div = document.createElement('div');
-  div.className = 'loot-banner';
-  div.innerHTML = `<div class="loot-banner-icon">${ico(itemIcon)}</div><div><div class="loot-banner-text">Objet obtenu !</div><div class="loot-banner-sub">${itemName}</div></div>`;
+  div.className = 'loot-banner' + (where === 'ground' ? ' loot-ground' : '');
+  const head = where === 'ground' ? "Sac plein : l'objet reste au sol" : where === 'equip' ? 'Objet obtenu et porté !' : 'Objet obtenu !';
+  div.innerHTML = `<div class="loot-banner-icon">${ico(itemIcon)}</div><div><div class="loot-banner-text">${head}</div><div class="loot-banner-sub">${escapeHtml(itemName)}</div></div>`;
   narr.appendChild(div);
   narr.scrollTop = narr.scrollHeight;
 }
@@ -4821,10 +5435,16 @@ function showLootBanner(itemName, itemIcon) {
 function detectItemType(name) {
   const n = name.toLowerCase();
   if (/potion|élixir|onguent|fiole/.test(n)) return 'Consommable';
-  if (/épée|lame|katana|dague|lance|hache|marteau|faux/.test(n)) return 'Arme';
-  if (/bouclier|armure|plastron|heaume|cape/.test(n)) return 'Armure';
-  if (/bague|anneau|amulette|collier|bracelet|pendentif/.test(n)) return 'Accessoire';
-  if (/bâton|orbe|grimoire|livre|parchemin|focus/.test(n)) return 'Catalyseur';
+  const k = detectSlotKind(name);
+  if (k === 'sac') return 'Sac';
+  if (['casque','epaulieres','plastron','coudieres','jambieres'].includes(k)) return 'Armure';
+  if (k === 'bague' || k === 'collier') return 'Accessoire';
+  if (k === 'main') {
+    if (/bouclier|targe|rondache|pavois/.test(n)) return 'Bouclier';
+    if (/bâton|baton|orbe|grimoire|sceptre|baguette|tome|focus|catalyseur/.test(n)) return 'Catalyseur';
+    return 'Arme';
+  }
+  if (/parchemin/.test(n)) return 'Parchemin';
   return 'Objet';
 }
 
@@ -4832,12 +5452,15 @@ function detectItemType(name) {
 function getIcon(name) {
   const n = name.toLowerCase();
   const map = [
+    [/\bsac\b|besace|havresac|sacoche/,'🎒'],[/casque|heaume|capuche|masque/,'i:helm'],
+    [/épaulière|epauliere|spalière|mantelet/,'i:pauldron'],[/coudière|coudiere|brassard|gantelet|\bgants?\b/,'i:bracer'],
+    [/jambière|jambiere|grève|cuissard|\bbottes?\b/,'i:greaves'],
     [/potion|élixir/,'🧪'],[/parchemin/,'📜'],[/grimoire|livre/,'📚'],
     [/épée|lame/,'🗡️'],[/katana/,'⚔️'],[/dague/,'🗡️'],[/lance/,'🔱'],
-    [/hache/,'🪓'],[/arc/,'🏹'],[/bâton/,'🪄'],[/orbe/,'🔮'],
-    [/bouclier/,'🛡️'],[/armure|plastron/,'🥋'],[/cape|manteau/,'🧥'],
+    [/hache/,'🪓'],[/\barc\b/,'🏹'],[/bâton/,'🪄'],[/orbe/,'🔮'],
+    [/bouclier/,'🛡️'],[/armure|plastron|cuirasse/,'🥋'],[/cape|manteau/,'🧥'],
     [/anneau|bague/,'💍'],[/amulette|collier|pendentif/,'📿'],
-    [/crâne|tête/,'💀'],[/os/,'🦴'],[/flamme|feu/,'🔥'],
+    [/crâne|tête/,'💀'],[/\bos\b/,'🦴'],[/flamme|feu/,'🔥'],
     [/cristal|gemme/,'💎'],[/clé/,'🗝️'],[/couronne/,'👑'],
   ];
   for (const [rx, ic] of map) if (rx.test(n)) return ic;
@@ -4854,22 +5477,26 @@ async function fetchItemData(itemName) {
 Réponds UNIQUEMENT avec ce JSON (aucun autre texte) :
 {
   "icon": "emoji",
-  "type": "Arme|Armure|Accessoire|Catalyseur|Consommable|Objet",
+  "type": "Arme|Bouclier|Armure|Accessoire|Catalyseur|Consommable|Sac|Objet",
+  "slot": "casque|collier|epaulieres|plastron|coudieres|bague|jambieres|main|sac|aucun",
+  "capacity": 0,
   "rarity": "commun|rare|épique|maudit",
   "desc": "Description narrative courte (1-2 phrases, style gothique)",
   "powers": [
     {"tag": "⚔️ +FOR 2", "cls": "power-stat"},
     {"tag": "✨ Nom du pouvoir", "cls": "power-magic|power-curse|power-neutral|power-stat"}
   ],
-  "statBonus": {"str":0,"agi":0,"arc":0,"res":0,"cha":0}
-}`
-        }], { tier: 'small', max_tokens: 300, temperature: 0.7 });
+  "statBonus": {"str":0,"agi":0,"arc":0,"res":0}
+}
+slot = où l'objet se porte ("main" pour une arme, un bouclier ou un catalyseur ; "aucun" s'il ne se porte pas). capacity = nombre d'emplacements si c'est un sac, sinon 0.`
+        }], { tier: 'small', max_tokens: 320, temperature: 0.7 });
     const data = await resp.json();
     const text = data.choices?.[0]?.message?.content || '';
     const clean = text.replace(/```json|```/g,'').trim();
     const parsed = JSON.parse(clean);
     gs.itemData = gs.itemData || {};
     gs.itemData[itemName] = parsed;
+    if (parsed.rarity === 'maudit' && !isCursed(itemName)) gs.cursed.push(itemName);
     updateInventoryUI();
     scheduleSave();
   } catch(e) { console.warn('fetchItemData failed for', itemName, e); }
@@ -4940,12 +5567,12 @@ const DUALITY_SPELLS = {
   },
   // ── NEUTRE ────────────────────────────────────────────────────
   neutral: {
-    'Séraphin Maudit':          { icon:'✨', name:'Équilibre des Forces', cost:'0 PM', desc:'La maîtrise des deux natures forge votre corps. Bonus permanent tant que vous restez en équilibre.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1,cha:1} },
-    'Démoniste Repenti':        { icon:'✨', name:'Fusion des Natures', cost:'0 PM', desc:'Entre lumière et flamme, votre âme devient plus solide. Bonus permanent tant que l\'équilibre est tenu.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1,cha:1} },
-    'Lame Liminale':            { icon:'✨', name:'Harmonie Liminale', cost:'0 PM', desc:'L\'équilibre parfait entre Ange et Démon révèle votre vraie puissance. Bonus permanent.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1,cha:1} },
-    'Psionique des Ombres':     { icon:'✨', name:'Clarté du Voile', cost:'0 PM', desc:'Entre les deux plans, votre esprit touche à tout. Bonus permanent d\'équilibre.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1,cha:1} },
-    'Invocateur des Deux Cours':{ icon:'✨', name:'Accord des Cours', cost:'0 PM', desc:'Ange et Démon vous reconnaissent. Votre présence inspire les deux camps. Bonus permanent.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1,cha:1} },
-    'Nécrologue Sanctifié':     { icon:'✨', name:'Pont des Âmes', cost:'0 PM', desc:'Vous existez entre mort et vie, lumière et ombre. Cet équilibre vous renforce de manière permanente.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1,cha:1} },
+    'Séraphin Maudit':          { icon:'✨', name:'Équilibre des Forces', cost:'0 PM', desc:'La maîtrise des deux natures forge votre corps. Bonus permanent tant que vous restez en équilibre.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1} },
+    'Démoniste Repenti':        { icon:'✨', name:'Fusion des Natures', cost:'0 PM', desc:'Entre lumière et flamme, votre âme devient plus solide. Bonus permanent tant que l\'équilibre est tenu.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1} },
+    'Lame Liminale':            { icon:'✨', name:'Harmonie Liminale', cost:'0 PM', desc:'L\'équilibre parfait entre Ange et Démon révèle votre vraie puissance. Bonus permanent.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1} },
+    'Psionique des Ombres':     { icon:'✨', name:'Clarté du Voile', cost:'0 PM', desc:'Entre les deux plans, votre esprit touche à tout. Bonus permanent d\'équilibre.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1} },
+    'Invocateur des Deux Cours':{ icon:'✨', name:'Accord des Cours', cost:'0 PM', desc:'Ange et Démon vous reconnaissent. Votre présence inspire les deux camps. Bonus permanent.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1} },
+    'Nécrologue Sanctifié':     { icon:'✨', name:'Pont des Âmes', cost:'0 PM', desc:'Vous existez entre mort et vie, lumière et ombre. Cet équilibre vous renforce de manière permanente.', effect:'+1 à TOUS les attributs (permanent)', bonus:{str:1,agi:1,arc:1,res:1} },
   }
 };
 
@@ -5056,7 +5683,7 @@ function useDualitySpell() {
 Effet narratif du sort : ${spell.desc}
 Coût : ${spell.cost} — applique [STAT: -${parseInt(spell.cost)||10} PM]
 
-Décris l'activation du sort de manière épique et gothique (scène courte, format habituel), ses effets concrets dans la situation actuelle, et les conséquences narratives immédiates. Applique les balises STAT appropriées (PM, dégâts ennemis si applicable, dualité...). Puis propose 3 choix pour la suite.`;
+Décris l'activation du sort de manière épique et gothique (scène courte, format habituel), ses effets concrets dans la situation actuelle, et les conséquences narratives immédiates. Applique les balises STAT appropriées (PM, dégâts ennemis si applicable, dualité...). Termine la scène sur un moment qui appelle une réponse du joueur (format habituel de fin de scène).`;
   callAI(prompt);
 }
 
@@ -5072,26 +5699,245 @@ function levelUp() {
 }
 
 // ===== INPUT =====
-function sendMessage() {
-  const inp = document.getElementById('player-input');
-  const txt = inp.value.trim();
-  if (!txt) return;
-  if (quota.locked && quota.lockDay === utcDay()) { showVeilClosed(); return; }
-  if (_busy) return;
-  addMsg('user', txt, txt);
-  inp.value = ''; inp.style.height = 'auto';
-  callAI(txt);
-  // Switch to story tab
-  switchTab('story', document.getElementById('tab-story'));
+// Seule la dernière scène du Narrateur est « vivante » : ses choix sont cliquables,
+// les anciens s'éteignent. Renvoie ce que la scène attend du joueur.
+function refreshChoices(locked) {
+  const narr = document.getElementById('narrative');
+  if (!narr) return null;
+  const msgs = [...narr.querySelectorAll('.narr-msg')].filter(m => m.id !== 'typing-msg');
+  const last = msgs[msgs.length - 1];
+  const live = (last && last.classList.contains('ai') && !last.querySelector('.choice.chosen')) ? last : null;
+  narr.querySelectorAll('.narr-msg.ai').forEach(m => {
+    const isLive = m === live;
+    m.querySelectorAll('.choices').forEach(c => c.classList.toggle('spent', !isLive));
+    m.querySelectorAll('.ask').forEach(a => a.classList.toggle('spent', !isLive));
+    m.querySelectorAll('button.choice').forEach(b => { b.disabled = !isLive || _busy || locked; });
+  });
+  if (!live) return null;
+  if (live.querySelector('button.choice')) return 'choice';
+  if (live.querySelector('.ask')) return 'ask';
+  return null;
 }
 
-function sendQuick(a) { document.getElementById('player-input').value = a; sendMessage(); }
+// Garde la trace du choix fait (visible aussi après rechargement)
+function markChosen(btn) {
+  btn.classList.add('chosen');
+  const bubble = btn.closest('.narr-msg');
+  const idx = bubble ? [...bubble.querySelectorAll('button.choice')].indexOf(btn) : -1;
+  const m = [...(gs.messages || [])].reverse().find(x => x.role === 'ai');
+  if (!m || idx < 0) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = m.html;
+  const b = tmp.querySelectorAll('button.choice')[idx];
+  if (b) { b.classList.add('chosen'); m.html = tmp.innerHTML; }
+}
+
+(function bindNarrativeClicks() {
+  const narr = document.getElementById('narrative');
+  if (!narr) return;
+  narr.addEventListener('click', e => {
+    const btn = e.target.closest('button.choice');
+    if (btn) {
+      if (veilLocked()) { showVeilClosed(); return; }
+      if (btn.disabled || _busy) return;
+      const txt = (btn.querySelector('em') || btn).textContent.trim();
+      if (!txt) return;
+      markChosen(btn);
+      sendText(txt);
+      return;
+    }
+    const ask = e.target.closest('.ask');
+    if (ask && !ask.classList.contains('spent')) {
+      const inp = document.getElementById('player-input');
+      if (inp && !inp.disabled) inp.focus();
+    }
+  });
+})();
+
+function sendText(txt) {
+  txt = String(txt || '').trim();
+  if (!txt) return false;
+  if (veilLocked()) { showVeilClosed(); refreshInputState(); return false; }
+  if (_busy) return false;
+  switchTab('story', document.getElementById('tab-story'));
+  addMsg('user', escapeHtml(txt), txt);
+  callAI(txt);
+  return true;
+}
+
+function sendMessage() {
+  const inp = document.getElementById('player-input');
+  if (!inp) return;
+  if (sendText(inp.value)) { inp.value = ''; inp.style.height = 'auto'; }
+}
 function handleKey(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
 function autoResize(el) { el.style.height='auto'; el.style.height = Math.min(el.scrollHeight,100)+'px'; }
+
+// ===== CARTE DU SEUIL (progression du récit) =====
+// Chaque tour joué pose une étape : x = ordre des tours, y = dualité (Ciel en haut, Abîme en bas).
+const ROMAN = [[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];
+function roman(n) {
+  n = Math.max(1, Math.floor(n) || 1);
+  if (n > 39) return String(n);
+  let out = '';
+  ROMAN.forEach(([v, r]) => { while (n >= v) { out += r; n -= v; } });
+  return out;
+}
+let _jmSel = null, _jmLen = -1;
+
+function firstSentence(raw) {
+  let s = cleanForHistory(raw, false)
+    .replace(/\*+/g, '').replace(/[«»"]/g, '').replace(/\s+/g, ' ').trim();
+  const m = s.match(/^.{12,}?[.!?…](?=\s|$)/);
+  s = m ? m[0] : s;
+  return s.length > 170 ? s.slice(0, 167).replace(/\s+\S*$/, '') + '…' : s;
+}
+
+function recordJourney(raw, turn) {
+  gs.journey = gs.journey || [];
+  const prev = gs.journey[gs.journey.length - 1];
+  const loc = gs.location || 'Carrefour des Âmes';
+  gs.journey.push({
+    ch: gs.chapter || 1,
+    t: turn,
+    loc,
+    d: Math.round(clamp(gs.duality, 0, 100)),
+    p: !prev || prev.loc !== loc,
+    n: firstSentence(raw)
+  });
+  if (gs.journey.length > 90) gs.journey = gs.journey.slice(-90);
+  _jmSel = null;
+}
+
+function renderJourneyMap() {
+  const svg = document.getElementById('jm-svg');
+  const scroll = document.getElementById('jm-scroll');
+  if (!svg || !scroll) return;
+  const pts = gs.journey || [];
+  const H = 220, top = 30, bot = 30, padL = 76, padR = 26;
+  const n = pts.length;
+  const cw = scroll.clientWidth || 320;
+  // les étapes se resserrent pour tenir dans le cadre, puis la carte défile
+  const step = n ? clamp((cw - padL - padR) / n, 36, 60) : 52;
+  const W = Math.max(cw, padL + n * step + padR);
+  const X = i => padL + i * step;
+  const Y = d => top + (1 - clamp(d, 0, 100) / 100) * (H - top - bot);
+  const f = v => v.toFixed(1);
+  const esc = escapeHtml;
+
+  let g = `<defs>
+    <linearGradient id="jm-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe6f7" stop-opacity=".20"/><stop offset="1" stop-color="#cfe6f7" stop-opacity="0"/></linearGradient>
+    <linearGradient id="jm-ink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a1221a" stop-opacity="0"/><stop offset="1" stop-color="#a1221a" stop-opacity=".26"/></linearGradient>
+    <linearGradient id="jm-line" gradientUnits="userSpaceOnUse" x1="0" y1="${top}" x2="0" y2="${H - bot}"><stop offset="0" stop-color="#f4f9ff"/><stop offset=".5" stop-color="#e0bd68"/><stop offset="1" stop-color="#d0452c"/></linearGradient>
+  </defs>
+  <rect x="0" y="0" width="${W}" height="${f(Y(50))}" fill="url(#jm-sky)"/>
+  <rect x="0" y="${f(Y(50))}" width="${W}" height="${f(H - Y(50))}" fill="url(#jm-ink)"/>
+  <line class="jm-seuil" x1="0" x2="${W}" y1="${f(Y(70))}" y2="${f(Y(70))}"/>
+  <line class="jm-seuil" x1="0" x2="${W}" y1="${f(Y(30))}" y2="${f(Y(30))}"/>
+  <line class="jm-faille" x1="0" x2="${W}" y1="${f(Y(50))}" y2="${f(Y(50))}"/>`;
+
+  // Chapitres
+  pts.forEach((p, i) => {
+    if (i === 0) {
+      g += `<text class="jm-chap-t" x="${X(0)}" y="16" text-anchor="middle">CH. ${roman(p.ch)}</text>`;
+    } else if (p.ch !== pts[i - 1].ch) {
+      const cx = X(i) - step / 2;
+      g += `<line class="jm-chap" x1="${cx}" x2="${cx}" y1="22" y2="${H - 8}"/>
+            <text class="jm-chap-t" x="${cx}" y="16" text-anchor="middle">CH. ${roman(p.ch)}</text>`;
+    }
+  });
+
+  // Tracé (Catmull-Rom → Bézier)
+  if (n > 1) {
+    const P = pts.map((p, i) => [X(i), Y(p.d)]);
+    let d = `M${f(P[0][0])},${f(P[0][1])}`;
+    for (let i = 0; i < n - 1; i++) {
+      const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || p2;
+      const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+      const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+      d += ` C${f(c1[0])},${f(c1[1])} ${f(c2[0])},${f(c2[1])} ${f(p2[0])},${f(p2[1])}`;
+    }
+    g += `<path class="jm-path-glow" d="${d}"/><path class="jm-path" d="${d}" stroke="url(#jm-line)"/>`;
+  }
+
+  // Prochaine étape, encore voilée
+  const lastD = n ? pts[n - 1].d : 50;
+  const gx = n ? X(n) : X(0), gy = Y(lastD);
+  if (n) g += `<line class="jm-ghost-line" x1="${X(n - 1)}" y1="${f(gy)}" x2="${gx - 10}" y2="${f(gy)}"/>`;
+  g += `<g class="jm-ghost" transform="translate(${gx},${f(gy)})"><circle r="9"/><text y="3.6" text-anchor="middle">?</text></g>`;
+
+  // Étapes
+  const sel = n ? (_jmSel !== null && _jmSel < n ? _jmSel : n - 1) : -1;
+  let placeCount = 0;
+  pts.forEach((p, i) => {
+    const x = X(i), y = Y(p.d);
+    const tone = p.d >= 70 ? 'sky' : p.d <= 30 ? 'abyss' : 'mid';
+    const cls = ['jm-node', tone, p.p ? 'place' : '', i === n - 1 ? 'current' : '', i === sel ? 'sel' : ''].filter(Boolean).join(' ');
+    const label = `${p.loc} — chapitre ${p.ch}, tour ${p.t}`;
+    let inner = `<circle class="hit" r="15"/>`;
+    if (i === n - 1) inner += `<circle class="pulse" r="9"/>`;
+    inner += `<circle class="ring" r="${p.p ? 11 : 7.5}"/>`;
+    inner += p.p ? `<path class="gem" d="M0,-6.5 L6.5,0 L0,6.5 L-6.5,0 Z"/>` : `<circle class="dot" r="3.4"/>`;
+    if (p.p) {
+      let above = placeCount++ % 2 === 0;
+      if (y - 18 < 24) above = false;
+      if (y + 22 > H - 4) above = true;
+      const name = p.loc.length > 20 ? p.loc.slice(0, 19) + '…' : p.loc;
+      inner += `<text class="jm-label" y="${above ? -15 : 21}" text-anchor="middle">${esc(name)}</text>`;
+    }
+    g += `<g class="${cls}" data-i="${i}" transform="translate(${x},${f(y)})" tabindex="0" role="button" aria-label="${esc(label)}">${inner}</g>`;
+  });
+
+  svg.setAttribute('width', W);
+  svg.setAttribute('height', H);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = g;
+
+  if (!svg.dataset.bound) {
+    svg.dataset.bound = '1';
+    const pick = e => {
+      const node = e.target.closest && e.target.closest('.jm-node');
+      if (!node) return;
+      _jmSel = +node.dataset.i;
+      renderJourneyMap();
+      const again = svg.querySelector(`.jm-node[data-i="${_jmSel}"]`);
+      if (again && e.type === 'keydown') again.focus();
+    };
+    svg.addEventListener('click', pick);
+    svg.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(e); } });
+  }
+  if (n !== _jmLen) { _jmLen = n; scroll.scrollLeft = scroll.scrollWidth; }
+  renderJourneyDetail(pts, sel);
+}
+
+function renderJourneyDetail(pts, sel) {
+  const box = document.getElementById('jm-detail');
+  if (!box) return;
+  if (!pts.length || sel < 0) {
+    box.innerHTML = `<div class="jd-note jd-empty">Ton chemin n'est pas encore tracé. Chaque tour de récit posera une étape sur la carte, plus haut vers le Ciel ou plus bas vers l'Abîme selon tes choix.</div>`;
+    return;
+  }
+  const p = pts[sel];
+  const L = Math.round(clamp(p.d, 0, 100)), S = 100 - L;
+  const places = pts.filter(x => x.p).length;
+  box.innerHTML = `
+    <div class="jd-head">
+      <span class="jd-name">${p.p ? '◆ ' : ''}${escapeHtml(p.loc)}</span>
+      <span class="jd-when">Chapitre ${roman(p.ch)} · Tour ${p.t}/${TURNS_PER_CHAPTER}${sel === pts.length - 1 ? ' · <b>ici</b>' : ''}</span>
+    </div>
+    <div class="jd-bal">
+      <span class="jd-s">Ombre ${S}</span>
+      <span class="jd-track"><i class="bal-seg bal-shadow" style="width:${S}%"></i><i class="bal-seg bal-light" style="width:${L}%"></i></span>
+      <span class="jd-l">Lumière ${L}</span>
+    </div>
+    <div class="jd-note${p.n ? '' : ' jd-empty'}">${p.n ? escapeHtml(p.n) : 'Aucun souvenir de cette étape.'}</div>
+    <div class="jd-foot">${pts.length} tour${pts.length > 1 ? 's' : ''} joué${pts.length > 1 ? 's' : ''} · ${places} lieu${places > 1 ? 'x' : ''} découvert${places > 1 ? 's' : ''}</div>`;
+}
 
 // Init
 updateUI();
 updateInventoryUI();
+refreshInputState();
 </script>
 <script>
 // ===== DÉCOR LIMINAL =====
