@@ -4741,20 +4741,17 @@ function appendBubble(role, html) {
   return div;
 }
 
-// ===== NARRATION AUDIO (voix façon livre audio, via la synthèse vocale du navigateur) =====
-let ttsVoice = null, ttsVoiceReady = false;
-function ttsSupported() { return 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window; }
-function pickTtsVoice() {
-  if (!ttsSupported()) return null;
-  const voices = speechSynthesis.getVoices();
-  if (!voices.length) return null;
-  ttsVoiceReady = true;
-  const fr = voices.filter(v => /^fr/i.test(v.lang));
-  // on préfère une voix masculine grave si le système en propose une : plus proche du ton du conteur
-  const deep = fr.find(v => /male|homme|thomas|paul|nicolas|daniel|guillaume/i.test(v.name));
-  return (ttsVoice = deep || fr[0] || voices[0]);
+// ===== NARRATION AUDIO (voix personnalisée générée via l'API Gradium, relayée par le Worker) =====
+
+// ID de la voix créée sur Gradium (Gradium Studio > My Voices)
+const GRADIUM_VOICE_ID = "3m3aAmk6vVFmvikw";
+
+let currentNarrAudio = null;
+let currentNarrAudioUrl = null;
+
+function ttsSupported() {
+  return true; // la synthèse se fait côté serveur (Worker -> Gradium), toujours disponible
 }
-if (ttsSupported()) { speechSynthesis.onvoiceschanged = () => { ttsVoiceReady = false; }; }
 
 // Texte à lire pour une bulle : on retire le libellé et les choix (boutons), on garde la scène et les voix Ange/Démon
 function bubbleSpeechText(bubbleEl) {
@@ -4765,28 +4762,61 @@ function bubbleSpeechText(bubbleEl) {
 }
 
 function stopAllSpeech() {
-  if (ttsSupported()) speechSynthesis.cancel();
+  if (currentNarrAudio) {
+    currentNarrAudio.pause();
+    currentNarrAudio.currentTime = 0;
+    currentNarrAudio = null;
+  }
+  if (currentNarrAudioUrl) {
+    URL.revokeObjectURL(currentNarrAudioUrl);
+    currentNarrAudioUrl = null;
+  }
   document.querySelectorAll('.narr-voice-btn.playing').forEach(b => b.classList.remove('playing'));
 }
 
-function toggleSpeakBubble(btn) {
-  if (!ttsSupported()) { btn.classList.add('unsupported'); return; }
+async function toggleSpeakBubble(btn) {
   const bubble = btn.closest('.narr-bubble');
   const wasPlaying = btn.classList.contains('playing');
   stopAllSpeech();
   if (wasPlaying || !bubble) return;
+
   const text = bubbleSpeechText(bubble);
   if (!text) return;
-  if (!ttsVoiceReady) pickTtsVoice();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'fr-FR';
-  if (ttsVoice) u.voice = ttsVoice;
-  u.rate = 0.93;   // légèrement ralenti : rythme de conte, pas de synthèse robotique
-  u.pitch = 0.85;  // timbre un peu plus grave, plus proche d'un narrateur gothique
-  u.onend = () => btn.classList.remove('playing');
-  u.onerror = () => btn.classList.remove('playing');
+
   btn.classList.add('playing');
-  speechSynthesis.speak(u);
+
+  try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (!narratorIsLocal()) {
+      headers['X-Liminal-Code'] = inviteCode();
+    }
+
+    const res = await fetch(NARRATORURL.replace(/\/$/, '') + '/tts', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ text, voice_id: GRADIUM_VOICE_ID }),
+    });
+
+    if (!res.ok) throw new Error('TTS request failed: ' + res.status);
+
+    const blob = await res.blob();
+    currentNarrAudioUrl = URL.createObjectURL(blob);
+    currentNarrAudio = new Audio(currentNarrAudioUrl);
+
+    currentNarrAudio.onended = () => {
+      btn.classList.remove('playing');
+      if (currentNarrAudioUrl) { URL.revokeObjectURL(currentNarrAudioUrl); currentNarrAudioUrl = null; }
+      currentNarrAudio = null;
+    };
+    currentNarrAudio.onerror = () => {
+      btn.classList.remove('playing');
+    };
+
+    await currentNarrAudio.play();
+  } catch (e) {
+    console.error('Gradium TTS error:', e);
+    btn.classList.remove('playing');
+  }
 }
 
 function addMsg(role, html, rawText) {
