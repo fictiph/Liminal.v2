@@ -4791,13 +4791,17 @@ async function toggleSpeakBubble(btn) {
       headers['X-Liminal-Code'] = inviteCode();
     }
 
-    const res = await fetch(NARRATOR_URL.replace(/\/$/, '') + '/tts', {
+    const res = await fetch(NARRATORURL.replace(/\/$/, '') + '/tts', {
       method: 'POST',
       headers,
       body: JSON.stringify({ text, voice_id: GRADIUM_VOICE_ID }),
     });
 
-    if (!res.ok) throw new Error('TTS request failed: ' + res.status);
+    if (!res.ok) {
+      let detail = '';
+      try { const errJson = await res.json(); detail = errJson?.error?.message || JSON.stringify(errJson); } catch(_) { try { detail = await res.text(); } catch(_){} }
+      throw new Error('TTS request failed: ' + res.status + ' - ' + detail);
+    }
 
     const blob = await res.blob();
     currentNarrAudioUrl = URL.createObjectURL(blob);
