@@ -4791,7 +4791,7 @@ async function toggleSpeakBubble(btn) {
       headers['X-Liminal-Code'] = inviteCode();
     }
 
-    const res = await fetch(NARRATORURL.replace(/\/$/, '') + '/tts', {
+    const res = await fetch(NARRATOR_URL.replace(/\/$/, '') + '/tts', {
       method: 'POST',
       headers,
       body: JSON.stringify({ text, voice_id: GRADIUM_VOICE_ID }),
